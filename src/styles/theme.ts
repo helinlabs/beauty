@@ -5,9 +5,10 @@ export const theme = {
     surfaceAlt: '#F3ECE1',
     text: '#1B1A17',
     textMuted: '#6B6558',
-    primary: '#C2410C',
-    primaryDark: '#9A330A',
-    accent: '#8B6F4E',
+    // Primary buttons / links — shadcn stone-900 / stone-950 (deep neutral).
+    primary: '#1C1917',
+    primaryDark: '#0C0A09',
+    accent: '#57534E',
     whatsapp: '#25D366',
     whatsappDark: '#128C7E',
     border: 'rgba(27,26,23,0.10)',

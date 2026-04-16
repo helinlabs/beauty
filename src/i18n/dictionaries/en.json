@@ -27,13 +27,31 @@
     "seeAll": "See all →",
     "hero": {
       "eyebrow": "Seoul beauty, for Americans",
-      "title": "The exact procedure they had,\ndone in Seoul.",
+      "title": "The exact procedure\nthey had, done in Seoul.",
       "subtitle": "See where and what your favorite creators had done. Book the same clinic over WhatsApp.",
       "subcopy": "English-speaking coordinator · Free consultation · Transparent pricing",
       "ctaPrimary": "Book on WhatsApp",
       "ctaSecondary": "Browse procedures",
       "waIntro": "Hi — I'd like to book a consultation via Seoul Glow.",
-      "stickyCta": "WhatsApp"
+      "stickyCta": "WhatsApp",
+      "features": [
+        {
+          "label": "English Only",
+          "description": "Zero Korean required — seamless care"
+        },
+        {
+          "label": "Transparent Pricing",
+          "description": "Half of US rates, no hidden fees"
+        },
+        {
+          "label": "KMA Certified",
+          "description": "Board-certified surgeons, licensed clinics"
+        },
+        {
+          "label": "After You Fly Home",
+          "description": "WhatsApp aftercare that follows you back"
+        }
+      ]
     },
     "influencerReviews": {
       "title": "They've already made the trip",

@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import styled from 'styled-components';
 import { BookingForm } from '@/components/BookingForm';
 import type { Locale } from '@/i18n/config';
@@ -100,7 +101,9 @@ export function FinalCtaSection({ locale, dict, formLabels }: Props) {
           </TrustRow>
         </TitleWrap>
 
-        <BookingForm locale={locale} labels={formLabels} />
+        <Suspense fallback={null}>
+          <BookingForm locale={locale} labels={formLabels} />
+        </Suspense>
       </Centered>
     </Band>
   );

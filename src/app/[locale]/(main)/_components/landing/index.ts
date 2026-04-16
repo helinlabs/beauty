@@ -1,0 +1,9 @@
+export { HeroSection } from './HeroSection';
+export { TrustBarSection } from './TrustBarSection';
+export { HowItWorksSection } from './HowItWorksSection';
+export { ProceduresSection } from './ProceduresSection';
+export { InfluencerReviewsSection } from './InfluencerReviewsSection';
+export { ClinicSpotlightSection } from './ClinicSpotlightSection';
+export { ReviewsSection } from './ReviewsSection';
+export { FAQSection } from './FAQSection';
+export { FinalCtaSection } from './FinalCtaSection';

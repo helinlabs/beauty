@@ -4,8 +4,24 @@ import { isLocale, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { buildMetadata, SITE_URL } from '@/lib/seo';
 import { influencers } from '@/data/influencers';
-import { procedures } from '@/data/procedures';
-import { LandingHero, HowItWorks, FeaturedRow } from './_components/LandingSections';
+import {
+  procedures,
+  type LandingGroup,
+  type Procedure,
+} from '@/data/procedures';
+import { buildWhatsAppUrl, WHATSAPP_NUMBER } from '@/lib/whatsapp';
+import { formatPriceFromUSD } from '@/lib/format';
+import {
+  ClinicSpotlightSection,
+  FAQSection,
+  FinalCtaSection,
+  HeroSection,
+  HowItWorksSection,
+  InfluencerReviewsSection,
+  ProceduresSection,
+  ReviewsSection,
+  TrustBarSection,
+} from './_components/landing';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -14,11 +30,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
   return buildMetadata({
-    locale: locale,
+    locale,
     title: dict.meta.home.title,
     description: dict.meta.home.description,
     path: '',
   });
+}
+
+const LANDING_GROUPS: LandingGroup[] = [
+  'face',
+  'skinLaser',
+  'body',
+  'nonSurgical',
+];
+
+function pickFeaturedProcedure(
+  group: LandingGroup,
+  fallback: Procedure,
+): Procedure {
+  return procedures.find((p) => p.landingGroup === group) ?? fallback;
 }
 
 export default async function HomePage({ params }: Props) {
@@ -26,6 +56,37 @@ export default async function HomePage({ params }: Props) {
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = getDictionary(locale);
+
+  const whatsappHref = buildWhatsAppUrl({
+    phoneNumber: WHATSAPP_NUMBER,
+    message: dict.landing.hero.waIntro,
+  });
+
+  const procedureLookup = procedures.reduce<Record<string, string>>(
+    (acc, p) => {
+      acc[p.slug] = p.name[locale];
+      return acc;
+    },
+    {},
+  );
+
+  const featuredProcedures = LANDING_GROUPS.map((group, idx) => {
+    const proc = pickFeaturedProcedure(group, procedures[idx % procedures.length]);
+    const categoryLabel =
+      dict.landing.procedures.categories[
+        group as keyof typeof dict.landing.procedures.categories
+      ];
+    return {
+      group,
+      procedure: proc,
+      categoryLabel,
+      priceLabel: dict.landing.procedures.fromPrice.replace(
+        '{price}',
+        formatPriceFromUSD(proc.priceFromUSD, locale),
+      ),
+      popular: idx === 0,
+    };
+  });
 
   const ld = {
     '@context': 'https://schema.org',
@@ -41,41 +102,56 @@ export default async function HomePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
-      <LandingHero
+
+      <HeroSection
         locale={locale}
-        eyebrow={dict.landing.eyebrow}
-        title={dict.landing.title}
-        subtitle={dict.landing.subtitle}
-        ctaBook={dict.landing.ctaBook}
-        ctaExplore={dict.landing.ctaExplore}
+        dict={dict.landing.hero}
+        whatsappHref={whatsappHref}
       />
-      <HowItWorks
-        title={dict.landing.how.title}
-        steps={dict.landing.how.steps}
-      />
-      <FeaturedRow
-        title={dict.landing.featuredInfluencers}
-        seeAllLabel={dict.landing.seeAll}
-        seeAllHref={`/${locale}/influencers`}
-        kind="influencer"
+
+      <TrustBarSection dict={dict.landing.trustBar} />
+
+      <HowItWorksSection dict={dict.landing.how} />
+
+      <ProceduresSection
         locale={locale}
-        items={influencers.slice(0, 4).map((i) => ({ influencer: i }))}
-        labels={{
-          followers: dict.influencer.followers,
-          procedures: dict.influencer.procedureCount,
+        dict={dict.landing.procedures}
+        featured={featuredProcedures}
+      />
+
+      <InfluencerReviewsSection
+        locale={locale}
+        dict={dict.landing.influencerReviews}
+        items={influencers}
+        procedureLookup={procedureLookup}
+      />
+
+      <ClinicSpotlightSection
+        locale={locale}
+        dict={dict.landing.clinic}
+        whatsappHref={whatsappHref}
+      />
+
+      <ReviewsSection locale={locale} dict={dict.landing.reviews} />
+
+      <FAQSection dict={dict.landing.faq} />
+
+      <FinalCtaSection
+        locale={locale}
+        dict={dict.landing.finalCta}
+        formLabels={{
+          name: dict.book.nameLabel,
+          namePh: dict.book.namePlaceholder,
+          phone: dict.book.phoneLabel,
+          phonePh: dict.book.phonePlaceholder,
+          selectedInfluencer: dict.book.selectedInfluencer,
+          selectedProcedure: dict.book.selectedProcedure,
+          submit: dict.book.submit,
+          errorName: dict.book.errorName,
+          errorPhone: dict.book.errorPhone,
+          agreement: dict.book.agreement,
+          waIntro: dict.book.waIntro,
         }}
-      />
-      <FeaturedRow
-        title={dict.landing.featuredProcedures}
-        seeAllLabel={dict.landing.seeAll}
-        seeAllHref={`/${locale}/procedures`}
-        kind="procedure"
-        locale={locale}
-        items={procedures.slice(0, 4).map((p) => ({
-          procedure: p,
-          categoryLabel: dict.categories[p.category],
-          minutesLabel: dict.common.minutes.replace('{n}', String(p.durationMin)),
-        }))}
       />
     </>
   );

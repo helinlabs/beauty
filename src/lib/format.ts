@@ -18,3 +18,14 @@ export function formatPriceFromKRW(krw: number, locale: Locale): string {
   const usd = Math.round(krw / 1350);
   return `$${usd.toLocaleString('en-US')}`;
 }
+
+/**
+ * Landing cards store an editorial USD figure per procedure
+ * (`priceFromUSD`). Format it as a display string, localized lightly.
+ */
+export function formatPriceFromUSD(usd: number, locale: Locale): string {
+  if (locale === 'ko') {
+    return `$${usd.toLocaleString('ko-KR')}`;
+  }
+  return `$${usd.toLocaleString('en-US')}`;
+}

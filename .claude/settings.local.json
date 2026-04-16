@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Read(//Users/suvinjung/.nvm/versions/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//opt/**)",
+      "Bash(sw_vers)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs -r kill -9)",
+      "Bash(mkdir -p /Users/suvinjung/project/beauty/.claude)",
+      "Bash(npx shadcn@latest init --preset b4C4oiDTA8 --template next)",
+      "Bash(ls /opt/homebrew/bin/n*)",
+      "Bash(export PATH=\"/Users/suvinjung/.local/node-v20.18.1-darwin-arm64/bin:$PATH\")",
+      "Bash(npm -v)",
+      "Bash(npx -v)",
+      "Bash(npx --yes shadcn@latest init --preset b4C4oiDTA8 --template next)",
+      "Bash(npx --yes shadcn@latest add table card badge select input label dropdown-menu separator)",
+      "Bash(mkdir -p \"app/[locale]/admin/reservations\")",
+      "Bash(git mv:*)"
+    ]
+  }
+}

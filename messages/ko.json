@@ -1,0 +1,336 @@
+{
+  "Metadata": {
+    "siteName": "Beauty Admin",
+    "home": {
+      "title": "Beauty Admin — 뷰티 · 성형 병원 예약 관리",
+      "description": "뷰티 및 성형 병원을 위한 예약 관리 대시보드."
+    },
+    "login": {
+      "title": "로그인",
+      "description": "Beauty Admin 관리자 콘솔에 접속합니다."
+    },
+    "dashboard": {
+      "title": "대시보드",
+      "description": "예약 및 추천인 운영 현황을 한눈에 확인합니다."
+    },
+    "reservations": {
+      "title": "예약 관리",
+      "description": "예약자 정보를 한 곳에서 확인하세요."
+    },
+    "reservationDetail": {
+      "title": "예약 상세",
+      "description": "예약 정보를 확인하고 수정합니다."
+    },
+    "calendar": {
+      "title": "캘린더",
+      "description": "월간 캘린더 뷰로 예약 일정을 확인합니다."
+    },
+    "referrers": {
+      "title": "추천인",
+      "description": "추천인별 예약과 커미션 현황을 확인합니다."
+    },
+    "referrerDetail": {
+      "title": "추천인 상세",
+      "description": "추천인 정보와 예약 내역을 확인하고 수정합니다."
+    }
+  },
+  "Nav": {
+    "brand": "Beauty Admin",
+    "language": "언어",
+    "korean": "한국어",
+    "english": "English",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기",
+    "toggleTheme": "테마 변경"
+  },
+  "Sidebar": {
+    "sectionMain": "메뉴",
+    "dashboard": "대시보드",
+    "reservations": "예약 관리",
+    "referrers": "추천인",
+    "brand": "Beauty Admin",
+    "newReservation": "새 예약"
+  },
+  "Account": {
+    "signedInAs": "{email}로 로그인됨",
+    "logout": "로그아웃"
+  },
+  "Login": {
+    "brand": "Beauty Admin",
+    "heading": "예약 관리 콘솔",
+    "subheading": "등록된 관리자 계정으로 로그인하세요.",
+    "emailLabel": "이메일",
+    "emailPlaceholder": "admin@clinic.com",
+    "passwordLabel": "비밀번호",
+    "passwordPlaceholder": "비밀번호 입력",
+    "submit": "로그인",
+    "submitting": "로그인 중...",
+    "demoHint": "데모: 이메일·비밀번호 아무 값이나 입력하면 로그인됩니다.",
+    "error": "로그인에 실패했습니다. 다시 시도해주세요."
+  },
+  "Reservations": {
+    "title": "예약 관리",
+    "subtitle": "총 {count}건의 예약",
+    "countLabel": "총 {count}건",
+    "search": {
+      "placeholder": "이름으로 검색"
+    },
+    "filter": {
+      "all": "전체",
+      "status": "상태",
+      "referrer": "추천인",
+      "hospital": "병원",
+      "treatment": "시술",
+      "clear": "초기화",
+      "searchReferrer": "추천인 검색...",
+      "referrerEmpty": "검색 결과가 없습니다.",
+      "selectedCount": "{count}개 선택됨"
+    },
+    "columns": {
+      "status": "상태",
+      "name": "이름",
+      "phone": "전화번호",
+      "date": "시술 예약일",
+      "createdAt": "생성일",
+      "language": "언어",
+      "hospital": "병원",
+      "treatments": "시술",
+      "total": "총 견적",
+      "deposit": "계약금",
+      "notes": "메모",
+      "referrer": "추천인"
+    },
+    "status": {
+      "consultation": "상담 신청",
+      "confirmed": "예약 확정",
+      "completed": "시술 완료",
+      "cancelled": "취소"
+    },
+    "language": {
+      "en": "🇺🇸 영어",
+      "es": "🇪🇸 스페인어",
+      "ja": "🇯🇵 일본어"
+    },
+    "treatments": {
+      "breast": "가슴",
+      "facialContour": "안면윤곽",
+      "doubleJaw": "양악",
+      "eye": "눈",
+      "rhinoplasty": "코",
+      "liposuction": "지방흡입",
+      "antiAging": "안티에이징",
+      "maleSurgery": "남성수술",
+      "dermatology": "피부과",
+      "hairTransplant": "모발이식",
+      "stemCell": "줄기세포"
+    },
+    "hospitals": {
+      "view": "뷰 성형외과",
+      "deo": "더성형외과"
+    },
+    "noTreatments": "-",
+    "moreTreatments": "외 {count}개",
+    "empty": "검색 결과가 없습니다.",
+    "noReferrer": "-",
+    "noNotes": "-",
+    "view": "상세 보기",
+    "pagination": {
+      "showing": "{start}-{end} / 총 {total}건",
+      "previous": "이전",
+      "next": "다음",
+      "page": "{page} / {total} 페이지",
+      "rowsPerPage": "페이지당 행:"
+    }
+  },
+  "ReservationDetail": {
+    "backToList": "목록으로",
+    "close": "닫기",
+    "heading": "예약 상세",
+    "newTitle": "새 예약",
+    "newDescription": "고객 정보와 시술을 입력하고 저장하세요.",
+    "saved": "저장되었습니다.",
+    "deleted": "삭제되었습니다.",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "whatsapp": "WhatsApp으로 연결",
+    "quoteTitle": "견적 요약",
+    "totalLabel": "총 견적",
+    "depositLabel": "계약금 (10%)",
+    "remainingLabel": "잔금",
+    "confirmDeposit": "계약금 입금 확인",
+    "cancelDeposit": "계약금 입금 취소",
+    "photosLabel": "사진 첨부",
+    "addPhotos": "사진 추가",
+    "removePhoto": "사진 삭제",
+    "photoHint": "클릭해서 사진을 추가하거나 파일을 끌어다 놓으세요. (최대 5MB · PNG / JPG)",
+    "photoTooLarge": "{filename} 파일이 너무 큽니다 (5MB 이하).",
+    "emptyTreatments": "시술을 선택하지 않았습니다.",
+    "addTreatment": "시술 추가",
+    "referrerTagPlaceholder": "추천인 이름 입력 후 Enter",
+    "referrerRemove": "추천인 삭제",
+    "referrerSuggestHint": "기존 추천인",
+    "notFound": {
+      "title": "예약을 찾을 수 없습니다",
+      "description": "삭제되었거나 잘못된 주소일 수 있습니다.",
+      "back": "예약 목록으로"
+    },
+    "deleteDialog": {
+      "title": "예약을 삭제하시겠습니까?",
+      "description": "이 작업은 되돌릴 수 없습니다. 해당 예약이 영구적으로 삭제됩니다.",
+      "confirm": "삭제",
+      "cancel": "취소"
+    }
+  },
+  "Calendar": {
+    "title": "캘린더",
+    "subtitle": "월간 예약 현황",
+    "previousMonth": "이전 달",
+    "nextMonth": "다음 달",
+    "previousWeek": "이전 주",
+    "nextWeek": "다음 주",
+    "today": "오늘",
+    "views": {
+      "list": "목록",
+      "month": "캘린더"
+    },
+    "weekdays": {
+      "sun": "일",
+      "mon": "월",
+      "tue": "화",
+      "wed": "수",
+      "thu": "목",
+      "fri": "금",
+      "sat": "토"
+    },
+    "monthYear": "{year}년 {month}월",
+    "moreEvents": "+{count}건 더보기",
+    "addOnDate": "이 날짜에 예약 추가"
+  },
+  "Referrers": {
+    "title": "추천인",
+    "countLabel": "총 {count}명",
+    "pendingFilter": "정산 대기만",
+    "empty": "아직 등록된 추천인이 없습니다.",
+    "search": {
+      "placeholder": "이름으로 검색"
+    },
+    "columns": {
+      "name": "추천인",
+      "count": "예약 수",
+      "pending": "정산 대기",
+      "commission": "누적 정산",
+      "url": "공유 URL"
+    },
+    "pendingFormat": "{count}건",
+    "countFormat": "{count}건",
+    "copyUrl": "URL 복사",
+    "copied": "복사됨",
+    "sort": {
+      "ascending": "오름차순",
+      "descending": "내림차순"
+    }
+  },
+  "ReferrerDetail": {
+    "close": "닫기",
+    "heading": "추천인 상세",
+    "saved": "저장되었습니다.",
+    "deleted": "삭제되었습니다.",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "whatsapp": "WhatsApp으로 연결",
+    "totalCommission": "누적 정산",
+    "reservationsCount": "예약 {count}건",
+    "nameLabel": "이름",
+    "phoneLabel": "전화번호",
+    "urlLabel": "공유 URL",
+    "copyUrl": "URL 복사",
+    "copied": "복사됨",
+    "reservationsHeading": "예약 내역",
+    "noReservations": "연결된 예약이 없습니다.",
+    "reservationColumns": {
+      "status": "상태",
+      "name": "이름",
+      "date": "예약일",
+      "total": "총 견적",
+      "commission": "커미션",
+      "transfer": "정산 상태"
+    },
+    "transfer": {
+      "pending": "정산 대기",
+      "paid": "정산 완료"
+    },
+    "bank": {
+      "heading": "은행 계좌 정보",
+      "holderFirstName": "예금주 이름",
+      "holderLastName": "예금주 성",
+      "holderFirstNamePlaceholder": "John",
+      "holderLastNamePlaceholder": "Smith",
+      "bankName": "은행 이름",
+      "bankNamePlaceholder": "Chase Bank",
+      "accountNumber": "계좌번호",
+      "accountNumberPlaceholder": "0000 0000 0000",
+      "bankAddress": "은행 주소",
+      "bankAddressPlaceholder": "270 Park Ave, New York, NY 10017",
+      "swiftCode": "SWIFT 코드",
+      "swiftCodePlaceholder": "CHASUS33",
+      "routingNumber": "Routing Number (ABA 번호)",
+      "routingNumberPlaceholder": "021000021"
+    },
+    "notFound": {
+      "title": "추천인을 찾을 수 없습니다",
+      "description": "삭제되었거나 잘못된 주소일 수 있습니다.",
+      "back": "추천인 목록으로"
+    },
+    "deleteDialog": {
+      "title": "추천인을 삭제하시겠습니까?",
+      "description": "이 추천인이 참여한 예약의 추천인 목록에서도 제거됩니다.",
+      "confirm": "삭제",
+      "cancel": "취소"
+    }
+  },
+  "Dashboard": {
+    "heading": "대시보드",
+    "greeting": "{name}님, 안녕하세요",
+    "subtitle": "오늘의 운영 현황을 한눈에 확인하세요.",
+    "quickActions": {
+      "newReservation": "새 예약",
+      "manageReservations": "예약 관리",
+      "referrers": "추천인 관리"
+    },
+    "stats": {
+      "monthRevenue": "이번 달 매출",
+      "monthRevenueHint": "예약 확정 기준",
+      "monthBookings": "이번 달 예약 수",
+      "monthBookingsUnit": "건",
+      "monthBookingsHint": "신규 + 기존 예약",
+      "conversionRate": "전환율",
+      "conversionRateHint": "상담 후 예약 확정 비율",
+      "trendUp": "전월 대비 상승",
+      "trendDown": "전월 대비 하락",
+      "trendFlat": "전월과 동일"
+    },
+    "statusBreakdown": {
+      "heading": "예약 상태 분포",
+      "total": "전체 {count}건"
+    },
+    "recentConsultations": {
+      "heading": "최근 상담 신청",
+      "viewAll": "전체 보기",
+      "empty": "상담 신청이 없습니다."
+    },
+    "topReferrers": {
+      "heading": "Top 추천인",
+      "subtitle": "누적 정산 기준",
+      "viewAll": "전체 보기",
+      "empty": "추천인 데이터가 없습니다.",
+      "reservationCount": "{count}건"
+    },
+    "treatments": {
+      "heading": "인기 시술",
+      "empty": "시술 데이터가 없습니다.",
+      "countUnit": "회"
+    }
+  }
+}

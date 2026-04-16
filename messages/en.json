@@ -1,0 +1,336 @@
+{
+  "Metadata": {
+    "siteName": "Beauty Admin",
+    "home": {
+      "title": "Beauty Admin — Reservation Management for Beauty & Plastic Surgery Clinics",
+      "description": "Reservation management dashboard."
+    },
+    "login": {
+      "title": "Sign in",
+      "description": "Sign in to the Beauty Admin console."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Reservation and referrer operations at a glance."
+    },
+    "reservations": {
+      "title": "Reservations",
+      "description": "View all reservation details in one place."
+    },
+    "reservationDetail": {
+      "title": "Reservation Details",
+      "description": "View and edit reservation information."
+    },
+    "calendar": {
+      "title": "Calendar",
+      "description": "Monthly calendar view of all reservations."
+    },
+    "referrers": {
+      "title": "Referrers",
+      "description": "Reservation counts and commission totals for each referrer."
+    },
+    "referrerDetail": {
+      "title": "Referrer Details",
+      "description": "View and edit referrer information and reservation history."
+    }
+  },
+  "Nav": {
+    "brand": "Beauty Admin",
+    "language": "Language",
+    "korean": "한국어",
+    "english": "English",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Toggle theme"
+  },
+  "Sidebar": {
+    "sectionMain": "Menu",
+    "dashboard": "Dashboard",
+    "reservations": "Reservations",
+    "referrers": "Referrers",
+    "brand": "Beauty Admin",
+    "newReservation": "New reservation"
+  },
+  "Account": {
+    "signedInAs": "Signed in as {email}",
+    "logout": "Sign out"
+  },
+  "Login": {
+    "brand": "Beauty Admin",
+    "heading": "Reservation Admin Console",
+    "subheading": "Sign in with your administrator account.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "admin@clinic.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter password",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "demoHint": "Demo: any email and password will sign you in.",
+    "error": "Sign in failed. Please try again."
+  },
+  "Reservations": {
+    "title": "Reservations",
+    "subtitle": "{count} total reservations",
+    "countLabel": "{count} total",
+    "search": {
+      "placeholder": "Search by name"
+    },
+    "filter": {
+      "all": "All",
+      "status": "Status",
+      "referrer": "Referrer",
+      "hospital": "Hospital",
+      "treatment": "Treatment",
+      "clear": "Clear",
+      "searchReferrer": "Search referrers...",
+      "referrerEmpty": "No results.",
+      "selectedCount": "{count} selected"
+    },
+    "columns": {
+      "status": "Status",
+      "name": "Name",
+      "phone": "Phone",
+      "date": "Treatment date",
+      "createdAt": "Created",
+      "language": "Language",
+      "hospital": "Hospital",
+      "treatments": "Treatments",
+      "total": "Total",
+      "deposit": "Deposit",
+      "notes": "Memo",
+      "referrer": "Referrer"
+    },
+    "status": {
+      "consultation": "Consultation",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "language": {
+      "en": "🇺🇸 English",
+      "es": "🇪🇸 Spanish",
+      "ja": "🇯🇵 Japanese"
+    },
+    "treatments": {
+      "breast": "Breast",
+      "facialContour": "Facial Contour",
+      "doubleJaw": "Double Jaw",
+      "eye": "Eye",
+      "rhinoplasty": "Rhinoplasty",
+      "liposuction": "Liposuction",
+      "antiAging": "Anti Aging",
+      "maleSurgery": "Male Surgery",
+      "dermatology": "Dermatology",
+      "hairTransplant": "Hair Transplant",
+      "stemCell": "Stem Cell"
+    },
+    "hospitals": {
+      "view": "View Plastic Surgery",
+      "deo": "Deo Plastic Surgery"
+    },
+    "noTreatments": "-",
+    "moreTreatments": "+{count} more",
+    "empty": "No reservations match your search.",
+    "noReferrer": "-",
+    "noNotes": "-",
+    "view": "View details",
+    "pagination": {
+      "showing": "{start}-{end} of {total}",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}",
+      "rowsPerPage": "Rows per page:"
+    }
+  },
+  "ReservationDetail": {
+    "backToList": "Back to list",
+    "close": "Close",
+    "heading": "Reservation Details",
+    "newTitle": "New Reservation",
+    "newDescription": "Enter client information and treatments, then save.",
+    "saved": "Saved.",
+    "deleted": "Deleted.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "whatsapp": "Open in WhatsApp",
+    "quoteTitle": "Quote Summary",
+    "totalLabel": "Total quote",
+    "depositLabel": "Deposit (10%)",
+    "remainingLabel": "Balance due",
+    "confirmDeposit": "Confirm deposit received",
+    "cancelDeposit": "Undo deposit confirmation",
+    "photosLabel": "Photos",
+    "addPhotos": "Add photos",
+    "removePhoto": "Remove",
+    "photoHint": "Click to upload or drop images here. (max 5MB · PNG / JPG)",
+    "photoTooLarge": "{filename} is too large (max 5MB).",
+    "emptyTreatments": "No treatments selected.",
+    "addTreatment": "Add treatment",
+    "referrerTagPlaceholder": "Type a name and press Enter",
+    "referrerRemove": "Remove referrer",
+    "referrerSuggestHint": "Existing referrers",
+    "notFound": {
+      "title": "Reservation not found",
+      "description": "It may have been deleted or the URL is incorrect.",
+      "back": "Back to reservations"
+    },
+    "deleteDialog": {
+      "title": "Delete this reservation?",
+      "description": "This action cannot be undone. The reservation will be permanently removed.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    }
+  },
+  "Calendar": {
+    "title": "Calendar",
+    "subtitle": "Monthly reservation schedule",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "today": "Today",
+    "views": {
+      "list": "List",
+      "month": "Calendar"
+    },
+    "weekdays": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "monthYear": "{month} {year}",
+    "moreEvents": "+{count} more",
+    "addOnDate": "Add reservation on this date"
+  },
+  "Referrers": {
+    "title": "Referrers",
+    "countLabel": "{count} total",
+    "pendingFilter": "Pending only",
+    "empty": "No referrers yet.",
+    "search": {
+      "placeholder": "Search by name"
+    },
+    "columns": {
+      "name": "Referrer",
+      "count": "Reservations",
+      "pending": "Pending",
+      "commission": "Cumulative payout",
+      "url": "Share URL"
+    },
+    "pendingFormat": "{count}",
+    "countFormat": "{count}",
+    "copyUrl": "Copy URL",
+    "copied": "Copied",
+    "sort": {
+      "ascending": "Ascending",
+      "descending": "Descending"
+    }
+  },
+  "ReferrerDetail": {
+    "close": "Close",
+    "heading": "Referrer Details",
+    "saved": "Saved.",
+    "deleted": "Deleted.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "whatsapp": "Open in WhatsApp",
+    "totalCommission": "Cumulative payout",
+    "reservationsCount": "{count} reservations",
+    "nameLabel": "Name",
+    "phoneLabel": "Phone",
+    "urlLabel": "Share URL",
+    "copyUrl": "Copy URL",
+    "copied": "Copied",
+    "reservationsHeading": "Reservations",
+    "noReservations": "No reservations linked.",
+    "reservationColumns": {
+      "status": "Status",
+      "name": "Client",
+      "date": "Date",
+      "total": "Total",
+      "commission": "Commission",
+      "transfer": "Payout status"
+    },
+    "transfer": {
+      "pending": "Pending",
+      "paid": "Paid"
+    },
+    "bank": {
+      "heading": "Bank account details",
+      "holderFirstName": "Account holder first name",
+      "holderLastName": "Account holder last name",
+      "holderFirstNamePlaceholder": "John",
+      "holderLastNamePlaceholder": "Smith",
+      "bankName": "Bank name",
+      "bankNamePlaceholder": "Chase Bank",
+      "accountNumber": "Account number",
+      "accountNumberPlaceholder": "0000 0000 0000",
+      "bankAddress": "Bank address",
+      "bankAddressPlaceholder": "270 Park Ave, New York, NY 10017",
+      "swiftCode": "SWIFT code",
+      "swiftCodePlaceholder": "CHASUS33",
+      "routingNumber": "Routing number (ABA)",
+      "routingNumberPlaceholder": "021000021"
+    },
+    "notFound": {
+      "title": "Referrer not found",
+      "description": "It may have been deleted or the URL is incorrect.",
+      "back": "Back to referrers"
+    },
+    "deleteDialog": {
+      "title": "Delete this referrer?",
+      "description": "This referrer will also be removed from linked reservations.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    }
+  },
+  "Dashboard": {
+    "heading": "Dashboard",
+    "greeting": "Hi, {name}",
+    "subtitle": "An at-a-glance view of today's operations.",
+    "quickActions": {
+      "newReservation": "New reservation",
+      "manageReservations": "Manage reservations",
+      "referrers": "Manage referrers"
+    },
+    "stats": {
+      "monthRevenue": "This month's revenue",
+      "monthRevenueHint": "From confirmed bookings",
+      "monthBookings": "This month's bookings",
+      "monthBookingsUnit": "",
+      "monthBookingsHint": "New + existing",
+      "conversionRate": "Conversion rate",
+      "conversionRateHint": "Consultation-to-confirmed rate",
+      "trendUp": "Up from last month",
+      "trendDown": "Down from last month",
+      "trendFlat": "Same as last month"
+    },
+    "statusBreakdown": {
+      "heading": "Status breakdown",
+      "total": "{count} total"
+    },
+    "recentConsultations": {
+      "heading": "Recent consultation requests",
+      "viewAll": "View all",
+      "empty": "No consultation requests."
+    },
+    "topReferrers": {
+      "heading": "Top referrers",
+      "subtitle": "By paid commission",
+      "viewAll": "View all",
+      "empty": "No referrer data yet.",
+      "reservationCount": "{count} bookings"
+    },
+    "treatments": {
+      "heading": "Popular treatments",
+      "empty": "No treatment data.",
+      "countUnit": "×"
+    }
+  }
+}

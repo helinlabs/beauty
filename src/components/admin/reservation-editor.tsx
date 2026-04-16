@@ -27,6 +27,7 @@ import {
   DialogTitle,
 } from "@/components/admin/ui/dialog";
 import { Separator } from "@/components/admin/ui/separator";
+import { StatusDot } from "@/components/admin/status-dot";
 import { TreatmentPicker } from "@/components/admin/treatment-picker";
 import { PhotoUploader } from "@/components/admin/photo-uploader";
 import { ReferrerTagInput } from "@/components/admin/referrer-tag-input";
@@ -85,7 +86,15 @@ export function ReservationEditor({
 
   const reservation = getById(id);
 
-  const [form, setForm] = useState<Reservation | null>(reservation ?? null);
+  // 총 견적은 마운트 시 한 번 확정. 시술 추가/삭제가 견적에 영향을 주지 않도록.
+  const [form, setForm] = useState<Reservation | null>(() =>
+    reservation
+      ? {
+          ...reservation,
+          total: reservation.total ?? calcTotal(reservation.treatments),
+        }
+      : null,
+  );
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const krw = useKrw(pageLocale);
@@ -104,7 +113,10 @@ export function ReservationEditor({
 
   useEffect(() => {
     if (reservation && (!form || form.id !== reservation.id)) {
-      setForm(reservation);
+      setForm({
+        ...reservation,
+        total: reservation.total ?? calcTotal(reservation.treatments),
+      });
     }
   }, [reservation, form]);
 
@@ -218,7 +230,10 @@ export function ReservationEditor({
               <SelectContent>
                 {statusOptions.map((s) => (
                   <SelectItem key={s} value={s}>
-                    {tR(`status.${s}`)}
+                    <span className="flex items-center gap-2">
+                      <StatusDot status={s} />
+                      {tR(`status.${s}`)}
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -241,7 +256,7 @@ export function ReservationEditor({
               id="total"
               type="text"
               inputMode="numeric"
-              value={krw.format(form.total ?? calcTotal(form.treatments))}
+              value={krw.format(form.total ?? 0)}
               onChange={(e) => {
                 const digits = e.target.value.replace(/[^\d]/g, "");
                 const n = digits === "" ? 0 : Number(digits);

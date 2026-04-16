@@ -16,8 +16,8 @@ import {
   CardTitle,
 } from "@/components/admin/ui/card";
 import { ReservationSheet } from "@/components/admin/reservation-sheet";
+import { StatusDot } from "@/components/admin/status-dot";
 import { TreatmentBadges } from "@/components/admin/treatment-badges";
-import { cn } from "@/lib/admin-utils";
 import { useReservations } from "@/providers/reservations-provider";
 import {
   calcCommissionShare,
@@ -33,13 +33,6 @@ interface Props {
   locale: string;
   email: string;
 }
-
-const STATUS_DOT: Record<ReservationStatus, string> = {
-  consultation: "bg-amber-400",
-  confirmed: "bg-emerald-500",
-  completed: "bg-slate-400",
-  cancelled: "bg-rose-400",
-};
 
 export function DashboardView({ locale }: Props) {
   const t = useTranslations("Dashboard");
@@ -298,12 +291,7 @@ export function DashboardView({ locale }: Props) {
                 <div key={s} className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2 text-sm">
                     <div className="inline-flex items-center gap-2">
-                      <span
-                        className={cn(
-                          "size-1.5 rounded-full",
-                          STATUS_DOT[s],
-                        )}
-                      />
+                      <StatusDot status={s} />
                       <span className="font-medium">{tR(`status.${s}`)}</span>
                     </div>
                     <div className="tabular-nums text-muted-foreground">

@@ -35,6 +35,7 @@ export const theme = {
   fonts: {
     body: `var(--font-sans), -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', 'Segoe UI', Roboto, sans-serif`,
     heading: `var(--font-serif), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
+    display: `var(--font-display), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
   },
 } as const;
 

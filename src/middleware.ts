@@ -1,20 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { locales, defaultLocale, type Locale } from './i18n/config';
+import { locales, defaultLocale } from './i18n/config';
 
 const PUBLIC_FILE = /\.(.*)$/;
-
-function detectLocale(request: NextRequest): Locale {
-  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  if (cookieLocale && (locales as readonly string[]).includes(cookieLocale)) {
-    return cookieLocale as Locale;
-  }
-  const header = request.headers.get('accept-language') ?? '';
-  const primary = header
-    .split(',')
-    .map((part) => part.split(';')[0].trim().toLowerCase().split('-')[0])
-    .find((lang) => (locales as readonly string[]).includes(lang));
-  return (primary as Locale) ?? defaultLocale;
-}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -36,9 +23,8 @@ export function middleware(request: NextRequest) {
   );
   if (hasLocale) return NextResponse.next();
 
-  const locale = detectLocale(request);
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
+  url.pathname = `/${defaultLocale}${pathname === '/' ? '' : pathname}`;
   // Preserve search params — critical for UTM/ref tracking.
   return NextResponse.redirect(url);
 }

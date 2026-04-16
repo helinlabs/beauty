@@ -16,6 +16,7 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body { min-height: 100vh; line-height: 1.6; font-size: 16px; }
 

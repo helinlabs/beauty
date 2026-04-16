@@ -180,6 +180,12 @@
       "description": "This action cannot be undone. The reservation will be permanently removed.",
       "confirm": "Delete",
       "cancel": "Cancel"
+    },
+    "unsavedDialog": {
+      "title": "Close without saving?",
+      "description": "Your edits will be discarded if you don't save.",
+      "discard": "Discard",
+      "cancel": "Keep editing"
     }
   },
   "Calendar": {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -53,6 +53,11 @@ interface Props {
   inSheet?: boolean;
   onSaved?: () => void;
   onDeleted?: () => void;
+  /**
+   * 수동 저장 대상(이름·전화번호·총 견적·메모) 중 하나라도 원본과
+   * 달라지면 true. 부모 sheet 가 닫기 전 확인 모달을 띄울 때 사용.
+   */
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 function toDateTimeLocal(value: string) {
@@ -77,6 +82,7 @@ export function ReservationEditor({
   inSheet = false,
   onSaved,
   onDeleted,
+  onDirtyChange,
 }: Props) {
   const t = useTranslations("ReservationDetail");
   const tR = useTranslations("Reservations");
@@ -96,6 +102,10 @@ export function ReservationEditor({
       : null,
   );
   const [deleteOpen, setDeleteOpen] = useState(false);
+
+  // 총 견적 input 커서 위치 보존용 — 포맷 재적용 시 커서가 맨 뒤로 밀리지 않도록.
+  const totalInputRef = useRef<HTMLInputElement>(null);
+  const pendingTotalCaret = useRef<number | null>(null);
 
   const krw = useKrw(pageLocale);
 
@@ -119,6 +129,51 @@ export function ReservationEditor({
       });
     }
   }, [reservation, form]);
+
+  // 텍스트 형식의 입력(이름·전화번호·총 견적·메모)의 변경 여부.
+  // auto-save 필드(상태·시술·예약일·언어·추천인·사진)는 이미 스토어에
+  // 반영되므로 포함하지 않는다.
+  const isDirty = useMemo(() => {
+    if (!form || !reservation) return false;
+    const originalTotal =
+      reservation.total ?? calcTotal(reservation.treatments);
+    return (
+      form.name !== reservation.name ||
+      form.phone !== reservation.phone ||
+      (form.total ?? 0) !== originalTotal ||
+      (form.notes ?? "") !== (reservation.notes ?? "")
+    );
+  }, [form, reservation]);
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
+  // 총 견적 input 이 포맷된 새 value 로 리렌더된 직후, 입력 시 기억해 둔
+  // "숫자 자릿수" 위치에 맞춰 커서를 재배치.
+  useLayoutEffect(() => {
+    const input = totalInputRef.current;
+    const target = pendingTotalCaret.current;
+    if (!input || target == null) return;
+
+    const value = input.value;
+    // value 앞에서부터 숫자를 세면서 target 개에 도달한 직후 위치를 찾음.
+    let digitCount = 0;
+    let pos = value.length;
+    for (let i = 0; i < value.length; i++) {
+      if (/\d/.test(value[i])) {
+        digitCount += 1;
+        if (digitCount === target) {
+          pos = i + 1;
+          break;
+        }
+      }
+    }
+    if (target === 0) pos = value.search(/\d/);
+    if (pos < 0) pos = 0;
+    input.setSelectionRange(pos, pos);
+    pendingTotalCaret.current = null;
+  });
 
   const dismissPath = `/${locale}/admin/reservations`;
 
@@ -159,6 +214,22 @@ export function ReservationEditor({
   function autoSave(patch: Partial<Omit<Reservation, "id">>) {
     setForm((prev) => (prev ? { ...prev, ...patch } : prev));
     update(id, patch);
+  }
+
+  /**
+   * 총 견적 입력 변경. 포맷 재적용으로 `value` 가 바뀌면 브라우저가 커서를
+   * 맨 뒤로 보내기 때문에 "커서 이전의 숫자 개수"를 기준으로 위치를 복원한다.
+   */
+  function handleTotalChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const raw = e.target.value;
+    const caret = e.target.selectionStart ?? raw.length;
+    // 커서 앞쪽 숫자 자릿수
+    const digitsBeforeCaret = raw.slice(0, caret).replace(/\D/g, "").length;
+    pendingTotalCaret.current = digitsBeforeCaret;
+
+    const digits = raw.replace(/\D/g, "");
+    const n = digits === "" ? 0 : Number(digits);
+    setForm((prev) => (prev ? { ...prev, total: n } : prev));
   }
 
   return (
@@ -254,14 +325,11 @@ export function ReservationEditor({
             <Label htmlFor="total">{tR("columns.total")}</Label>
             <Input
               id="total"
+              ref={totalInputRef}
               type="text"
               inputMode="numeric"
               value={krw.format(form.total ?? 0)}
-              onChange={(e) => {
-                const digits = e.target.value.replace(/[^\d]/g, "");
-                const n = digits === "" ? 0 : Number(digits);
-                setForm({ ...form, total: n });
-              }}
+              onChange={handleTotalChange}
             />
           </div>
           <div className="space-y-2">

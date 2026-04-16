@@ -343,18 +343,20 @@ export function DashboardView({ locale }: Props) {
                     <button
                       type="button"
                       onClick={() => setSheetId(r.id)}
-                      className="group -mx-1 grid w-full grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 rounded-lg px-1 py-3 text-left transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 focus-visible:outline-none"
+                      className="group -mx-1 flex w-full flex-col gap-1 rounded-lg px-1 py-3 text-left transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 focus-visible:outline-none"
                     >
-                      <p className="truncate font-medium">{r.name}</p>
-                      <p className="justify-self-end tabular-nums font-medium">
-                        {krw.format(calcTotal(r.treatments))}
-                      </p>
+                      <div className="flex w-full items-center gap-3">
+                        <p className="min-w-0 flex-1 truncate font-medium">
+                          {r.name}
+                        </p>
+                        <TreatmentBadges treatments={r.treatments} max={2} />
+                        <p className="shrink-0 tabular-nums font-medium">
+                          {krw.format(calcTotal(r.treatments))}
+                        </p>
+                      </div>
                       <p className="truncate text-xs tabular-nums text-muted-foreground">
                         {dateFormatter.format(new Date(r.createdAt ?? r.date))}
                       </p>
-                      <div className="justify-self-end">
-                        <TreatmentBadges treatments={r.treatments} max={2} />
-                      </div>
                     </button>
                   </li>
                 ))}

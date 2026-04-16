@@ -17,7 +17,9 @@
       "Bash(npx --yes shadcn@latest init --preset b4C4oiDTA8 --template next)",
       "Bash(npx --yes shadcn@latest add table card badge select input label dropdown-menu separator)",
       "Bash(mkdir -p \"app/[locale]/admin/reservations\")",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(npx --no-install tsc --noEmit)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

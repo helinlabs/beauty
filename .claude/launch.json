@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "beauty-main",
+      "runtimeExecutable": "/Users/suvinjung/project/beauty-main/.claude/dev.sh",
+      "runtimeArgs": [],
+      "port": 3000
+    },
+    {
       "name": "beauty-dev",
       "runtimeExecutable": "/Users/suvinjung/project/beauty/.claude/dev.sh",
       "runtimeArgs": [],

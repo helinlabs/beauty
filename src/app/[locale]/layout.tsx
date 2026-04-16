@@ -7,7 +7,7 @@ import {
 } from '@/i18n/config';
 
 export const viewport: Viewport = {
-  themeColor: '#0f0d14',
+  themeColor: '#FBF7F1',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',

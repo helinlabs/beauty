@@ -12,6 +12,7 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.colors.bg};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};
+    font-feature-settings: 'cv02','cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -22,8 +23,9 @@ export const GlobalStyles = createGlobalStyle`
   a { color: inherit; text-decoration: none; }
   h1, h2, h3, h4 {
     font-family: ${({ theme }) => theme.fonts.heading};
-    font-weight: 800;
-    letter-spacing: -0.015em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'ss01','ss02';
     margin: 0;
     line-height: 1.15;
   }
@@ -32,6 +34,11 @@ export const GlobalStyles = createGlobalStyle`
 
   input, select, textarea {
     font: inherit;
+    color: inherit;
+  }
+
+  ::selection {
+    background: rgba(194,65,12,0.18);
     color: inherit;
   }
 

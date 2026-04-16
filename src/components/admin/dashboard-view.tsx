@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/admin/ui/card";
+import { ReferrerSheet } from "@/components/admin/referrer-sheet";
 import { ReservationSheet } from "@/components/admin/reservation-sheet";
 import { StatusDot } from "@/components/admin/status-dot";
 import { TreatmentBadges } from "@/components/admin/treatment-badges";
@@ -41,6 +42,7 @@ export function DashboardView({ locale }: Props) {
   const { reservations, referrers } = useReservations();
 
   const [sheetId, setSheetId] = useState<string | null>(null);
+  const [referrerSheetId, setReferrerSheetId] = useState<string | null>(null);
 
   const krw = useMemo(
     () =>
@@ -400,9 +402,10 @@ export function DashboardView({ locale }: Props) {
               <ol className="space-y-2">
                 {topReferrers.map((r, idx) => (
                   <li key={r.id}>
-                    <Link
-                      href={`/${locale}/admin/referrers/${r.id}`}
-                      className="group -mx-1 flex items-center gap-3 rounded-lg px-1 py-2 transition-colors hover:bg-muted/50"
+                    <button
+                      type="button"
+                      onClick={() => setReferrerSheetId(r.id)}
+                      className="group -mx-1 flex w-full items-center gap-3 rounded-lg px-1 py-2 text-left transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 focus-visible:outline-none"
                     >
                       <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
                         {idx + 1}
@@ -418,7 +421,7 @@ export function DashboardView({ locale }: Props) {
                       <p className="shrink-0 font-semibold tabular-nums text-primary">
                         {krw.format(r.commission)}
                       </p>
-                    </Link>
+                    </button>
                   </li>
                 ))}
               </ol>
@@ -474,6 +477,15 @@ export function DashboardView({ locale }: Props) {
           id={sheetId}
           locale={locale}
           onClose={() => setSheetId(null)}
+        />
+      )}
+
+      {/* 추천인 상세 sheet — Top 추천인 클릭 시 */}
+      {referrerSheetId && (
+        <ReferrerSheet
+          id={referrerSheetId}
+          locale={locale}
+          onClose={() => setReferrerSheetId(null)}
         />
       )}
     </div>

@@ -40,7 +40,16 @@ interface RowData {
   commission: number;
 }
 
-export function ReferrersList() {
+interface ReferrersListProps {
+  /**
+   * Optional override for row activation. If provided, clicking a row
+   * calls this instead of navigating to the detail page — used by the
+   * sheet-based container on /admin/referrers.
+   */
+  onOpenDetail?: (id: string) => void;
+}
+
+export function ReferrersList({ onOpenDetail }: ReferrersListProps = {}) {
   const t = useTranslations("Referrers");
   const locale = useLocale();
   const router = useRouter();
@@ -148,7 +157,11 @@ export function ReferrersList() {
   }
 
   function openDetail(id: string) {
-    router.push(`/${locale}/admin/referrers/${id}`);
+    if (onOpenDetail) {
+      onOpenDetail(id);
+    } else {
+      router.push(`/${locale}/admin/referrers/${id}`);
+    }
   }
 
   function onRowKey(e: React.KeyboardEvent, id: string) {

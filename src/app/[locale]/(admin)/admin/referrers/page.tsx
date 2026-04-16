@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ReferrersList } from "@/components/admin/referrers-list";
+import { ReferrersContainer } from "@/components/admin/referrers-container";
 import { ReferrersTitle } from "@/components/admin/referrers-title";
 import { routing } from "@/i18n/admin/routing";
 import { absoluteUrl, buildLanguageAlternates } from "@/lib/admin-site";
@@ -42,7 +42,7 @@ export default async function ReferrersPage({
       <div className="mb-5 flex h-14 items-center">
         <ReferrersTitle />
       </div>
-      <ReferrersList />
+      <ReferrersContainer locale={locale} />
     </div>
   );
 }

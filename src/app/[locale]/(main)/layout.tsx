@@ -67,7 +67,9 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Suspense fallback={null}>
             <AttributionListener />
           </Suspense>
-          <Header locale={locale as Locale} labels={dict.nav} brand={dict.brand} />
+          <Suspense fallback={null}>
+            <Header locale={locale as Locale} labels={dict.nav} brand={dict.brand} />
+          </Suspense>
           <main>{children}</main>
           <Footer copyright={copyright} tagline={dict.footer.tagline} />
         </StyledComponentsRegistry>

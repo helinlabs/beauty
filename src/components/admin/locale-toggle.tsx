@@ -6,7 +6,7 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { Languages } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import { Button } from "@/components/admin/ui/button";
 import { cn } from "@/lib/admin-utils";
@@ -54,7 +54,7 @@ export function LocaleToggle({ currentLocale, label }: Props) {
       aria-label={label}
       className={cn("gap-1.5", isPending && "opacity-60")}
     >
-      <Languages className="size-4" />
+      <Globe className="size-4" />
       <span className="uppercase tracking-wide">{currentLocale}</span>
     </Button>
   );

@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { ReferrerSheet } from "@/components/admin/referrer-sheet";
 
 export default async function InterceptedReferrerDetail({
@@ -6,5 +8,9 @@ export default async function InterceptedReferrerDetail({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { locale, id } = await params;
-  return <ReferrerSheet id={id} locale={locale} />;
+  return (
+    <Suspense fallback={null}>
+      <ReferrerSheet id={id} locale={locale} />
+    </Suspense>
+  );
 }

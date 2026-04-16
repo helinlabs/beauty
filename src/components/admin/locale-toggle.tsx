@@ -10,10 +10,10 @@ import { Languages } from "lucide-react";
 
 import { Button } from "@/components/admin/ui/button";
 import { cn } from "@/lib/admin-utils";
-import { routing } from "@/i18n/admin/routing";
+import { routing, type Locale } from "@/i18n/admin/routing";
 
 interface Props {
-  currentLocale: string;
+  currentLocale: Locale;
   label: string;
 }
 
@@ -23,7 +23,7 @@ export function LocaleToggle({ currentLocale, label }: Props) {
   const search = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const locales = [...routing.locales];
+  const locales = routing.locales;
 
   function toggle() {
     const idx = locales.indexOf(currentLocale);
@@ -31,7 +31,7 @@ export function LocaleToggle({ currentLocale, label }: Props) {
     if (!nextLocale || nextLocale === currentLocale) return;
 
     const segments = pathname.split("/");
-    if (locales.includes(segments[1])) {
+    if ((locales as readonly string[]).includes(segments[1])) {
       segments[1] = nextLocale;
     } else {
       segments.splice(1, 0, nextLocale);

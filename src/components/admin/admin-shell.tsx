@@ -19,9 +19,10 @@ import {
   useReservationsNav,
   type ReservationView,
 } from "@/lib/use-reservations-nav";
+import type { Locale } from "@/i18n/admin/routing";
 
 interface Props {
-  locale: string;
+  locale: Locale;
   labels: {
     brand: string;
     sectionMain: string;

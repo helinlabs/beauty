@@ -1,83 +1,186 @@
 {
-  "brand": "GlowList",
+  "brand": "Seoul Glow",
   "meta": {
     "home": {
-      "title": "GlowList — The procedures your favorite influencers actually got",
-      "description": "See what treatments your favorite influencers received, at which clinic, and book the same procedure in seconds."
+      "title": "Seoul Glow — Korean plastic surgery, booked in English",
+      "description": "Board-certified Seoul clinics. One WhatsApp thread. English coordinator, free consult, transparent pricing."
     },
     "influencers": {
-      "title": "Influencers | GlowList",
-      "description": "Browse GlowList influencers and the procedures they received."
+      "title": "Influencer reviews | Seoul Glow",
+      "description": "See exactly what your favorite K-beauty creators had done in Seoul — clinic, procedure, recovery."
     },
     "procedures": {
-      "title": "Procedures | GlowList",
-      "description": "Real procedures received by real influencers, organized by category."
+      "title": "Procedures | Seoul Glow",
+      "description": "Face, Skin & Laser, Body, and Non-surgical — browse the most requested treatments."
     },
     "book": {
-      "title": "Book | GlowList",
-      "description": "Leave your name and phone and we'll continue on WhatsApp."
+      "title": "Free consultation | Seoul Glow",
+      "description": "Drop your name and phone — our English coordinator replies on WhatsApp within 24 hours."
     }
   },
   "nav": {
     "influencers": "Influencers",
     "procedures": "Procedures",
-    "book": "Book"
+    "book": "Consult"
   },
   "landing": {
-    "eyebrow": "The exact procedure they got",
-    "title": "Same procedure, same clinic\nas your favorite influencer.",
-    "subtitle": "See exactly what they had done, where, and book it directly on WhatsApp.",
-    "ctaBook": "Book consultation",
-    "ctaExplore": "Browse influencers",
+    "seeAll": "See all →",
+    "hero": {
+      "eyebrow": "Seoul beauty, for Americans",
+      "title": "The exact procedure they had,\ndone in Seoul.",
+      "subtitle": "See where and what your favorite creators had done. Book the same clinic over WhatsApp.",
+      "subcopy": "English-speaking coordinator · Free consultation · Transparent pricing",
+      "ctaPrimary": "Book on WhatsApp",
+      "ctaSecondary": "Browse procedures",
+      "waIntro": "Hi — I'd like to book a consultation via Seoul Glow.",
+      "stickyCta": "WhatsApp"
+    },
+    "influencerReviews": {
+      "title": "They've already made the trip",
+      "subtitle": "US-based K-beauty creators tell you exactly what they had done and where.",
+      "viewProfile": "Read review →",
+      "newBadge": "NEW",
+      "followersLabel": "followers"
+    },
+    "trustBar": {
+      "stats": {
+        "patients": { "value": "500+", "label": "US patients helped" },
+        "reviews": { "value": "120+", "label": "★ 5.0 reviews" },
+        "english": { "value": "100%", "label": "English support" },
+        "certified": { "value": "KMA", "label": "Board-certified partner" }
+      },
+      "partnerLabel": "Official partner clinic",
+      "partnerName": "View Plastic Surgery",
+      "certs": ["KMA board-certified", "Gangnam premium location", "On-site English coordinator"]
+    },
     "how": {
       "title": "How it works",
       "steps": [
         {
-          "title": "Pick an influencer or procedure",
-          "description": "Open any influencer's profile to see what they've had done, or compare who received each procedure."
+          "title": "WhatsApp consultation",
+          "description": "Just your name and phone. Your English coordinator replies within 24 hours."
         },
         {
-          "title": "Drop your name & phone",
-          "description": "No sign-up. Just your name and number — hit send and WhatsApp opens."
+          "title": "English coordinator plans it",
+          "description": "Flights, stay, procedure timing — tailored. Aftercare continues once you're home."
         },
         {
-          "title": "We book you on WhatsApp",
-          "description": "A real human manager confirms the date and price directly in WhatsApp."
+          "title": "Visit Seoul",
+          "description": "Airport pickup, clinic escort, on-site translation — one connected line."
         }
       ]
     },
-    "featuredInfluencers": "Trending influencers",
-    "featuredProcedures": "Popular procedures",
-    "seeAll": "See all →"
+    "procedures": {
+      "title": "Popular procedures",
+      "subtitle": "From face sculpting to non-surgical — browse the headline treatments.",
+      "seeAllLabel": "See all procedures →",
+      "popularBadge": "★ Popular",
+      "fromPrice": "From {price}",
+      "categories": {
+        "face": "Face",
+        "skinLaser": "Skin & Laser",
+        "body": "Body",
+        "nonSurgical": "Non-surgical"
+      }
+    },
+    "clinic": {
+      "eyebrow": "Partner clinic",
+      "title": "View Plastic Surgery, Gangnam",
+      "subtitle": "Korean MoHW-licensed plastic surgery. 10+ year surgical team, on-site English coordinator, and a dedicated US-patient flow.",
+      "doctorTitle": "Lead surgeon",
+      "credentials": {
+        "boardCertified": "KMA board-certified",
+        "gangnam": "Gangnam premium location",
+        "english": "English & Japanese coordinators"
+      },
+      "addressLabel": "Address",
+      "supportLabel": "Languages",
+      "ctaLabel": "Start a WhatsApp consult"
+    },
+    "reviews": {
+      "title": "Real US patients, real Seoul trips",
+      "subtitle": "Before · after photos alongside the full story — flight, clinic, recovery.",
+      "beforeLabel": "Before",
+      "afterLabel": "After",
+      "priceCompareTitle": "US vs Korea pricing",
+      "priceCompareSubtitle": "Starting prices for representative procedures.",
+      "priceLabels": {
+        "rhinoplasty": "Rhinoplasty",
+        "lifting": "HIFU lifting",
+        "laser": "Laser toning"
+      },
+      "usLabel": "US",
+      "krLabel": "Korea",
+      "savingsLabel": "Savings",
+      "snsTitle": "Going off on Instagram",
+      "videoTitle": "Seoul procedure vlog",
+      "readStory": "Read the full story →"
+    },
+    "faq": {
+      "title": "Common questions",
+      "subtitle": "The questions we hear most from US patients making the trip.",
+      "items": [
+        {
+          "q": "Is it actually safe?",
+          "a": "We only partner with Korean MoHW-licensed clinics. You'll get the full surgical plan in English plus a signed agreement before you fly."
+        },
+        {
+          "q": "What about the language barrier?",
+          "a": "An English-speaking coordinator is with you from consult to recovery — and stays with you on WhatsApp once you're back home."
+        },
+        {
+          "q": "What if something happens after I fly back?",
+          "a": "Aftercare runs for the full warranty window of each procedure via WhatsApp. If needed, we'll refer you to a partner US dermatologist."
+        },
+        {
+          "q": "How long should I stay in Seoul?",
+          "a": "Anywhere from 3 to 10 days depending on the procedure. We plan flights, stay, and transport with you."
+        },
+        {
+          "q": "How do I pay?",
+          "a": "No deposit to book. You pay the clinic directly on the day — card or cash, your choice."
+        },
+        {
+          "q": "Can I change or cancel?",
+          "a": "Reschedule up to 48 hours before. If a visa or flight issue pops up, message us right away."
+        }
+      ]
+    },
+    "finalCta": {
+      "eyebrow": "Get started",
+      "title": "Drop your name and number —\nwe'll reply on WhatsApp.",
+      "subtitle": "Free consultation · 24-hour reply · English coordinator",
+      "trustRow": ["24-hour reply", "No deposit", "English coordinator"]
+    }
   },
   "influencer": {
     "followers": "followers",
     "procedureCount": "procedures",
-    "procedureList": "Procedures they received",
-    "bookCTA": "Book the same procedures",
+    "procedureList": "Procedures received",
+    "bookCTA": "Book the same procedure",
     "bookThis": "Book this procedure"
   },
   "procedure": {
     "duration": "Duration",
-    "priceFrom": "From",
-    "receivedBy": "Influencers who received this",
+    "priceFrom": "Starting price",
+    "receivedBy": "Influencers who had this",
     "description": "About the procedure",
     "bookCTA": "Book this procedure"
   },
   "book": {
-    "title": "Request a consultation",
-    "subtitle": "Just your name and phone. We'll take you to WhatsApp when you press send.",
+    "title": "Free consultation",
+    "subtitle": "Leave your name and phone — press send and WhatsApp opens.",
     "nameLabel": "Name",
-    "namePlaceholder": "Jane Doe",
-    "phoneLabel": "Phone",
-    "phonePlaceholder": "+1 555 0123",
-    "selectedProcedure": "Procedure",
+    "namePlaceholder": "Jen L.",
+    "phoneLabel": "Phone (WhatsApp)",
+    "phonePlaceholder": "+1 212 555 0100",
+    "selectedProcedure": "Selected procedure",
     "selectedInfluencer": "Referred by",
-    "submit": "Send via WhatsApp",
+    "submit": "Send on WhatsApp",
     "errorName": "Please enter your name.",
-    "errorPhone": "Please enter your phone number.",
-    "agreement": "Pressing send opens WhatsApp and counts as consent to our privacy policy.",
-    "waIntro": "Hi, I'd like to book a consultation via GlowList."
+    "errorPhone": "Please enter your phone.",
+    "agreement": "Submitting opens WhatsApp and indicates consent to our privacy policy.",
+    "waIntro": "Hi — I'd like to book a consultation via Seoul Glow."
   },
   "categories": {
     "skin": "Skin",
@@ -87,8 +190,8 @@
     "hair": "Hair"
   },
   "footer": {
-    "copyright": "© {year} GlowList. All rights reserved.",
-    "tagline": "All bookings happen on WhatsApp."
+    "copyright": "© {year} Seoul Glow. All rights reserved.",
+    "tagline": "All bookings happen over WhatsApp."
   },
   "common": {
     "back": "← Back",

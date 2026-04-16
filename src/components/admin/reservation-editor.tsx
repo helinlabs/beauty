@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, Check, ChevronDown, Trash2 } from "lucide-react"; // Check 는 saved flash 등에서 재사용
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/admin/ui/button";
@@ -27,14 +27,12 @@ import {
   DialogTitle,
 } from "@/components/admin/ui/dialog";
 import { Separator } from "@/components/admin/ui/separator";
-import { StatusBadge } from "@/components/admin/status-badge";
 import { TreatmentPicker } from "@/components/admin/treatment-picker";
 import { PhotoUploader } from "@/components/admin/photo-uploader";
 import { ReferrerTagInput } from "@/components/admin/referrer-tag-input";
 import { WhatsAppButton } from "@/components/admin/whatsapp-button";
 import { useReservations } from "@/providers/reservations-provider";
 import {
-  calcDeposit,
   calcTotal,
   hospitalOptions,
   languageOptions,
@@ -45,7 +43,6 @@ import {
   type ReservationLanguage,
   type ReservationStatus,
 } from "@/lib/reservations";
-import { cn } from "@/lib/admin-utils";
 
 export const RESERVATION_FORM_ID = "reservation-edit-form";
 
@@ -130,10 +127,6 @@ export function ReservationEditor({
     );
   }
 
-  const total = calcTotal(form.treatments);
-  const deposit = calcDeposit(total);
-  const remaining = total - deposit;
-
   function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!form) return;
@@ -169,37 +162,9 @@ export function ReservationEditor({
         </div>
       )}
 
-      {/* 상단: 상태 뱃지(클릭시 변경) */}
+      {/* 헤더: 이름 + WhatsApp + 생성일 */}
       <div>
-        <Select
-          value={form.status}
-          onValueChange={(v) => autoSave({ status: v as ReservationStatus })}
-        >
-          <SelectTrigger
-            aria-label={tR("columns.status")}
-            className="h-auto w-auto gap-0 border-none bg-transparent p-0 shadow-none hover:bg-transparent focus-visible:ring-0 [&>svg]:hidden"
-          >
-            <SelectValue>
-              <StatusBadge
-                status={form.status}
-                label={tR(`status.${form.status}`)}
-                className="h-8 gap-1 px-3 py-0 text-sm"
-              >
-                <ChevronDown className="size-4 opacity-60" />
-              </StatusBadge>
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {statusOptions.map((s) => (
-              <SelectItem key={s} value={s}>
-                {tR(`status.${s}`)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {/* 이름 + WhatsApp (수평 정렬, WhatsApp max-w 200px) */}
-        <div className="mt-2 flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-3">
           <h2 className="font-heading text-xl sm:text-2xl font-semibold tracking-tight truncate">
             {reservation.name || t("heading")}
           </h2>
@@ -223,52 +188,13 @@ export function ReservationEditor({
         ) : null}
       </div>
 
-      {/* 견적 요약 (헤딩/버튼 없음) */}
-      <section
-        aria-label={t("quoteTitle")}
-        className="rounded-lg border bg-muted/30 p-4"
-      >
-        {form.treatments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            {t("emptyTreatments")}
-          </p>
-        ) : (
-          <dl className="space-y-2">
-            <div className="flex items-center justify-between">
-              <dt className="text-sm text-muted-foreground">
-                {t("totalLabel")}
-              </dt>
-              <dd className="font-heading text-2xl sm:text-3xl font-semibold tabular-nums leading-none">
-                {krw.format(total)}
-              </dd>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <dt className="text-muted-foreground">{t("depositLabel")}</dt>
-              <dd className="tabular-nums">{krw.format(deposit)}</dd>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <dt className="text-muted-foreground">{t("remainingLabel")}</dt>
-              <dd className="tabular-nums">{krw.format(remaining)}</dd>
-            </div>
-          </dl>
-        )}
-      </section>
-
-      {/* 시술 — 태그 picker */}
-      <div className="space-y-2">
-        <Label>{tR("columns.treatments")}</Label>
-        <TreatmentPicker
-          value={form.treatments}
-          onChange={(next) => autoSave({ treatments: next })}
-        />
-      </div>
-
       <form
         id={RESERVATION_FORM_ID}
         onSubmit={handleSave}
         className="space-y-6"
       >
         <div className="grid gap-4 sm:grid-cols-2">
+          {/* Row 1: 이름, 상태 */}
           <div className="space-y-2">
             <Label htmlFor="name">{tR("columns.name")}</Label>
             <Input
@@ -279,12 +205,48 @@ export function ReservationEditor({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone">{tR("columns.phone")}</Label>
+            <Label htmlFor="status">{tR("columns.status")}</Label>
+            <Select
+              value={form.status}
+              onValueChange={(v) =>
+                autoSave({ status: v as ReservationStatus })
+              }
+            >
+              <SelectTrigger id="status" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {statusOptions.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {tR(`status.${s}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Row 2: 시술 (full) */}
+          <div className="space-y-2 sm:col-span-2">
+            <Label>{tR("columns.treatments")}</Label>
+            <TreatmentPicker
+              value={form.treatments}
+              onChange={(next) => autoSave({ treatments: next })}
+            />
+          </div>
+
+          {/* Row 3: 총 견적, 시술 예약일 */}
+          <div className="space-y-2">
+            <Label htmlFor="total">{tR("columns.total")}</Label>
             <Input
-              id="phone"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              required
+              id="total"
+              type="text"
+              inputMode="numeric"
+              value={krw.format(form.total ?? calcTotal(form.treatments))}
+              onChange={(e) => {
+                const digits = e.target.value.replace(/[^\d]/g, "");
+                const n = digits === "" ? 0 : Number(digits);
+                setForm({ ...form, total: n });
+              }}
             />
           </div>
           <div className="space-y-2">
@@ -297,26 +259,8 @@ export function ReservationEditor({
               required
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="language">{tR("columns.language")}</Label>
-            <Select
-              value={form.language}
-              onValueChange={(v) =>
-                autoSave({ language: v as ReservationLanguage })
-              }
-            >
-              <SelectTrigger id="language" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {languageOptions.map((l) => (
-                  <SelectItem key={l} value={l}>
-                    {tR(`language.${l}`)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+
+          {/* Row 4: 병원, 추천인 */}
           <div className="space-y-2">
             <Label htmlFor="hospital">{tR("columns.hospital")}</Label>
             <Select
@@ -349,31 +293,64 @@ export function ReservationEditor({
               removeLabel={t("referrerRemove")}
             />
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Label>{t("photosLabel")}</Label>
-          <PhotoUploader
-            value={form.photos ?? []}
-            onChange={(next) =>
-              autoSave({ photos: next.length > 0 ? next : undefined })
-            }
-          />
-        </div>
+          {/* Row 5: 언어, 전화번호 */}
+          <div className="space-y-2">
+            <Label htmlFor="language">{tR("columns.language")}</Label>
+            <Select
+              value={form.language}
+              onValueChange={(v) =>
+                autoSave({ language: v as ReservationLanguage })
+              }
+            >
+              <SelectTrigger id="language" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {languageOptions.map((l) => (
+                  <SelectItem key={l} value={l}>
+                    {tR(`language.${l}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">{tR("columns.phone")}</Label>
+            <Input
+              id="phone"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              required
+            />
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="notes">{tR("columns.notes")}</Label>
-          <Textarea
-            id="notes"
-            value={form.notes ?? ""}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                notes: e.target.value || undefined,
-              })
-            }
-            rows={4}
-          />
+          {/* Row 6: 사진 첨부 (full) */}
+          <div className="space-y-2 sm:col-span-2">
+            <Label>{t("photosLabel")}</Label>
+            <PhotoUploader
+              value={form.photos ?? []}
+              onChange={(next) =>
+                autoSave({ photos: next.length > 0 ? next : undefined })
+              }
+            />
+          </div>
+
+          {/* Row 7: 메모 (full) */}
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor="notes">{tR("columns.notes")}</Label>
+            <Textarea
+              id="notes"
+              value={form.notes ?? ""}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  notes: e.target.value || undefined,
+                })
+              }
+              rows={4}
+            />
+          </div>
         </div>
 
         <Separator />

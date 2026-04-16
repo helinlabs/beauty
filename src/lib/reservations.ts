@@ -75,6 +75,11 @@ export interface Reservation {
   referrers: string[];
   /** 추천인별 송금 상태 (key: 추천인 이름) */
   transferStatuses?: Record<string, TransferStatus>;
+  /**
+   * 총 견적 (원). 지정하지 않으면 treatments 기반 합계(calcTotal)로 폴백.
+   * 관리자가 상세에서 직접 편집할 수 있다.
+   */
+  total?: number;
   photos?: string[];
   depositPaid?: boolean;
   notes?: string;

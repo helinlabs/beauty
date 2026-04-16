@@ -39,6 +39,7 @@ import {
   hospitalOptions,
   languageOptions,
   statusOptions,
+  toWhatsAppDigits,
   type Hospital,
   type Reservation,
   type ReservationLanguage,
@@ -149,9 +150,10 @@ export function ReservationEditor({
     onDeleted?.();
   }
 
-  function setStatus(status: ReservationStatus) {
-    if (!form) return;
-    setForm({ ...form, status });
+  // 상태·시술·예약일·언어·추천인·사진은 수정 즉시 저장 (스낵바 없음)
+  function autoSave(patch: Partial<Omit<Reservation, "id">>) {
+    setForm((prev) => (prev ? { ...prev, ...patch } : prev));
+    update(id, patch);
   }
 
   return (
@@ -171,7 +173,7 @@ export function ReservationEditor({
       <div>
         <Select
           value={form.status}
-          onValueChange={(v) => setStatus(v as ReservationStatus)}
+          onValueChange={(v) => autoSave({ status: v as ReservationStatus })}
         >
           <SelectTrigger
             aria-label={tR("columns.status")}
@@ -201,14 +203,16 @@ export function ReservationEditor({
           <h2 className="font-heading text-xl sm:text-2xl font-semibold tracking-tight truncate">
             {reservation.name || t("heading")}
           </h2>
-          <div className="shrink-0 max-w-[200px] w-full sm:w-auto">
-            <WhatsAppButton
-              phone={reservation.phone}
-              label={t("whatsapp")}
-              size="lg"
-              fill
-            />
-          </div>
+          {toWhatsAppDigits(reservation.phone) ? (
+            <div className="shrink-0 max-w-[200px] w-full sm:w-auto">
+              <WhatsAppButton
+                phone={reservation.phone}
+                label={t("whatsapp")}
+                size="lg"
+                fill
+              />
+            </div>
+          ) : null}
         </div>
 
         {reservation.createdAt ? (
@@ -255,7 +259,7 @@ export function ReservationEditor({
         <Label>{tR("columns.treatments")}</Label>
         <TreatmentPicker
           value={form.treatments}
-          onChange={(next) => setForm({ ...form, treatments: next })}
+          onChange={(next) => autoSave({ treatments: next })}
         />
       </div>
 
@@ -289,7 +293,7 @@ export function ReservationEditor({
               id="date"
               type="datetime-local"
               value={toDateTimeLocal(form.date)}
-              onChange={(e) => setForm({ ...form, date: e.target.value })}
+              onChange={(e) => autoSave({ date: e.target.value })}
               required
             />
           </div>
@@ -298,7 +302,7 @@ export function ReservationEditor({
             <Select
               value={form.language}
               onValueChange={(v) =>
-                setForm({ ...form, language: v as ReservationLanguage })
+                autoSave({ language: v as ReservationLanguage })
               }
             >
               <SelectTrigger id="language" className="w-full">
@@ -338,7 +342,7 @@ export function ReservationEditor({
             <ReferrerTagInput
               id="referrers"
               value={form.referrers}
-              onChange={(next) => setForm({ ...form, referrers: next })}
+              onChange={(next) => autoSave({ referrers: next })}
               suggestions={referrerNames}
               suggestionsHeading={t("referrerSuggestHint")}
               placeholder={t("referrerTagPlaceholder")}
@@ -352,10 +356,7 @@ export function ReservationEditor({
           <PhotoUploader
             value={form.photos ?? []}
             onChange={(next) =>
-              setForm({
-                ...form,
-                photos: next.length > 0 ? next : undefined,
-              })
+              autoSave({ photos: next.length > 0 ? next : undefined })
             }
           />
         </div>

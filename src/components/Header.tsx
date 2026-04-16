@@ -12,7 +12,7 @@ const HeaderBar = styled.header`
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(15, 13, 20, 0.72);
+  background: rgba(251, 247, 241, 0.75);
   backdrop-filter: saturate(1.3) blur(12px);
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
@@ -28,13 +28,11 @@ const Row = styled.div`
 
 const Brand = styled(Link)`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 900;
-  font-size: 19px;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 22px;
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, #ff4f8b, #a084f2);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 const Nav = styled.nav<{ $open: boolean }>`

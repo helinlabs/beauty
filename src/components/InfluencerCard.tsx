@@ -18,7 +18,7 @@ const Card = styled(Link)`
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 79, 139, 0.3);
+    border-color: rgba(194, 65, 12, 0.25);
     box-shadow: ${({ theme }) => theme.shadow.md};
   }
 `;

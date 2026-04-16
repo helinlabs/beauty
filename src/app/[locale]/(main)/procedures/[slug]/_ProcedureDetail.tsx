@@ -25,7 +25,7 @@ const Hero = styled.section<{ $bg: string }>`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(15,13,20,0.25) 0%, ${({ theme }) => theme.colors.bg} 100%);
+    background: linear-gradient(180deg, rgba(27,26,23,0.22) 0%, ${({ theme }) => theme.colors.bg} 100%);
     pointer-events: none;
   }
 `;
@@ -83,11 +83,14 @@ const CTA = styled(Link)`
   padding: 14px 24px;
   margin-top: 20px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: #fff;
-  color: #111;
-  font-weight: 800;
-  transition: transform 0.2s;
-  &:hover { transform: translateY(-1px); }
+  background: ${({ theme }) => theme.colors.primary};
+  color: #fff;
+  font-weight: 700;
+  transition: transform 0.2s, background 0.2s;
+  &:hover {
+    transform: translateY(-1px);
+    background: ${({ theme }) => theme.colors.primaryDark};
+  }
 `;
 
 const DescSection = styled(Section)`

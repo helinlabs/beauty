@@ -89,7 +89,7 @@ const Submit = styled.button<{ $disabled?: boolean }>`
 `;
 
 const ErrorText = styled.p`
-  color: #ff8da8;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 13px;
   font-weight: 600;
 `;

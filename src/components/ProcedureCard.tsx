@@ -17,7 +17,7 @@ const Card = styled(Link)`
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(160, 132, 242, 0.35);
+    border-color: rgba(194, 65, 12, 0.25);
     box-shadow: ${({ theme }) => theme.shadow.md};
   }
 `;
@@ -34,7 +34,7 @@ const CategoryChip = styled.span`
   left: 12px;
   padding: 4px 10px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: rgba(15, 13, 20, 0.55);
+  background: rgba(27, 26, 23, 0.6);
   color: #fff;
   font-size: 11px;
   font-weight: 700;

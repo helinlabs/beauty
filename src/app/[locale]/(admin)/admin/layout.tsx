@@ -13,11 +13,9 @@ import {
 
 export default async function AdminLayout({
   children,
-  modal,
   params,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
@@ -78,7 +76,6 @@ export default async function AdminLayout({
         newReservationHref={`/${locale}/admin/reservations?new=1`}
       >
         {children}
-        {modal}
       </AdminShell>
     </ReservationsProvider>
   );

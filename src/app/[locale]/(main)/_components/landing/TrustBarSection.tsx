@@ -25,9 +25,7 @@ interface Props {
 }
 
 const Band = styled.section`
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  background: transparent;
 `;
 
 const Inner = styled.div`

@@ -101,6 +101,7 @@ const BgLayer = styled.div`
 const HeroTitle = styled.h1`
   position: relative;
   z-index: 1;
+  margin-top: 100px;
   font-family: ${({ theme }) => theme.fonts.display};
   font-weight: 400;
   font-style: italic;

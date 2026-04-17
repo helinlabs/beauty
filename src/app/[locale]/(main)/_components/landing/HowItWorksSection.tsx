@@ -25,13 +25,16 @@ interface Props {
  * mid-section. The background is transparent so the photo still
  * shows through in the overlap range; every text element is tuned
  * to read on the image (white / high-contrast). */
+/* Extra 100px added to the top padding so Trust's stats and How It
+ * Works's title are clearly separated when both are still inside the
+ * pinned-clinic scroll scope. */
 const Wrap = styled(SectionWrap)`
   background: transparent;
-  padding-top: 40px;
+  padding-top: 140px;
   padding-bottom: 96px;
 
   ${mq.md} {
-    padding-top: 56px;
+    padding-top: 156px;
     padding-bottom: 128px;
   }
 `;

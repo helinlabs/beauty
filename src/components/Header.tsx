@@ -41,7 +41,7 @@ const HeaderShell = styled.header`
   }
 `;
 
-const Pill = styled.div<{ $scrolled: boolean }>`
+const Pill = styled.div<{ $scrolled: boolean; $atRest: boolean }>`
   position: relative;
   margin: 0 auto;
   /* Match the max content width used by the landing sections
@@ -57,9 +57,7 @@ const Pill = styled.div<{ $scrolled: boolean }>`
   border-radius: 999px;
   isolation: isolate;
 
-  /* Transparent at the top of the page — no glass, no backdrop, no
-     stroke — so the hero composition shows through untouched. Glass
-     activates only after the user starts scrolling. */
+  /* Pre-scroll: fully transparent, no filter at all. */
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -77,19 +75,13 @@ const Pill = styled.div<{ $scrolled: boolean }>`
     padding: 0 10px 0 24px;
   }
 
-  /* Liquid Glass state — cheap version that still reads as glass:
-     1) Flat rgba(255,255,255,0.15) tint
-     2) Two-direction specular rim (top-left bright + bottom-right
-        softer) via inset box-shadow
-     3) backdrop-filter limited to blur + saturate — the SVG
-        feDisplacementMap refraction was visually great but expensive
-        (feTurbulence recomputes noise every paint, and a fixed pill
-        over dynamic content forces the whole chain to re-run on every
-        scroll tick). Dropping it restores 60fps scroll without giving
-        up the frosted look.
-     4) GPU hoist via will-change transform + backdrop-filter, so the
-        pill paints to its own compositing layer and the browser
-        doesn't re-sample backdrop pixels from scratch each frame. */
+  /* Scrolled, IN-MOTION state — cheap filter chain.
+     During active scroll we drop the SVG refraction (feTurbulence +
+     feDisplacementMap) which would re-run every scroll tick and
+     halve the frame rate on fixed elements. Plain blur + saturate is
+     GPU-accelerated and stays at 60fps. Visually the motion masks
+     the missing refraction — you can't see fine pixel bends on a
+     scrolling viewport anyway. */
   ${({ $scrolled }) =>
     $scrolled &&
     css`
@@ -100,8 +92,34 @@ const Pill = styled.div<{ $scrolled: boolean }>`
         inset 1px 1px 1px 0 rgba(255, 255, 255, 0.4),
         inset -1px -1px 1px 0 rgba(255, 255, 255, 0.2);
       transform: translate3d(0, 0, 0);
-      will-change: transform, backdrop-filter;
+      will-change: transform;
     `}
+
+  /* Scrolled, AT-REST state — full Liquid Glass refraction.
+     150ms after the user stops scrolling we swap the filter chain to
+     include the SVG feDisplacementMap, so the content behind the pill
+     physically bends like curved glass. Since the backdrop is static
+     at rest, the browser computes the filter once and caches the
+     resulting compositor layer — no per-frame recomputation. This
+     gives us the full liquid look WITHOUT paying for it during
+     scroll. */
+  ${({ $scrolled, $atRest }) =>
+    $scrolled &&
+    $atRest &&
+    css`
+      backdrop-filter: url(#liquid-refraction) blur(2px) saturate(1.8);
+      -webkit-backdrop-filter: url(#liquid-refraction) blur(2px) saturate(1.8);
+    `}
+`;
+
+/* Off-screen SVG host that registers the refraction filter. Mounted
+ * once with the header so the Pill's backdrop-filter URL reference
+ * resolves. */
+const FilterHost = styled.svg`
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 `;
 
 /* Brand stays in theme text color on ALL header states. Flipping to
@@ -192,19 +210,69 @@ const LoginBtn = styled(Link)`
 export function Header({ locale, brand }: Props) {
   const base = `/${locale}`;
   const [scrolled, setScrolled] = useState(false);
+  /* atRest = user has not scrolled for N ms. We key the expensive SVG
+   * displacement filter on this flag so the filter is only mounted
+   * when the viewport is still. During scroll we stay on plain
+   * blur+saturate — fast enough for 60fps. */
+  const [atRest, setAtRest] = useState(true);
 
   useEffect(() => {
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+
     function onScroll() {
       setScrolled(window.scrollY > 16);
+      setAtRest(false);
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => setAtRest(true), 150);
     }
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (idleTimer) clearTimeout(idleTimer);
+    };
   }, []);
 
   return (
     <HeaderShell>
-      <Pill $scrolled={scrolled}>
+      {/*
+        SVG filter: feTurbulence → feDisplacementMap gives the actual
+        pixel-bending refraction (iOS 26 Liquid Glass look). Params
+        tuned lighter than before — 1 octave, coarser noise, smaller
+        scale — so even the at-rest render cost stays modest. The
+        pattern is static (fixed seed), so once the browser paints
+        the pill at rest, the filter output can be cached in the
+        compositing layer and reused until scroll resumes.
+      */}
+      <FilterHost aria-hidden>
+        <defs>
+          <filter
+            id="liquid-refraction"
+            x="-10%"
+            y="-10%"
+            width="120%"
+            height="120%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012 0.02"
+              numOctaves="1"
+              seed="7"
+              result="turb"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="turb"
+              scale="22"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </FilterHost>
+
+      <Pill $scrolled={scrolled} $atRest={atRest}>
         <Brand href={base}>{brand}</Brand>
         <RightNav>
           <ReviewsLink href={`${base}/influencers`}>Reviews</ReviewsLink>

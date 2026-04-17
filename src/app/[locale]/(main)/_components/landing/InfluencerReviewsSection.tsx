@@ -140,7 +140,7 @@ export function InfluencerReviewsSection({
         <SerifH2 $large>{dict.title}</SerifH2>
 
         <Grid>
-          {items.map((i, idx) => {
+          {items.slice(0, 4).map((i, idx) => {
             const procsLabel = i.procedures
               .map((slug) => procedureLookup[slug])
               .filter(Boolean)

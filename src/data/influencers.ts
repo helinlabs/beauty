@@ -52,6 +52,7 @@ export const influencers: Influencer[] = [
     avatar: 'linear-gradient(135deg,#ffd7e1 0%,#a084f2 100%)',
     thumbnail:
       'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&auto=format&fit=crop&q=70',
+    video: 'https://d1aj4dyeuyg3z4.cloudfront.net/common/home_insta_1.mp4',
     procedures: ['shurink-universe', 'botox-masseter'],
     quote: {
       ko: '무턱대고 크게 하지 않아서 오히려 더 어려 보인다는 말을 들어요.',
@@ -70,6 +71,7 @@ export const influencers: Influencer[] = [
     avatar: 'linear-gradient(135deg,#c7e8ff 0%,#6a5af9 100%)',
     thumbnail:
       'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&auto=format&fit=crop&q=70',
+    video: 'https://d1aj4dyeuyg3z4.cloudfront.net/common/home_insta_4.mp4',
     procedures: ['picosure', 'aqua-peel', 'rejuran-healer'],
     quote: {
       ko: '영어 코디네이터 덕분에 수술 전 과정이 편안했어요.',
@@ -88,6 +90,7 @@ export const influencers: Influencer[] = [
     avatar: 'linear-gradient(135deg,#ffe0b3 0%,#e86a92 100%)',
     thumbnail:
       'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=70',
+    video: 'https://d1aj4dyeuyg3z4.cloudfront.net/common/home_insta_5.mp4',
     procedures: ['scalp-booster', 'botox-masseter'],
     quote: {
       ko: '귀국 후에도 왓츠앱으로 애프터케어 상담이 가능해서 든든해요.',

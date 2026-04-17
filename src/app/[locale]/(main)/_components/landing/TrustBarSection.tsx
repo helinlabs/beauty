@@ -54,12 +54,9 @@ const StatsGrid = styled.div`
 const StatBlock = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
   text-align: center;
-
-  ${mq.md} {
-    text-align: left;
-  }
 `;
 
 const StatValue = styled.span`

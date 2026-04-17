@@ -57,12 +57,12 @@ const Wrap = styled.section`
     linear-gradient(180deg, #f4ecf4 0%, #f7eee6 100%);
 
   margin-top: -60px;
-  padding: 84px 20px 32px;
+  padding: 84px 20px 0;
   gap: 20px;
 
   ${mq.md} {
     margin-top: -68px;
-    padding: 96px 32px 56px;
+    padding: 96px 32px 0;
     gap: 28px;
   }
 

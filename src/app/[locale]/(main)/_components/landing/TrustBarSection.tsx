@@ -88,9 +88,15 @@ const StatValue = styled.span`
   color: #ffffff;
 `;
 
+/* StatLabel matches the "Official partner clinic" caption treatment:
+ * same 13px uppercase tracking and weight 600 so every small caption
+ * in the pinned panel reads as one consistent tier. */
 const StatLabel = styled.span`
   color: rgba(255, 255, 255, 0.85);
-  font-size: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 const PartnerRow = styled.div`
@@ -110,6 +116,7 @@ const PartnerLeft = styled.div`
 
   small {
     font-size: 13px;
+    font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.8);

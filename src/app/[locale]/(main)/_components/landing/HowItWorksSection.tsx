@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import { FadeIn } from './FadeIn';
 import {
-  SectionInner,
   SectionWrap,
 } from './_shared';
 
@@ -44,6 +43,14 @@ const Wrap = styled(SectionWrap)`
     padding-top: 156px;
     padding-bottom: 700px;
   }
+`;
+
+/* Wider inner than the shared 1200px cap so the 3 step columns each
+ * get enough room for their heading not to wrap (e.g. "English
+ * coordinator plans it" has to stay on one line). */
+const Inner = styled.div`
+  max-width: 1300px;
+  margin: 0 auto;
 `;
 
 /* Title uses the same editorial treatment as "View Plastic Surgery"
@@ -159,7 +166,7 @@ const StepBody = styled.p`
 export function HowItWorksSection({ dict }: Props) {
   return (
     <Wrap id="how-it-works">
-      <SectionInner>
+      <Inner>
         <FadeIn>
           <Title>{dict.title}</Title>
         </FadeIn>
@@ -175,7 +182,7 @@ export function HowItWorksSection({ dict }: Props) {
             </FadeIn>
           ))}
         </Steps>
-      </SectionInner>
+      </Inner>
     </Wrap>
   );
 }

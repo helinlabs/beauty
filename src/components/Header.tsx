@@ -41,6 +41,13 @@ const Brand = styled(Link)`
   font-size: 26px;
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
+  outline: none;
+  &:focus,
+  &:focus-visible,
+  &:hover {
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 const RightNav = styled.div`

@@ -123,11 +123,12 @@ const HeroTitle = styled.h1`
   }
 
   /* Specific words that should render in the sans (Inter Tight) face
-     rather than Instrument Serif italic — dict ships the markup. */
+     rather than Instrument Serif — dict ships the markup. Regular
+     italic matches the italic feel of the surrounding serif line. */
   .sans {
     font-family: ${({ theme }) => theme.fonts.body};
-    font-style: normal;
-    font-weight: 300;
+    font-style: italic;
+    font-weight: 400;
     letter-spacing: -0.015em;
   }
 `;

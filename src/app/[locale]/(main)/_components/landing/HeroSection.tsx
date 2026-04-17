@@ -113,6 +113,10 @@ const HeroTitle = styled.h1`
   font-size: clamp(36px, 6vw, 92px);
   max-width: 20ch;
 
+  ${mq.md} {
+    margin-top: 60px;
+  }
+
   em {
     font-style: italic;
     font-weight: 400;

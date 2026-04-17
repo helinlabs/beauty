@@ -14,15 +14,14 @@ type Props = {
 /**
  * Liquid-Glass header.
  *
- * Lives inside a fixed positioning context with padding so the glass
- * pill floats with margins rather than clamping edge-to-edge. When the
- * page is at rest we slide the pill up out of view (hidden until the
- * user scrolls). When the user scrolls past a threshold, it drops back
- * down with a spring-feeling transition, revealing a frosted pill with
- * a subtle specular highlight along the top edge — Apple's Liquid
- * Glass look (iOS 26 / macOS Tahoe).
+ * Always mounted at the top so the brand + nav are visible the moment
+ * the page loads — the header doesn't slide in from nowhere. Once the
+ * user scrolls past the threshold, the inner pill gains the Liquid
+ * Glass treatment (frosted refraction + crisp outer stroke) and the
+ * brand switches to white. At rest (scrollY ≈ 0) the pill is a plain,
+ * transparent row so the hero composition is uninterrupted.
  */
-const HeaderShell = styled.header<{ $scrolled: boolean }>`
+const HeaderShell = styled.header`
   position: fixed;
   top: 0;
   left: 0;
@@ -40,28 +39,9 @@ const HeaderShell = styled.header<{ $scrolled: boolean }>`
   > * {
     pointer-events: auto;
   }
-
-  /* Pre-scroll: pull pill above the viewport and dim it, so it feels
-     like the glass is "deposited" at the top on first scroll rather
-     than being present from the start. */
-  ${({ $scrolled }) =>
-    !$scrolled &&
-    css`
-      transform: translate3d(0, -140%, 0);
-      opacity: 0;
-    `}
-
-  transition:
-    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: opacity 160ms linear;
-    transform: none;
-  }
 `;
 
-const Pill = styled.div`
+const Pill = styled.div<{ $scrolled: boolean }>`
   position: relative;
   margin: 0 auto;
   max-width: 1100px;
@@ -74,54 +54,46 @@ const Pill = styled.div`
   border-radius: 999px;
   isolation: isolate;
 
-  /* Frosted glass body — the backdrop-filter does the work; the
-     background is a soft warm tint so the pill still reads on pure-
-     white sections. */
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.28) 100%
-    );
-  backdrop-filter: blur(22px) saturate(1.8);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  /* Transparent at the top of the page — no glass, no backdrop, no
+     stroke — so the hero composition shows through untouched. Glass
+     activates only after the user starts scrolling. */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 
-  /* Depth + specular highlight along the top to sell "liquid glass".
-     Outer: soft drop shadow. Inner: bright 1px rim at the top, darker
-     rim at the bottom, and a very faint outer stroke for crispness. */
-  box-shadow:
-    0 10px 30px rgba(27, 26, 23, 0.12),
-    0 2px 6px rgba(27, 26, 23, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(27, 26, 23, 0.06),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  transition:
+    background 260ms ease,
+    backdrop-filter 260ms ease,
+    -webkit-backdrop-filter 260ms ease,
+    box-shadow 260ms ease;
 
   ${mq.md} {
     height: 60px;
     padding: 0 10px 0 24px;
   }
 
-  /* Additional glossy sheen across the top half of the pill — a thin
-     diagonal gradient that reads as a light source reflecting off the
-     glass. Kept subtle so it doesn't compete with content. */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 1px 1px auto 1px;
-    height: 50%;
-    border-radius: 999px 999px 40% 40% / 999px 999px 100% 100%;
-    background: linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.05) 55%,
-      rgba(255, 255, 255, 0.0) 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* Liquid Glass state:
+     - flat low-opacity tint (no vertical split, uniform pane)
+     - strong refraction via saturate + contrast + brightness, with a
+       small blur so the result isn't milky/foggy
+     - crisp 1px inner stroke as the only edge definition (no outer
+       drop shadow). */
+  ${({ $scrolled }) =>
+    $scrolled &&
+    css`
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(8px) saturate(2) contrast(1.08) brightness(1.05);
+      -webkit-backdrop-filter: blur(8px) saturate(2) contrast(1.08) brightness(1.05);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    `}
 `;
 
-const Brand = styled(Link)`
+/* In the shell's pre-scroll (hidden) state the Brand inherits the
+ * default text color (used on the hero itself). Once the pill drops
+ * down, we tint it pure white so it reads against the frosted pane
+ * regardless of what section is scrolled beneath it. */
+const Brand = styled(Link)<{ $scrolled: boolean }>`
   position: relative;
   z-index: 1;
   font-family: ${({ theme }) => theme.fonts.display};
@@ -129,7 +101,9 @@ const Brand = styled(Link)`
   font-style: italic;
   font-size: 24px;
   letter-spacing: -0.01em;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ $scrolled, theme }) =>
+    $scrolled ? '#ffffff' : theme.colors.text};
+  transition: color 260ms ease;
   outline: none;
 
   ${mq.md} {
@@ -215,9 +189,9 @@ export function Header({ locale, brand }: Props) {
   }, []);
 
   return (
-    <HeaderShell $scrolled={scrolled}>
-      <Pill>
-        <Brand href={base}>{brand}</Brand>
+    <HeaderShell>
+      <Pill $scrolled={scrolled}>
+        <Brand href={base} $scrolled={scrolled}>{brand}</Brand>
         <RightNav>
           <ReviewsLink href={`${base}/influencers`}>Reviews</ReviewsLink>
           <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>

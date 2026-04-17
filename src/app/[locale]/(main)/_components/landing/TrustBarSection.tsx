@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import { FadeIn } from './FadeIn';
@@ -25,75 +24,93 @@ interface Props {
   };
 }
 
-/* Clinic interior background: renders the full image (1048×544, ratio
- * 1.926) full-bleed at the TOP of the section, with content flowing
- * below it. The section top padding mirrors the image's displayed
- * height (viewport width ÷ aspect ratio) so the photo is never cropped
- * or stretched — the entire frame is always visible. */
+/**
+ * Scroll layout:
+ * - Band is a plain flow container (no absolute positioning)
+ * - StickyBackdrop pins to top:0 while Band is in view, holding the
+ *   clinic photo full-bleed across the viewport. Pure CSS sticky;
+ *   browser handles the pin + release automatically.
+ * - Inner sits AFTER the sticky block in source order and uses a
+ *   negative margin-top so the partner + stats slide UP over the
+ *   pinned photo. Inner has an opaque cream background so as it
+ *   rises, it progressively covers the image from bottom to top.
+ * - Once the user has scrolled past the whole Band (Band's bottom
+ *   reaches the viewport top), sticky releases and the backdrop
+ *   scrolls away with everything else — which is exactly the "content
+ *   scrolls up, then image also goes up" behavior the design calls
+ *   for.
+ */
 const Band = styled.section`
   position: relative;
   isolation: isolate;
-  background: transparent;
+  background: ${({ theme }) => theme.colors.bg};
 `;
 
-const Backdrop = styled.div`
-  position: absolute;
+const StickyBackdrop = styled.div`
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  /* Slightly taller than the natural aspect ratio so the parallax
-   * translate has room to move without exposing the cream underneath
-   * at either end. The image itself still renders at the correct
-   * ratio because ::before uses background-size: cover. */
-  aspect-ratio: 1048 / 544;
-  height: calc(100vw * 544 / 1048 + 120px);
-  z-index: 0;
+  /* Height of the pinned image panel. Less than 100vh so the header
+   * and a sliver of the next content is visible even at full pin,
+   * which makes the release feel less jarring. */
+  height: 80vh;
   overflow: hidden;
-  /* Hint the compositor to promote this to its own layer so the
-   * parallax transform is GPU-accelerated and doesn't cause the
-   * entire section to repaint every scroll tick. */
-  will-change: transform;
+  z-index: 0;
+  background-color: ${({ theme }) => theme.colors.bg};
+  background-image: url('/images/clinic-interior.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('/images/clinic-interior.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  ${mq.md} {
+    height: 90vh;
   }
 
-  /* Soft fade-out at the bottom of the photo → cream so the transition
-   * into the stats row feels continuous rather than a hard edge. */
+  /* Soft fade at the very bottom so the join with the rising Inner
+   * block reads as a continuous gradient instead of a hard edge for
+   * the ~20vh overlap range. */
   &::after {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: auto 0 0 0;
+    height: 25%;
     background: linear-gradient(
       to bottom,
-      rgba(251, 247, 241, 0) 70%,
-      rgba(251, 247, 241, 0.85) 92%,
+      rgba(251, 247, 241, 0) 0%,
+      rgba(251, 247, 241, 0.6) 70%,
       ${({ theme }) => theme.colors.bg} 100%
     );
+    pointer-events: none;
   }
 `;
 
 const Inner = styled.div`
   position: relative;
   z-index: 1;
+  /* Pull the content up so its top edge starts inside the bottom of
+   * the sticky panel. As the user scrolls, the Inner block slides up
+   * across the pinned image. */
+  margin-top: -20vh;
+  padding: 0 20px 64px;
   max-width: ${({ theme }) => theme.maxWidth};
-  margin: 0 auto;
-  /* padding-top = image's natural height at current viewport width
-   * (100vw × 544/1048 = ~51.9vw) + breathing room. */
-  padding: calc(100vw * 544 / 1048 + 40px) 20px 64px;
+  margin-left: auto;
+  margin-right: auto;
+  /* Opaque cream fill so the content progressively masks the pinned
+   * image as it scrolls up into the viewport. */
+  background: ${({ theme }) => theme.colors.bg};
+  /* Rounded top edge for a soft "pane lifting over image" feel. */
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding-top: 48px;
 
   ${mq.md} {
-    padding: calc(100vw * 544 / 1048 + 56px) 32px 96px;
+    margin-top: -20vh;
+    padding: 56px 32px 96px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
   }
 
   ${mq.lg} {
-    padding: calc(100vw * 544 / 1048 + 72px) 32px 112px;
+    padding: 72px 32px 112px;
   }
 `;
 
@@ -227,75 +244,9 @@ export function TrustBarSection({ dict }: Props) {
     dict.stats.certified,
   ];
 
-  const bandRef = useRef<HTMLElement | null>(null);
-  const backdropRef = useRef<HTMLDivElement | null>(null);
-
-  /**
-   * Parallax: translate the clinic photo vertically based on the
-   * section's scroll progress through the viewport. We gate on an
-   * IntersectionObserver so the scroll handler is only installed
-   * while the section is near the viewport — it unsubscribes once
-   * the user scrolls away, so idle pages pay no cost. rAF throttles
-   * writes to the transform, and we honor prefers-reduced-motion by
-   * skipping the hook entirely.
-   */
-  useEffect(() => {
-    const band = bandRef.current;
-    const backdrop = backdropRef.current;
-    if (!band || !backdrop) return;
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return;
-    }
-
-    const MAX_SHIFT = 120; // px of parallax travel (image moves up this much)
-    let ticking = false;
-    let onScroll: (() => void) | null = null;
-
-    function update() {
-      ticking = false;
-      if (!band || !backdrop) return;
-      const rect = band.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // progress 0 when section top hits viewport bottom,
-      // 1 when section bottom hits viewport top
-      const progress = 1 - (rect.bottom) / (vh + rect.height);
-      const clamped = Math.max(0, Math.min(1, progress));
-      backdrop.style.transform = `translate3d(0, ${-clamped * MAX_SHIFT}px, 0)`;
-    }
-
-    function schedule() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          onScroll = schedule;
-          window.addEventListener('scroll', onScroll, { passive: true });
-          update(); // initial sync so it's positioned correctly on entry
-        } else if (onScroll) {
-          window.removeEventListener('scroll', onScroll);
-          onScroll = null;
-        }
-      },
-      { rootMargin: '100px 0px 100px 0px', threshold: 0 },
-    );
-    observer.observe(band);
-
-    return () => {
-      observer.disconnect();
-      if (onScroll) window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
-
   return (
-    <Band id="trust" ref={bandRef}>
-      <Backdrop ref={backdropRef} aria-hidden />
+    <Band id="trust">
+      <StickyBackdrop aria-hidden />
       <Inner>
         <FadeIn>
           <PartnerRow>

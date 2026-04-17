@@ -77,19 +77,44 @@ const Pill = styled.div<{ $scrolled: boolean }>`
      1) base tint — rgba(255,255,255,0.15) flat fill
      2) two-direction specular rim — bright top-left highlight plus a
         softer bottom-right one, creating a light-from-above look
-     3) backdrop-filter stays for actual refraction (saturate bump,
-        modest blur) with brightness(1)/contrast(1) locked so the
-        pane never lightens or darkens what's behind it. */
+     3) backdrop-filter uses an SVG feTurbulence → feDisplacementMap
+        chain for REAL pixel refraction (what iOS 26 / macOS Tahoe
+        calls Liquid Glass). Blur alone is just fog; the displacement
+        map physically offsets the backdrop pixels along an organic
+        noise field, so straight lines behind the pill bend and
+        ripple like real curved glass.
+     4) a thin blur + saturate polish the edges and push color
+        saturation without changing lightness (brightness/contrast
+        pinned to 1 per design note). */
   ${({ $scrolled }) =>
     $scrolled &&
     css`
       background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px) saturate(1.8) contrast(1) brightness(1);
-      -webkit-backdrop-filter: blur(10px) saturate(1.8) contrast(1) brightness(1);
+      backdrop-filter: url(#liquid-refraction) blur(1px) saturate(1.8)
+        contrast(1) brightness(1);
+      -webkit-backdrop-filter: url(#liquid-refraction) blur(1px)
+        saturate(1.8) contrast(1) brightness(1);
       box-shadow:
         inset 1px 1px 1px 0 rgba(255, 255, 255, 0.4),
         inset -1px -1px 1px 0 rgba(255, 255, 255, 0.2);
+
+      /* Safari ≤ 17 and any browser that can't parse the url()
+         reference in a backdrop-filter chain gets a plain frosted
+         fallback so the pill is never left as a raw white bar. */
+      @supports not (backdrop-filter: url(#liquid-refraction)) {
+        backdrop-filter: blur(12px) saturate(1.8);
+        -webkit-backdrop-filter: blur(12px) saturate(1.8);
+      }
     `}
+`;
+
+/* Invisible SVG filter mounted once with the header so its ID can be
+ * referenced by the Pill's backdrop-filter URL. */
+const FilterHost = styled.svg`
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 `;
 
 /* Brand stays in theme text color on ALL header states. Flipping to
@@ -157,7 +182,7 @@ const LoginBtn = styled(Link)`
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
   color: ${({ theme }) => theme.colors.text};
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.005em;
   box-shadow:
@@ -192,6 +217,47 @@ export function Header({ locale, brand }: Props) {
 
   return (
     <HeaderShell>
+      {/*
+        SVG filter graph used by the Pill's backdrop-filter URL
+        reference. feTurbulence produces a soft organic noise field
+        (fractalNoise at low frequency → slow, flowing waves rather
+        than TV static). feDisplacementMap reads the noise's R/G
+        channels as X/Y offsets and pushes the pill's backdrop pixels
+        around accordingly — that is the actual refraction you see
+        behind curved glass. `scale` is the max pixel displacement;
+        28 gives a very visible bend without fully breaking legibility
+        of text behind the pill. The filter region is padded past the
+        element's box so the displacement near the edges isn't
+        clipped. Seed is fixed so the pattern is deterministic.
+      */}
+      <FilterHost aria-hidden>
+        <defs>
+          <filter
+            id="liquid-refraction"
+            x="-20%"
+            y="-20%"
+            width="140%"
+            height="140%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.008 0.012"
+              numOctaves="2"
+              seed="7"
+              result="turb"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="turb"
+              scale="28"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </FilterHost>
+
       <Pill $scrolled={scrolled}>
         <Brand href={base}>{brand}</Brand>
         <RightNav>

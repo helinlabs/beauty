@@ -131,14 +131,15 @@ const HeroTitle = styled.h1`
     font-weight: 400;
   }
 
-  /* Specific words that should render in the sans (Inter Tight) face
-     rather than Instrument Serif — dict ships the markup. Regular
-     italic matches the italic feel of the surrounding serif line. */
+  /* Specific words that switch out of Instrument Serif into EB Garamond
+     for a softer, more editorial counterpoint within the same title —
+     dict ships the markup (class name kept as ".sans" for backwards
+     compatibility with the dictionary string). */
   .sans {
-    font-family: ${({ theme }) => theme.fonts.body};
+    font-family: var(--font-garamond), Georgia, serif;
     font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
 `;
 

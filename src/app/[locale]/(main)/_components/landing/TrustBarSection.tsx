@@ -91,10 +91,15 @@ const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px 16px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px dashed ${({ theme }) => theme.colors.border};
 
   ${mq.md} {
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+    margin-top: 56px;
+    padding-top: 36px;
   }
 `;
 
@@ -123,36 +128,41 @@ const PartnerRow = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  margin-top: 40px;
-  padding-top: 28px;
-  border-top: 1px dashed ${({ theme }) => theme.colors.border};
-
-  ${mq.md} {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  gap: 24px;
 `;
 
+/* Stacked label + wordmark — "Official partner clinic" sits above the
+ * "View Plastic Surgery" serif wordmark on all breakpoints. */
 const PartnerLeft = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 6px;
 
   small {
-    font-size: 15px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.textMuted};
   }
 `;
 
+/* Cert pills: vertical stack on mobile (one per line), horizontal row
+ * from md+ where there's enough width to fit them side-by-side. */
 const CertRow = styled.ul`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
   list-style: none;
   padding: 0;
   margin: 0;
+
+  ${mq.md} {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const CertPill = styled.li`
@@ -200,6 +210,23 @@ export function TrustBarSection({ dict }: Props) {
     <Band id="trust">
       <Backdrop aria-hidden />
       <Inner>
+        <FadeIn>
+          <PartnerRow>
+            <PartnerLeft>
+              <small>{dict.partnerLabel}</small>
+              <SerifWordmark>{dict.partnerName}</SerifWordmark>
+            </PartnerLeft>
+            <CertRow>
+              {dict.certs.map((c, i) => (
+                <CertPill key={i}>
+                  <ShieldIcon />
+                  {c}
+                </CertPill>
+              ))}
+            </CertRow>
+          </PartnerRow>
+        </FadeIn>
+
         <StatsGrid>
           {entries.map((s, i) => (
             <FadeIn key={i} delay={i * 80}>
@@ -210,23 +237,6 @@ export function TrustBarSection({ dict }: Props) {
             </FadeIn>
           ))}
         </StatsGrid>
-
-        <FadeIn>
-        <PartnerRow>
-          <PartnerLeft>
-            <small>{dict.partnerLabel}</small>
-            <SerifWordmark>{dict.partnerName}</SerifWordmark>
-          </PartnerLeft>
-          <CertRow>
-            {dict.certs.map((c, i) => (
-              <CertPill key={i}>
-                <ShieldIcon />
-                {c}
-              </CertPill>
-            ))}
-          </CertRow>
-        </PartnerRow>
-        </FadeIn>
       </Inner>
     </Band>
   );

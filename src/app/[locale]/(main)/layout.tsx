@@ -3,7 +3,7 @@ import type { Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Script from 'next/script';
-import { Inter_Tight, Instrument_Serif } from 'next/font/google';
+import { Inter_Tight, Instrument_Serif, EB_Garamond } from 'next/font/google';
 import StyledComponentsRegistry from '@/styles/StyledComponentsRegistry';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -29,6 +29,17 @@ const instrumentSerif = Instrument_Serif({
   weight: ['400'],
   style: ['normal', 'italic'],
   variable: '--font-serif',
+  display: 'swap',
+});
+
+/* EB Garamond — used for the words formerly set in Inter Tight inside
+ * the hero title ("Premium", "Finest Clinics"). Pairs with Instrument
+ * Serif for a richer editorial feel. */
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-garamond',
   display: 'swap',
 });
 
@@ -61,7 +72,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={localeHtmlLang[locale as Locale]}
-      className={`${interTight.variable} ${instrumentSerif.variable}`}
+      className={`${interTight.variable} ${instrumentSerif.variable} ${ebGaramond.variable}`}
     >
       <body>
         {/* GA4 via gtag — only loads if NEXT_PUBLIC_GA_ID is set. */}

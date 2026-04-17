@@ -15,6 +15,21 @@ export const GlobalStyles = createGlobalStyle`
        visibility flips between pages / builds. */
     overflow-y: scroll;
     scrollbar-gutter: stable;
+
+    /* Lock horizontal overflow on the ROOT scroll container. When
+       overflow-y is non-visible, the CSS spec treats overflow-x:
+       visible as auto — meaning html gains a horizontal scrollbar
+       the moment ANY descendant exceeds the viewport width (common
+       in prod where fonts measure slightly wider than dev, or where
+       a section mis-calculates width). Pinning to clip prevents the
+       document itself from ever scrolling sideways. No sticky
+       positioning is used anywhere in the tree, so clip is safe. */
+    overflow-x: clip;
+
+    /* Hard-constrain the document width so even a momentary layout
+       glitch (a section briefly wider than viewport during hydration)
+       cannot push the whole page right. */
+    max-width: 100%;
   }
 
   html, body {

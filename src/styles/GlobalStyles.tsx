@@ -7,6 +7,14 @@ export const GlobalStyles = createGlobalStyle`
   *::before,
   *::after { box-sizing: border-box; }
 
+  html {
+    /* Reserve room for the vertical scrollbar even on pages that
+       don't scroll. Without this, content jumps left/right by the
+       scrollbar width between pages (or between dev and prod where
+       content length differs). */
+    scrollbar-gutter: stable;
+  }
+
   html, body {
     margin: 0; padding: 0;
     background: ${({ theme }) => theme.colors.bg};

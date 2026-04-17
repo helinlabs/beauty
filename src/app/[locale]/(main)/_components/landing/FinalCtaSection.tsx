@@ -16,6 +16,7 @@ interface Props {
   dict: {
     eyebrow: string;
     title: string;
+    tagline: string;
     subtitle: string;
     trustRow: string[];
   };
@@ -64,6 +65,20 @@ const TitleWrap = styled.div`
   align-items: center;
 `;
 
+/* "we'll reply on WhatsApp." — sans subline rendered below the serif
+ * title. Inter Tight at 24px, muted tone so it reads as a secondary
+ * clarifier without competing with the main heading. */
+const Tagline = styled.p`
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin: 14px 0 0;
+  text-align: center;
+`;
+
 const TrustRow = styled.ul`
   list-style: none;
   padding: 0;
@@ -91,6 +106,7 @@ export function FinalCtaSection({ locale, dict, formLabels }: Props) {
         <FadeIn>
           <TitleWrap>
             <SerifH2 $large>{dict.title}</SerifH2>
+            <Tagline>{dict.tagline}</Tagline>
             <TrustRow>
               {dict.trustRow.map((t, i) => (
                 <li key={i}>{t}</li>

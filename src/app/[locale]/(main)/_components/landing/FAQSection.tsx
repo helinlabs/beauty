@@ -16,6 +16,13 @@ interface Props {
   };
 }
 
+/* Center "Common questions" heading above the list. */
+const Title = styled(SerifH2)`
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 /* List is centered horizontally within the section so the FAQ
  * stack reads as a single centered column rather than hugging the
  * left edge of the 1200px content rail. */
@@ -93,7 +100,7 @@ export function FAQSection({ dict }: Props) {
     <SectionWrap id="faq">
       <SectionInner>
         <FadeIn>
-          <SerifH2 $large>{dict.title}</SerifH2>
+          <Title $large>{dict.title}</Title>
         </FadeIn>
 
         <List>

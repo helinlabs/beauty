@@ -166,7 +166,8 @@
     },
     "finalCta": {
       "eyebrow": "Get started",
-      "title": "Drop your name and number —\nwe'll reply on WhatsApp.",
+      "title": "Get in touch",
+      "tagline": "we'll reply on WhatsApp.",
       "subtitle": "Free consultation · 24-hour reply · English coordinator",
       "trustRow": ["24-hour reply", "No deposit", "English coordinator"]
     }

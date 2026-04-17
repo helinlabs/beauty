@@ -78,14 +78,14 @@ const Submit = styled.button<{ $disabled?: boolean }>`
   gap: 10px;
   padding: 16px 24px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: ${({ theme }) => theme.colors.whatsapp};
+  background: ${({ theme }) => theme.colors.primary};
   color: #fff;
   font-size: 16px;
   font-weight: 800;
   transition: background 0.2s, transform 0.2s;
   opacity: ${({ $disabled }) => ($disabled ? 0.55 : 1)};
   pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
-  &:hover { background: ${({ theme }) => theme.colors.whatsappDark}; transform: translateY(-1px); }
+  &:hover { background: ${({ theme }) => theme.colors.primaryDark}; transform: translateY(-1px); }
 `;
 
 const ErrorText = styled.p`

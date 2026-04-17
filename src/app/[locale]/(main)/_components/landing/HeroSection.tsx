@@ -78,11 +78,10 @@ const Wrap = styled.section`
     left: 0;
     right: 0;
     bottom: 0;
-    height: 280px;
+    height: 160px;
     background: linear-gradient(
       to bottom,
       transparent 0%,
-      ${({ theme }) => theme.colors.bg} 60%,
       ${({ theme }) => theme.colors.bg} 100%
     );
     pointer-events: none;

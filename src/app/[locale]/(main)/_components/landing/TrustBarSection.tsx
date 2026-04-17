@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import { FadeIn } from './FadeIn';
@@ -40,9 +41,18 @@ const Backdrop = styled.div`
   top: 0;
   left: 0;
   right: 0;
+  /* Slightly taller than the natural aspect ratio so the parallax
+   * translate has room to move without exposing the cream underneath
+   * at either end. The image itself still renders at the correct
+   * ratio because ::before uses background-size: cover. */
   aspect-ratio: 1048 / 544;
+  height: calc(100vw * 544 / 1048 + 120px);
   z-index: 0;
   overflow: hidden;
+  /* Hint the compositor to promote this to its own layer so the
+   * parallax transform is GPU-accelerated and doesn't cause the
+   * entire section to repaint every scroll tick. */
+  will-change: transform;
 
   &::before {
     content: '';
@@ -132,18 +142,29 @@ const PartnerRow = styled.div`
 `;
 
 /* Stacked label + wordmark — "Official partner clinic" sits above the
- * "View Plastic Surgery" serif wordmark on all breakpoints. */
+ * "View Plastic Surgery" serif wordmark on all breakpoints. The
+ * wordmark itself is scaled up to match the stat numbers below so
+ * the partner name reads as the anchor of this section, not a
+ * secondary label. */
 const PartnerLeft = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 
   small {
     font-size: 13px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.textMuted};
+  }
+
+  /* Override the default SerifWordmark (20px) so "View Plastic
+   * Surgery" renders at the same scale as StatValue numbers below. */
+  ${SerifWordmark} {
+    font-size: clamp(28px, 3.2vw, 42px);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
   }
 `;
 
@@ -206,9 +227,75 @@ export function TrustBarSection({ dict }: Props) {
     dict.stats.certified,
   ];
 
+  const bandRef = useRef<HTMLElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement | null>(null);
+
+  /**
+   * Parallax: translate the clinic photo vertically based on the
+   * section's scroll progress through the viewport. We gate on an
+   * IntersectionObserver so the scroll handler is only installed
+   * while the section is near the viewport — it unsubscribes once
+   * the user scrolls away, so idle pages pay no cost. rAF throttles
+   * writes to the transform, and we honor prefers-reduced-motion by
+   * skipping the hook entirely.
+   */
+  useEffect(() => {
+    const band = bandRef.current;
+    const backdrop = backdropRef.current;
+    if (!band || !backdrop) return;
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
+
+    const MAX_SHIFT = 120; // px of parallax travel (image moves up this much)
+    let ticking = false;
+    let onScroll: (() => void) | null = null;
+
+    function update() {
+      ticking = false;
+      if (!band || !backdrop) return;
+      const rect = band.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress 0 when section top hits viewport bottom,
+      // 1 when section bottom hits viewport top
+      const progress = 1 - (rect.bottom) / (vh + rect.height);
+      const clamped = Math.max(0, Math.min(1, progress));
+      backdrop.style.transform = `translate3d(0, ${-clamped * MAX_SHIFT}px, 0)`;
+    }
+
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          onScroll = schedule;
+          window.addEventListener('scroll', onScroll, { passive: true });
+          update(); // initial sync so it's positioned correctly on entry
+        } else if (onScroll) {
+          window.removeEventListener('scroll', onScroll);
+          onScroll = null;
+        }
+      },
+      { rootMargin: '100px 0px 100px 0px', threshold: 0 },
+    );
+    observer.observe(band);
+
+    return () => {
+      observer.disconnect();
+      if (onScroll) window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
-    <Band id="trust">
-      <Backdrop aria-hidden />
+    <Band id="trust" ref={bandRef}>
+      <Backdrop ref={backdropRef} aria-hidden />
       <Inner>
         <FadeIn>
           <PartnerRow>

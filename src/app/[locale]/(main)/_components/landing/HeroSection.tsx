@@ -65,6 +65,28 @@ const Wrap = styled.section`
     padding: 96px 32px 56px;
     gap: 28px;
   }
+
+  /* Fade the hero's colorful bottom into the next section's cream page bg
+     so the boundary reads as a continuous gradient, not a hard edge. */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      ${({ theme }) => theme.colors.bg} 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+
+    ${mq.md} {
+      height: 200px;
+    }
+  }
 `;
 
 /* Hero-wide ambient background. Holds the cover-mode UnicornBg so the

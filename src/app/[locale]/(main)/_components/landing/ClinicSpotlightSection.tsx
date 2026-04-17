@@ -6,11 +6,9 @@ import { mq } from '@/styles/theme';
 import { CLINIC } from '@/data/clinic';
 import type { Locale } from '@/i18n/config';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
-  SubtitleP,
   WhatsAppGlyph,
   primaryCtaCss,
 } from './_shared';
@@ -154,9 +152,7 @@ export function ClinicSpotlightSection({ locale, whatsappHref, dict }: Props) {
       <Inner>
         <Columns>
           <div>
-            <Eyebrow>{dict.eyebrow}</Eyebrow>
             <SerifH2 $large>{dict.title}</SerifH2>
-            <SubtitleP>{dict.subtitle}</SubtitleP>
 
             <Credentials>
               <Cred>{dict.credentials.boardCertified}</Cred>

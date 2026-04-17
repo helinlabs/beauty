@@ -9,11 +9,9 @@ import type { Influencer } from '@/data/influencers';
 import type { Procedure } from '@/data/procedures';
 import { formatFollowers } from '@/lib/format';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
-  SubtitleP,
 } from './_shared';
 
 interface Props {
@@ -128,9 +126,7 @@ export function InfluencerReviewsSection({
   return (
     <SectionWrap id="influencer-reviews">
       <SectionInner>
-        <Eyebrow>Influencer reviews</Eyebrow>
         <SerifH2 $large>{dict.title}</SerifH2>
-        <SubtitleP>{dict.subtitle}</SubtitleP>
 
         <Grid>
           {items.map((i, idx) => {

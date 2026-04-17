@@ -6,10 +6,8 @@ import { BookingForm } from '@/components/BookingForm';
 import type { Locale } from '@/i18n/config';
 import { mq } from '@/styles/theme';
 import {
-  Eyebrow,
   SectionInner,
   SerifH2,
-  SubtitleP,
 } from './_shared';
 
 interface Props {
@@ -91,9 +89,7 @@ export function FinalCtaSection({ locale, dict, formLabels }: Props) {
     <Band id="final-cta">
       <Centered>
         <TitleWrap>
-          <Eyebrow>{dict.eyebrow}</Eyebrow>
           <SerifH2 $large>{dict.title}</SerifH2>
-          <SubtitleP style={{ textAlign: 'center' }}>{dict.subtitle}</SubtitleP>
           <TrustRow>
             {dict.trustRow.map((t, i) => (
               <li key={i}>{t}</li>

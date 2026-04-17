@@ -36,7 +36,7 @@ export const theme = {
     // Poppins (via --font-sans) for body text, Instrument Serif (via
     // --font-serif) for both section headings and display titles —
     // Fraunces and Inter have been retired.
-    body: `var(--font-sans), -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', 'Segoe UI', Roboto, sans-serif`,
+    body: `var(--font-sans), -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', 'Segoe UI', Helvetica, 'Helvetica Neue', Arial, sans-serif`,
     heading: `var(--font-serif), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
     display: `var(--font-serif), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
   },

@@ -3,12 +3,10 @@
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
   SerifH3,
-  SubtitleP,
 } from './_shared';
 
 interface Step {
@@ -95,11 +93,7 @@ export function HowItWorksSection({ dict }: Props) {
   return (
     <SectionWrap id="how-it-works">
       <SectionInner>
-        <Eyebrow>How it works</Eyebrow>
         <SerifH2 $large>{dict.title}</SerifH2>
-        <SubtitleP>
-          3 steps, one WhatsApp thread — from first question to recovery back home.
-        </SubtitleP>
 
         <Steps>
           {dict.steps.slice(0, 3).map((s, i) => (

@@ -6,12 +6,10 @@ import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import { reviews, priceCompareRows, type Review } from '@/data/reviews';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
   SerifH3,
-  SubtitleP,
 } from './_shared';
 
 interface Props {
@@ -250,9 +248,7 @@ export function ReviewsSection({ locale, dict }: Props) {
   return (
     <SectionWrap id="reviews">
       <SectionInner>
-        <Eyebrow>Reviews</Eyebrow>
         <SerifH2 $large>{dict.title}</SerifH2>
-        <SubtitleP>{dict.subtitle}</SubtitleP>
 
         <Grid>
           {bas.map((r) => (
@@ -310,9 +306,7 @@ export function ReviewsSection({ locale, dict }: Props) {
         </Grid>
 
         <CompareWrap>
-          <Eyebrow>US vs Korea</Eyebrow>
           <SerifH3>{dict.priceCompareTitle}</SerifH3>
-          <SubtitleP style={{ marginTop: 10 }}>{dict.priceCompareSubtitle}</SubtitleP>
 
           <CompareTable>
             <thead>

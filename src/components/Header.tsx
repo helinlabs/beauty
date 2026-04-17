@@ -1,11 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
-import { ContactModal, type ContactModalLabels } from './ContactModal';
 import { Container } from './Container';
 
 const HeaderBar = styled.header`
@@ -31,28 +29,32 @@ const Brand = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const BookBtn = styled.button`
+/* Ghost-style right-side button — transparent bg, white border/text so
+   it reads cleanly over the hero's colorful gradient. */
+const LoginBtn = styled(Link)`
   display: inline-flex;
-  padding: 9px 16px;
+  align-items: center;
+  padding: 9px 18px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: ${({ theme }) => theme.colors.primary};
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: #fff;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 13px;
   letter-spacing: 0.08em;
-  transition: background 0.2s;
-  &:hover { background: ${({ theme }) => theme.colors.primaryDark}; }
+  transition: background 0.2s, border-color 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.85);
+  }
 `;
 
 type Props = {
   locale: Locale;
-  labels: { influencers: string; procedures: string; book: string };
   brand: string;
-  modalLabels: ContactModalLabels;
 };
 
-export function Header({ locale, labels, brand, modalLabels }: Props) {
-  const [open, setOpen] = useState(false);
+export function Header({ locale, brand }: Props) {
   const base = `/${locale}`;
 
   return (
@@ -60,18 +62,9 @@ export function Header({ locale, labels, brand, modalLabels }: Props) {
       <Container>
         <Row>
           <Brand href={base}>{brand}</Brand>
-          <BookBtn type="button" onClick={() => setOpen(true)}>
-            {labels.book}
-          </BookBtn>
+          <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>
         </Row>
       </Container>
-
-      <ContactModal
-        open={open}
-        onClose={() => setOpen(false)}
-        labels={modalLabels}
-        locale={locale}
-      />
     </HeaderBar>
   );
 }

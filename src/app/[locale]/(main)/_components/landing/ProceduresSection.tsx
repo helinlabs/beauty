@@ -7,12 +7,10 @@ import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import type { LandingGroup, Procedure } from '@/data/procedures';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
   SerifH3,
-  SubtitleP,
 } from './_shared';
 
 interface Props {
@@ -146,9 +144,7 @@ export function ProceduresSection({ locale, dict, featured }: Props) {
       <SectionInner>
         <Header>
           <div>
-            <Eyebrow>Procedures</Eyebrow>
             <SerifH2 $large>{dict.title}</SerifH2>
-            <SubtitleP>{dict.subtitle}</SubtitleP>
           </div>
           <SeeAll href={`/${locale}/procedures`}>{dict.seeAllLabel}</SeeAll>
         </Header>

@@ -2,11 +2,9 @@
 
 import styled from 'styled-components';
 import {
-  Eyebrow,
   SectionInner,
   SectionWrap,
   SerifH2,
-  SubtitleP,
 } from './_shared';
 
 interface Props {
@@ -84,9 +82,7 @@ export function FAQSection({ dict }: Props) {
   return (
     <SectionWrap id="faq">
       <SectionInner>
-        <Eyebrow>FAQ</Eyebrow>
         <SerifH2 $large>{dict.title}</SerifH2>
-        <SubtitleP>{dict.subtitle}</SubtitleP>
 
         <List>
           {dict.items.map((item, i) => (

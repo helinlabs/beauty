@@ -22,7 +22,7 @@ export const SectionInner = styled.div`
 /** Small all-caps eyebrow label above a section heading. */
 export const Eyebrow = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
@@ -70,7 +70,7 @@ export const Pill = styled.span`
   border-radius: ${({ theme }) => theme.radius.pill};
   background: ${({ theme }) => theme.colors.surfaceAlt};
   color: ${({ theme }) => theme.colors.text};
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
 `;
 

@@ -85,7 +85,7 @@ const NewBadge = styled.span`
   border-radius: 4px;
   background: ${({ theme }) => theme.colors.primary};
   color: #fff;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 700;
 `;
 
@@ -105,12 +105,12 @@ const Name = styled.p`
 `;
 
 const Handle = styled.p`
-  font-size: 12px;
+  font-size: 15px;
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
 const Followers = styled.p`
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.primary};
 `;
@@ -118,7 +118,7 @@ const Followers = styled.p`
 const ProcList = styled.p`
   margin-top: 2px;
   color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.45;
 `;
 

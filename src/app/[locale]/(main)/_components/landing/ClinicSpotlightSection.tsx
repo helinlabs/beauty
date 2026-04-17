@@ -85,13 +85,13 @@ const Cred = styled.li`
   border-radius: ${({ theme }) => theme.radius.pill};
   background: ${({ theme }) => theme.colors.surfaceAlt};
   color: ${({ theme }) => theme.colors.text};
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
 `;
 
 const DoctorLine = styled.p`
   margin-top: 20px;
-  font-size: 13px;
+  font-size: 15px;
   color: ${({ theme }) => theme.colors.textMuted};
 
   strong {
@@ -110,7 +110,7 @@ const MetaTable = styled.dl`
   display: grid;
   grid-template-columns: 120px 1fr;
   row-gap: 10px;
-  font-size: 14px;
+  font-size: 15px;
 
   dt {
     color: ${({ theme }) => theme.colors.textMuted};

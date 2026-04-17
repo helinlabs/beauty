@@ -78,7 +78,7 @@ const TrustRow = styled.ul`
     background: ${({ theme }) => theme.colors.surface};
     border: 1px solid ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.textMuted};
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 500;
   }
 `;

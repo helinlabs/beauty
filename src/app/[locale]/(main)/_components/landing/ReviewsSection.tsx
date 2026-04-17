@@ -78,7 +78,7 @@ const BALabel = styled.span`
   border-radius: ${({ theme }) => theme.radius.pill};
   background: rgba(27, 26, 23, 0.55);
   color: #fff;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   backdrop-filter: blur(3px);
@@ -109,7 +109,7 @@ const Quote = styled.blockquote`
 const Attribution = styled.p`
   margin-top: 6px;
   color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 13px;
+  font-size: 15px;
 
   strong {
     color: ${({ theme }) => theme.colors.text};
@@ -205,7 +205,7 @@ const CompareTable = styled.table`
   thead th {
     font-weight: 600;
     color: ${({ theme }) => theme.colors.textMuted};
-    font-size: 12px;
+    font-size: 15px;
     text-transform: uppercase;
     border-bottom: 1px solid ${({ theme }) => theme.colors.text};
   }

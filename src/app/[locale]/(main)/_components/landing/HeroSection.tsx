@@ -11,7 +11,7 @@ import { UnicornBg } from './UnicornBg';
 const UNICORN_BG_ID = 'gEOLxmzC950bLoYV0flc';
 /* Foreground subject (the face) — transparent-background scene that sits
    on top of the cover gradient. */
-const UNICORN_FACE_ID = 'o8MOiBSW8bNXNRUuyT5j';
+const UNICORN_FACE_ID = 'z8g4W1a8yiVOPmpROlJc';
 
 interface Feature {
   label: string;
@@ -123,26 +123,29 @@ const HeroTitle = styled.h1`
   }
 `;
 
-/* The centered scene box. Caps at a fixed width so the face stops growing
- * on ultra-wide monitors; on those wide screens the surrounding CSS gradient
- * keeps stretching while the canvas itself stays anchored at its native
- * aspect. Mobile uses a narrower width to leave more room for type. */
+/* The centered face scene — native 800×800 square Unicorn embed.
+ * Caps at reasonable widths per breakpoint so the face stays roomy and
+ * generously scaled on large viewports without pushing the CTA off-screen
+ * on small ones. Aspect ratio matches the embed so the canvas never
+ * squashes or clips. */
 const Stage = styled.div`
   position: relative;
   /* Sits BEHIND the title and CTA so it can overlap them — the face image
      becomes the visual backdrop while text stays legible on top. */
   z-index: 0;
-  width: min(100%, 360px);
-  aspect-ratio: 390 / 700;
+  width: min(100%, 440px);
+  aspect-ratio: 1 / 1;
   /* Pull the stage upward to overlap the title/CTA above it. */
-  margin-top: -180px;
+  margin-top: -120px;
 
   ${mq.md} {
-    width: min(100%, 2160px);
-    /* Match the embed's 1440 × 900 native ratio so the face is centered
-       vertically and never clipped on resize. */
-    aspect-ratio: 1440 / 900;
-    margin-top: -260px;
+    width: min(72vw, 720px);
+    margin-top: -140px;
+  }
+
+  ${mq.lg} {
+    width: min(60vw, 820px);
+    margin-top: -160px;
   }
 `;
 
@@ -161,7 +164,7 @@ const CtaPill = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.primary};
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 
   ${mq.md} {

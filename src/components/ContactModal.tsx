@@ -96,7 +96,7 @@ const Title = styled.h2`
 
 const Subtitle = styled.p`
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   color: ${({ theme }) => theme.colors.textMuted};
 `;
@@ -112,7 +112,7 @@ const Field = styled.label`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
@@ -141,7 +141,7 @@ const Input = styled.input`
 `;
 
 const ErrorText = styled.span`
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
@@ -155,7 +155,7 @@ const Submit = styled.button<{ $disabled?: boolean }>`
   background: ${({ theme }) => theme.colors.primary};
   color: #fff;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   text-transform: uppercase;
   transition: background 0.15s, transform 0.15s;
   opacity: ${({ $disabled }) => ($disabled ? 0.55 : 1)};
@@ -169,7 +169,7 @@ const Submit = styled.button<{ $disabled?: boolean }>`
 const Agreement = styled.p`
   margin-top: 10px;
   color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1.55;
   text-align: center;
 `;

@@ -51,7 +51,7 @@ const Header = styled.div`
 
 const SeeAll = styled(Link)`
   color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   transition: color 0.2s;
   &:hover { color: ${({ theme }) => theme.colors.text}; }
@@ -105,7 +105,7 @@ const Scrim = styled.div`
 `;
 
 const CategoryLabel = styled.p`
-  font-size: 11px;
+  font-size: 15px;
   text-transform: uppercase;
   opacity: 0.82;
   margin-bottom: 6px;
@@ -119,7 +119,7 @@ const ProcName = styled(SerifH3)`
 
 const PriceLine = styled.p`
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 15px;
   opacity: 0.92;
 `;
 
@@ -131,7 +131,7 @@ const PopularChip = styled.span`
   border-radius: ${({ theme }) => theme.radius.pill};
   background: rgba(255, 255, 255, 0.92);
   color: ${({ theme }) => theme.colors.text};
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
 `;
 

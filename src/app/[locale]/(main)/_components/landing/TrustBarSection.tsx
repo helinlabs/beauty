@@ -71,7 +71,7 @@ const StatValue = styled.span`
 
 const StatLabel = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 13px;
+  font-size: 15px;
 `;
 
 const PartnerRow = styled.div`
@@ -95,7 +95,7 @@ const PartnerLeft = styled.div`
   gap: 14px;
 
   small {
-    font-size: 11px;
+    font-size: 15px;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.textMuted};
   }
@@ -119,7 +119,7 @@ const CertPill = styled.li`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.text};
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
 `;
 

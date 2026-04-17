@@ -46,14 +46,14 @@ const Brand = styled(Link)`
 const RightNav = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 36px;
 `;
 
 /** Reviews — text link, color flips from white (transparent header) to
  *  theme text (scrolled header with pale bg). */
 const ReviewsLink = styled(Link)<{ $scrolled: boolean }>`
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   color: ${({ $scrolled, theme }) =>
     $scrolled ? theme.colors.text : '#fff'};
   transition: color 0.2s ease, opacity 0.2s ease;
@@ -69,7 +69,7 @@ const LoginBtn = styled(Link)<{ $scrolled: boolean }>`
   border-radius: ${({ theme }) => theme.radius.pill};
   background: transparent;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 15px;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 
   ${({ $scrolled, theme }) =>

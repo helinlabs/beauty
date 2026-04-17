@@ -39,9 +39,9 @@ const Band = styled.section`
   position: relative;
   overflow: hidden;
   padding: 96px 20px 120px;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(194, 65, 12, 0.08) 0%, transparent 60%),
-    linear-gradient(180deg, ${({ theme }) => theme.colors.bg} 0%, ${({ theme }) => theme.colors.surfaceAlt} 100%);
+  /* Flat cream background matches the rest of the landing sections —
+   * no more darker surfaceAlt gradient at the bottom. */
+  background: ${({ theme }) => theme.colors.bg};
 
   ${mq.md} {
     padding: 128px 32px 160px;

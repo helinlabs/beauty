@@ -42,15 +42,17 @@ const Inner = styled.div`
   margin: 0 auto;
   /* Push content down into the visually-centered part of the pinned
    * image so partner + certs appear in the first view, then stats
-   * follow further down. */
-  padding: 30vh 20px 64px;
+   * follow further down. 300px bottom padding gives the section
+   * meaningful breathing room before the dashed stats row transitions
+   * into the HowItWorks block. */
+  padding: 30vh 20px 300px;
 
   ${mq.md} {
-    padding: 35vh 32px 96px;
+    padding: 35vh 32px 300px;
   }
 
   ${mq.lg} {
-    padding: 40vh 32px 120px;
+    padding: 40vh 32px 300px;
   }
 `;
 

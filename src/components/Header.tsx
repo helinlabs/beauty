@@ -56,47 +56,33 @@ const RightNav = styled.div`
   gap: 36px;
 `;
 
-/** Reviews — text link, color flips from white (transparent header) to
- *  theme text (scrolled header with pale bg). */
-const ReviewsLink = styled(Link)<{ $scrolled: boolean }>`
+/** Reviews — plain text link, always in theme text color so it stays
+ *  legible over the hero gradient AND the scrolled pale header. */
+const ReviewsLink = styled(Link)`
   font-weight: 500;
   font-size: 15px;
-  color: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.colors.text : '#fff'};
-  transition: color 0.2s ease, opacity 0.2s ease;
+  color: ${({ theme }) => theme.colors.text};
+  transition: opacity 0.2s ease;
   &:hover { opacity: 0.8; }
 `;
 
-/** Log in — ghost pill. Swaps border + text between white (hero bg)
- *  and theme text (scrolled pale header). */
-const LoginBtn = styled(Link)<{ $scrolled: boolean }>`
+/** Log in — ghost pill with dark outline + dark text in all header
+ *  states. */
+const LoginBtn = styled(Link)`
   display: inline-flex;
   align-items: center;
   padding: 9px 18px;
   border-radius: ${({ theme }) => theme.radius.pill};
   background: transparent;
+  border: 1px solid rgba(27, 26, 23, 0.3);
+  color: ${({ theme }) => theme.colors.text};
   font-weight: 500;
   font-size: 15px;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-
-  ${({ $scrolled, theme }) =>
-    $scrolled
-      ? css`
-          border: 1px solid rgba(27, 26, 23, 0.25);
-          color: ${theme.colors.text};
-          &:hover {
-            background: rgba(27, 26, 23, 0.05);
-            border-color: ${theme.colors.text};
-          }
-        `
-      : css`
-          border: 1px solid rgba(255, 255, 255, 0.5);
-          color: #fff;
-          &:hover {
-            background: rgba(255, 255, 255, 0.14);
-            border-color: rgba(255, 255, 255, 0.85);
-          }
-        `}
+  transition: background 0.2s ease, border-color 0.2s ease;
+  &:hover {
+    background: rgba(27, 26, 23, 0.05);
+    border-color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
 type Props = {
@@ -123,12 +109,8 @@ export function Header({ locale, brand }: Props) {
         <Row>
           <Brand href={base}>{brand}</Brand>
           <RightNav>
-            <ReviewsLink href={`${base}/influencers`} $scrolled={scrolled}>
-              Reviews
-            </ReviewsLink>
-            <LoginBtn href={`${base}/admin-login`} $scrolled={scrolled}>
-              Log in
-            </LoginBtn>
+            <ReviewsLink href={`${base}/influencers`}>Reviews</ReviewsLink>
+            <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>
           </RightNav>
         </Row>
       </Container>

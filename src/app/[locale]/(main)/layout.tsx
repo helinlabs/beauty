@@ -18,7 +18,7 @@ import { getDictionary } from '@/i18n/dictionaries';
 
 const interTight = Inter_Tight({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sans',
   display: 'swap',
 });

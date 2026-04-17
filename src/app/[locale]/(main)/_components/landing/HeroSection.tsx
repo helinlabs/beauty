@@ -127,7 +127,7 @@ const HeroTitle = styled.h1`
   .sans {
     font-family: ${({ theme }) => theme.fonts.body};
     font-style: normal;
-    font-weight: 500;
+    font-weight: 300;
     letter-spacing: -0.015em;
   }
 `;

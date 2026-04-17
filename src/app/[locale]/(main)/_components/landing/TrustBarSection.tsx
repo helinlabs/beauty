@@ -185,6 +185,63 @@ function ShieldIcon() {
   );
 }
 
+/* Location pin — used on the "Gangnam premium location" cert. */
+function PinIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="12"
+        cy="10"
+        r="2.6"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}
+
+/* Translate / language — used on the "On-site English coordinator"
+ * cert. Two overlapping letterform marks suggest a language swap. */
+function TranslateIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M3 5h10M8 3v2M5 5c1.5 5 3 7 6.5 9"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 14c-2.5-2-3.5-4.2-4-7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 21l4-10 4 10M14 18h5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Icon chosen per cert index. dict.certs ships a fixed order:
+ * [KMA board-certified, Gangnam premium location, On-site English
+ * coordinator], so we just map position → icon. Falls back to the
+ * shield for any additional certs the copy team might add later. */
+const CERT_ICONS = [ShieldIcon, PinIcon, TranslateIcon] as const;
+
 export function TrustBarSection({ dict }: Props) {
   const entries = [
     dict.stats.patients,
@@ -203,12 +260,15 @@ export function TrustBarSection({ dict }: Props) {
               <SerifWordmark>{dict.partnerName}</SerifWordmark>
             </PartnerLeft>
             <CertRow>
-              {dict.certs.map((c, i) => (
-                <CertPill key={i}>
-                  <ShieldIcon />
-                  {c}
-                </CertPill>
-              ))}
+              {dict.certs.map((c, i) => {
+                const Icon = CERT_ICONS[i] ?? ShieldIcon;
+                return (
+                  <CertPill key={i}>
+                    <Icon />
+                    {c}
+                  </CertPill>
+                );
+              })}
             </CertRow>
           </PartnerRow>
         </FadeIn>

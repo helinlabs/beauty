@@ -1,14 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import { Container } from './Container';
 
-const HeaderBar = styled.header`
-  position: relative;
+const HeaderBar = styled.header<{ $scrolled: boolean }>`
+  position: sticky;
+  top: 0;
   z-index: 50;
+  transition: background 0.2s ease, backdrop-filter 0.2s ease,
+    border-color 0.2s ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+
+  ${({ $scrolled }) =>
+    $scrolled &&
+    css`
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: saturate(1.4) blur(14px);
+      -webkit-backdrop-filter: saturate(1.4) blur(14px);
+      border-bottom-color: rgba(27, 26, 23, 0.08);
+    `}
 `;
 
 const Row = styled.div`
@@ -29,23 +44,53 @@ const Brand = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-/* Ghost-style right-side button — transparent bg, white border/text so
-   it reads cleanly over the hero's colorful gradient. */
-const LoginBtn = styled(Link)`
+const RightNav = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+/** Reviews — text link, color flips from white (transparent header) to
+ *  theme text (scrolled header with pale bg). */
+const ReviewsLink = styled(Link)<{ $scrolled: boolean }>`
+  font-weight: 500;
+  font-size: 14px;
+  color: ${({ $scrolled, theme }) =>
+    $scrolled ? theme.colors.text : '#fff'};
+  transition: color 0.2s ease, opacity 0.2s ease;
+  &:hover { opacity: 0.8; }
+`;
+
+/** Log in — ghost pill. Swaps border + text between white (hero bg)
+ *  and theme text (scrolled pale header). */
+const LoginBtn = styled(Link)<{ $scrolled: boolean }>`
   display: inline-flex;
   align-items: center;
   padding: 9px 18px;
   border-radius: ${({ theme }) => theme.radius.pill};
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #fff;
   font-weight: 500;
   font-size: 13px;
-  transition: background 0.2s, border-color 0.2s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.85);
-  }
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+  ${({ $scrolled, theme }) =>
+    $scrolled
+      ? css`
+          border: 1px solid rgba(27, 26, 23, 0.25);
+          color: ${theme.colors.text};
+          &:hover {
+            background: rgba(27, 26, 23, 0.05);
+            border-color: ${theme.colors.text};
+          }
+        `
+      : css`
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          color: #fff;
+          &:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.85);
+          }
+        `}
 `;
 
 type Props = {
@@ -55,13 +100,30 @@ type Props = {
 
 export function Header({ locale, brand }: Props) {
   const base = `/${locale}`;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 16);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <HeaderBar>
+    <HeaderBar $scrolled={scrolled}>
       <Container>
         <Row>
           <Brand href={base}>{brand}</Brand>
-          <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>
+          <RightNav>
+            <ReviewsLink href={`${base}/influencers`} $scrolled={scrolled}>
+              Reviews
+            </ReviewsLink>
+            <LoginBtn href={`${base}/admin-login`} $scrolled={scrolled}>
+              Log in
+            </LoginBtn>
+          </RightNav>
         </Row>
       </Container>
     </HeaderBar>

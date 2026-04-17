@@ -39,22 +39,14 @@ const StickyImage = styled.div`
     height: 95vh;
   }
 
-  /* Readability scrim — gently darken the top + bottom of the image
-   * so the white text placed on top of it has enough contrast without
-   * hiding the photo content in the middle. */
+  /* Uniform 20% dim across the entire image so every white text
+   * overlay has consistent contrast regardless of vertical position.
+   * Replaces the earlier top+bottom gradient scrim. */
   &::after {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.22) 0%,
-        rgba(0, 0, 0, 0.08) 22%,
-        rgba(0, 0, 0, 0) 55%,
-        rgba(0, 0, 0, 0.12) 85%,
-        rgba(0, 0, 0, 0.32) 100%
-      );
+    background: rgba(0, 0, 0, 0.2);
     pointer-events: none;
   }
 `;

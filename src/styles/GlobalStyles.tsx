@@ -15,14 +15,13 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    overflow-x: hidden;
-    /* Kill the white rubber-band / overscroll bounce at the top and
-       bottom of the page — especially visible on macOS Safari where
-       pulling past the edge reveals the window background (white). */
-    overscroll-behavior-y: none;
-    overscroll-behavior-x: none;
   }
-  body { min-height: 100vh; line-height: 1.6; font-size: 16px; }
+  body {
+    min-height: 100vh;
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: clip;
+  }
 
   img, picture, svg { max-width: 100%; display: block; }
   a { color: inherit; text-decoration: none; }

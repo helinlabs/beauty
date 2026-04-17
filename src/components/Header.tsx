@@ -44,7 +44,10 @@ const HeaderShell = styled.header`
 const Pill = styled.div<{ $scrolled: boolean }>`
   position: relative;
   margin: 0 auto;
-  max-width: 1100px;
+  /* Match the max content width used by the landing sections
+   * (theme.maxWidth = 1200px) so the header pill never extends past
+   * the text columns on wide viewports. */
+  max-width: ${({ theme }) => theme.maxWidth};
   display: flex;
   align-items: center;
   justify-content: space-between;

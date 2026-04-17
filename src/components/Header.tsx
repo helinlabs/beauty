@@ -73,22 +73,22 @@ const Pill = styled.div<{ $scrolled: boolean }>`
     padding: 0 10px 0 24px;
   }
 
-  /* Liquid Glass state.
-     The earlier mix (10% white fill + brightness(1.05)) turned opaque
-     over cream/white sections and hid the content behind it. We now:
-     - drop the white fill to 4% so the pane truly passes light
-     - remove brightness; keep saturate + contrast for the refraction
-       pop without washing light pixels to full white
-     - switch the hairline edge to a dark rgba so it's visible against
-       BOTH light and dark sections (the previous white rim vanished
-       on cream). */
+  /* Liquid Glass state — modeled after the reference:
+     1) base tint — rgba(255,255,255,0.15) flat fill
+     2) two-direction specular rim — bright top-left highlight plus a
+        softer bottom-right one, creating a light-from-above look
+     3) backdrop-filter stays for actual refraction (saturate bump,
+        modest blur) with brightness(1)/contrast(1) locked so the
+        pane never lightens or darkens what's behind it. */
   ${({ $scrolled }) =>
     $scrolled &&
     css`
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(6px) saturate(1.9) contrast(1) brightness(1);
-      -webkit-backdrop-filter: blur(6px) saturate(1.9) contrast(1) brightness(1);
-      box-shadow: inset 0 0 0 1px rgba(27, 26, 23, 0.08);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px) saturate(1.8) contrast(1) brightness(1);
+      -webkit-backdrop-filter: blur(10px) saturate(1.8) contrast(1) brightness(1);
+      box-shadow:
+        inset 1px 1px 1px 0 rgba(255, 255, 255, 0.4),
+        inset -1px -1px 1px 0 rgba(255, 255, 255, 0.2);
     `}
 `;
 

@@ -24,17 +24,60 @@ interface Props {
   };
 }
 
+/* Clinic interior background: sits full-bleed behind the content. The
+ * section height grows so the entire image is visible, and a soft
+ * bottom→top scrim keeps the stats + partner row readable without
+ * hiding the photo. */
 const Band = styled.section`
+  position: relative;
+  isolation: isolate;
   background: transparent;
 `;
 
+const Backdrop = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/clinic-interior.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Readability scrim — darker near the content area, transparent at the
+   * top so the ceiling reads clearly. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(251, 247, 241, 0) 0%,
+      rgba(251, 247, 241, 0.15) 55%,
+      rgba(251, 247, 241, 0.85) 100%
+    );
+  }
+`;
+
 const Inner = styled.div`
+  position: relative;
+  z-index: 1;
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 420px 20px 64px;
 
   ${mq.md} {
-    padding: 56px 32px;
+    padding: 620px 32px 96px;
+  }
+
+  ${mq.lg} {
+    padding: 760px 32px 112px;
   }
 `;
 
@@ -149,6 +192,7 @@ export function TrustBarSection({ dict }: Props) {
 
   return (
     <Band id="trust">
+      <Backdrop aria-hidden />
       <Inner>
         <StatsGrid>
           {entries.map((s, i) => (

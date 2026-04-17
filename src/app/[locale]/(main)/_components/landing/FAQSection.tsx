@@ -16,8 +16,11 @@ interface Props {
   };
 }
 
+/* List is centered horizontally within the section so the FAQ
+ * stack reads as a single centered column rather than hugging the
+ * left edge of the 1200px content rail. */
 const List = styled.div`
-  margin-top: 48px;
+  margin: 48px auto 0;
   max-width: 760px;
   display: flex;
   flex-direction: column;
@@ -45,9 +48,11 @@ const Summary = styled.summary`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  font-family: ${({ theme }) => theme.fonts.heading};
+  /* Body sans (Inter Tight) instead of the serif heading face so the
+   * questions read as clean, neutral text rather than editorial. */
+  font-family: ${({ theme }) => theme.fonts.body};
   font-weight: 500;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
   transition: color 0.2s;
@@ -60,7 +65,11 @@ const Summary = styled.summary`
     font-family: ${({ theme }) => theme.fonts.body};
     font-weight: 400;
     font-size: 24px;
-    color: ${({ theme }) => theme.colors.textMuted};
+    /* Primary (terracotta) instead of muted grey, no shadow or filter
+     * so the glyph reads as a clean flat accent. */
+    color: ${({ theme }) => theme.colors.primary};
+    text-shadow: none;
+    filter: none;
     transition: transform 0.25s ease;
   }
   &:hover {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import styled, { css } from 'styled-components';
 import { mq } from '@/styles/theme';
@@ -19,10 +19,13 @@ declare global {
 
 type Mode = 'face' | 'cover';
 
-const Outer = styled.div`
+const Outer = styled.div<{ $ready: boolean }>`
   position: absolute;
   inset: 0;
   pointer-events: none;
+  background: transparent;
+  opacity: ${({ $ready }) => ($ready ? 1 : 0)};
+  transition: opacity 320ms ease-out;
 `;
 
 const Container = styled.div<{ $mode: Mode }>`
@@ -54,6 +57,14 @@ const Container = styled.div<{ $mode: Mode }>`
     inset: 0;
     width: 100%;
     height: 100%;
+    background: transparent !important;
+
+    /* Some UnicornStudio embeds inject a <canvas> with a default opaque
+       background — force transparency so the CSS gradient underneath
+       shows through cleanly while the scene renders. */
+    canvas {
+      background: transparent !important;
+    }
 
     /* Hide the free-tier "Made with unicorn.studio" badge if the embed
        renders it as a DOM node. */
@@ -100,16 +111,54 @@ type Props = {
  * background gradient + a foreground subject.
  */
 export function UnicornBg({ projectId, mode = 'face' }: Props) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     if (typeof window !== 'undefined' && window.UnicornStudio?.init) {
       window.UnicornStudio.init();
     }
   }, []);
 
+  /**
+   * Only reveal the canvas once the UnicornStudio embed has actually
+   * painted a <canvas> into our host div — prevents the brief opaque
+   * flash on page refresh where the pre-init box fills the Stage with
+   * its placeholder color.
+   */
+  useEffect(() => {
+    if (ready) return;
+    const host = hostRef.current;
+    if (!host) return;
+
+    const check = () => {
+      if (host.querySelector('canvas')) {
+        setReady(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (check()) return;
+
+    const observer = new MutationObserver(() => {
+      if (check()) observer.disconnect();
+    });
+    observer.observe(host, { childList: true, subtree: true });
+
+    // Hard cap: always reveal after 1200ms even if detection fails.
+    const fallback = window.setTimeout(() => setReady(true), 1200);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, [ready]);
+
   return (
-    <Outer aria-hidden>
+    <Outer aria-hidden $ready={ready}>
       <Container $mode={mode}>
-        <div data-us-project={projectId} />
+        <div ref={hostRef} data-us-project={projectId} />
       </Container>
       {/* Cover mode paints opaque pixels everywhere, so the watermark sits on
           a solid background and we need a blur patch to hide it. The face

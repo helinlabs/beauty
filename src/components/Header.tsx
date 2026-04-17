@@ -88,7 +88,7 @@ const Pill = styled.div<{ $scrolled: boolean }>`
   ${({ $scrolled }) =>
     $scrolled &&
     css`
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.35);
       backdrop-filter: url(#liquid-refraction) blur(2px) saturate(1.8);
       -webkit-backdrop-filter: url(#liquid-refraction) blur(2px) saturate(1.8);
       box-shadow:

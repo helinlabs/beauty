@@ -8,8 +8,10 @@ import type { Locale } from '@/i18n/config';
 import { Container } from './Container';
 
 const HeaderBar = styled.header<{ $scrolled: boolean }>`
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
   transition: background 0.2s ease, backdrop-filter 0.2s ease;
   background: transparent;

@@ -11,10 +11,8 @@ const HeaderBar = styled.header<{ $scrolled: boolean }>`
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: background 0.2s ease, backdrop-filter 0.2s ease,
-    border-color 0.2s ease;
+  transition: background 0.2s ease, backdrop-filter 0.2s ease;
   background: transparent;
-  border-bottom: 1px solid transparent;
 
   ${({ $scrolled }) =>
     $scrolled &&
@@ -22,7 +20,6 @@ const HeaderBar = styled.header<{ $scrolled: boolean }>`
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: saturate(1.4) blur(14px);
       -webkit-backdrop-filter: saturate(1.4) blur(14px);
-      border-bottom-color: rgba(27, 26, 23, 0.08);
     `}
 `;
 

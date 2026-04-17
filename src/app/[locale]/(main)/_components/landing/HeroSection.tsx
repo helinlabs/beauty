@@ -148,6 +148,7 @@ const CtaPill = styled.button`
   z-index: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   padding: 8px 8px 8px 22px;
   border-radius: ${({ theme }) => theme.radius.pill};
@@ -157,6 +158,10 @@ const CtaPill = styled.button`
   font-weight: 600;
   font-size: 13px;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
+
+  ${mq.md} {
+    width: 220px;
+  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.primaryDark};

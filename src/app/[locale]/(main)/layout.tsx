@@ -95,7 +95,24 @@ export default async function LocaleLayout({ children, params }: Props) {
             <AttributionListener />
           </Suspense>
           <Suspense fallback={null}>
-            <Header locale={locale as Locale} labels={dict.nav} brand={dict.brand} />
+            <Header
+              locale={locale as Locale}
+              labels={dict.nav}
+              brand={dict.brand}
+              modalLabels={{
+                title: dict.book.title,
+                subtitle: dict.book.subtitle,
+                nameLabel: dict.book.nameLabel,
+                namePlaceholder: dict.book.namePlaceholder,
+                phoneLabel: dict.book.phoneLabel,
+                phonePlaceholder: dict.book.phonePlaceholder,
+                submit: dict.book.submit,
+                errorName: dict.book.errorName,
+                errorPhone: dict.book.errorPhone,
+                agreement: dict.book.agreement,
+                waIntro: dict.landing.hero.waIntro,
+              }}
+            />
           </Suspense>
           <main>{children}</main>
           <Footer copyright={copyright} tagline={dict.footer.tagline} />

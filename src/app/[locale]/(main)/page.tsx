@@ -62,6 +62,20 @@ export default async function HomePage({ params }: Props) {
     message: dict.landing.hero.waIntro,
   });
 
+  const contactModalLabels = {
+    title: dict.book.title,
+    subtitle: dict.book.subtitle,
+    nameLabel: dict.book.nameLabel,
+    namePlaceholder: dict.book.namePlaceholder,
+    phoneLabel: dict.book.phoneLabel,
+    phonePlaceholder: dict.book.phonePlaceholder,
+    submit: dict.book.submit,
+    errorName: dict.book.errorName,
+    errorPhone: dict.book.errorPhone,
+    agreement: dict.book.agreement,
+    waIntro: dict.landing.hero.waIntro,
+  };
+
   const procedureLookup = procedures.reduce<Record<string, string>>(
     (acc, p) => {
       acc[p.slug] = p.name[locale];
@@ -106,7 +120,7 @@ export default async function HomePage({ params }: Props) {
       <HeroSection
         locale={locale}
         dict={dict.landing.hero}
-        whatsappHref={whatsappHref}
+        modalLabels={contactModalLabels}
       />
 
       <TrustBarSection dict={dict.landing.trustBar} />

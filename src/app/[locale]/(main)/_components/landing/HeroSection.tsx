@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
+import { ContactModal, type ContactModalLabels } from '@/components/ContactModal';
+import type { Locale } from '@/i18n/config';
 import { UnicornBg } from './UnicornBg';
 
 /* Background-only ambient gradient (no subject). */
@@ -16,7 +19,7 @@ interface Feature {
 }
 
 interface Props {
-  locale: string;
+  locale: Locale;
   dict: {
     eyebrow: string;
     title: string;
@@ -27,7 +30,7 @@ interface Props {
     stickyCta: string;
     features: Feature[];
   };
-  whatsappHref: string;
+  modalLabels: ContactModalLabels;
 }
 
 /* ───── Containers ─────
@@ -116,8 +119,9 @@ const Stage = styled.div`
   }
 `;
 
-/* Subscribe-pill style primary CTA (stone via theme.primary). */
-const CtaPill = styled.a`
+/* Pill-style primary CTA — body fills with the stone primary and the
+   trailing arrow button is inverted (white disc + primary icon). */
+const CtaPill = styled.button`
   position: relative;
   z-index: 1;
   display: inline-flex;
@@ -125,16 +129,18 @@ const CtaPill = styled.a`
   gap: 10px;
   padding: 8px 8px 8px 22px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  backdrop-filter: blur(6px);
-  transition: background 0.2s, border-color 0.2s;
+  background: ${({ theme }) => theme.colors.primary};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
 
-  &:hover { background: rgba(255, 255, 255, 0.92); border-color: ${({ theme }) => theme.colors.text}; }
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryDark};
+    border-color: ${({ theme }) => theme.colors.primaryDark};
+  }
 
   & > span.arrow {
     display: inline-flex;
@@ -143,14 +149,16 @@ const CtaPill = styled.a`
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: ${({ theme }) => theme.colors.primary};
-    color: #fff;
-    transition: background 0.2s, transform 0.2s;
+    background: #fff;
+    color: ${({ theme }) => theme.colors.primary};
+    transition: transform 0.2s;
   }
-  &:hover > span.arrow { background: ${({ theme }) => theme.colors.primaryDark}; transform: translateX(2px); }
+  &:hover > span.arrow { transform: translateX(2px); }
 `;
 
-export function HeroSection({ dict, whatsappHref }: Props) {
+export function HeroSection({ dict, locale, modalLabels }: Props) {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <Wrap id="hero">
       <BgLayer>
@@ -160,9 +168,8 @@ export function HeroSection({ dict, whatsappHref }: Props) {
       <HeroTitle>{dict.title}</HeroTitle>
 
       <CtaPill
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
+        type="button"
+        onClick={() => setContactOpen(true)}
         data-testid="hero-cta-primary"
       >
         {dict.ctaPrimary}
@@ -182,6 +189,13 @@ export function HeroSection({ dict, whatsappHref }: Props) {
       <Stage>
         <UnicornBg projectId={UNICORN_FACE_ID} mode="face" />
       </Stage>
+
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        labels={modalLabels}
+        locale={locale}
+      />
     </Wrap>
   );
 }

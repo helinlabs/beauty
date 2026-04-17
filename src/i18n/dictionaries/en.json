@@ -21,7 +21,7 @@
   "nav": {
     "influencers": "Influencers",
     "procedures": "Procedures",
-    "book": "Consult"
+    "book": "GET IN TOUCH"
   },
   "landing": {
     "seeAll": "See all →",
@@ -30,7 +30,7 @@
       "title": "The exact procedure\nthey had, done in Seoul.",
       "subtitle": "See where and what your favorite creators had done. Book the same clinic over WhatsApp.",
       "subcopy": "English-speaking coordinator · Free consultation · Transparent pricing",
-      "ctaPrimary": "Get in Touch",
+      "ctaPrimary": "GET IN TOUCH",
       "ctaSecondary": "Browse procedures",
       "waIntro": "Hi — I'd like to book a consultation via Seoul Glow.",
       "stickyCta": "WhatsApp",

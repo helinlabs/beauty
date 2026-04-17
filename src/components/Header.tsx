@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
+import { ContactModal, type ContactModalLabels } from './ContactModal';
 import { Container } from './Container';
 
 const HeaderBar = styled.header`
@@ -29,7 +31,7 @@ const Brand = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const BookBtn = styled(Link)`
+const BookBtn = styled.button`
   display: inline-flex;
   padding: 9px 16px;
   border-radius: ${({ theme }) => theme.radius.pill};
@@ -37,6 +39,7 @@ const BookBtn = styled(Link)`
   color: #fff;
   font-weight: 700;
   font-size: 13px;
+  letter-spacing: 0.08em;
   transition: background 0.2s;
   &:hover { background: ${({ theme }) => theme.colors.primaryDark}; }
 `;
@@ -45,9 +48,11 @@ type Props = {
   locale: Locale;
   labels: { influencers: string; procedures: string; book: string };
   brand: string;
+  modalLabels: ContactModalLabels;
 };
 
-export function Header({ locale, labels, brand }: Props) {
+export function Header({ locale, labels, brand, modalLabels }: Props) {
+  const [open, setOpen] = useState(false);
   const base = `/${locale}`;
 
   return (
@@ -55,9 +60,18 @@ export function Header({ locale, labels, brand }: Props) {
       <Container>
         <Row>
           <Brand href={base}>{brand}</Brand>
-          <BookBtn href={`${base}/book`}>{labels.book}</BookBtn>
+          <BookBtn type="button" onClick={() => setOpen(true)}>
+            {labels.book}
+          </BookBtn>
         </Row>
       </Container>
+
+      <ContactModal
+        open={open}
+        onClose={() => setOpen(false)}
+        labels={modalLabels}
+        locale={locale}
+      />
     </HeaderBar>
   );
 }

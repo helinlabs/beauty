@@ -123,6 +123,13 @@ export default async function HomePage({ params }: Props) {
         modalLabels={contactModalLabels}
       />
 
+      <InfluencerReviewsSection
+        locale={locale}
+        dict={dict.landing.influencerReviews}
+        items={influencers}
+        procedureLookup={procedureLookup}
+      />
+
       <TrustBarSection dict={dict.landing.trustBar} />
 
       <HowItWorksSection dict={dict.landing.how} />
@@ -131,13 +138,6 @@ export default async function HomePage({ params }: Props) {
         locale={locale}
         dict={dict.landing.procedures}
         featured={featuredProcedures}
-      />
-
-      <InfluencerReviewsSection
-        locale={locale}
-        dict={dict.landing.influencerReviews}
-        items={influencers}
-        procedureLookup={procedureLookup}
       />
 
       <ClinicSpotlightSection

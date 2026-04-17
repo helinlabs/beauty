@@ -86,29 +86,31 @@ const Body = styled.div`
   gap: 6px;
 `;
 
-const Handle = styled.p`
-  font-weight: 600;
-  font-size: 14px;
+const Name = styled.p`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const ProcList = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
+const Handle = styled.p`
   font-size: 12px;
-  line-height: 1.45;
+  color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-const Meta = styled.p`
+const Followers = styled.p`
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-const ViewLink = styled.span`
-  margin-top: 4px;
+const ProcList = styled.p`
+  margin-top: 2px;
+  color: ${({ theme }) => theme.colors.textMuted};
   font-size: 12px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.accent};
+  line-height: 1.45;
 `;
 
 const GradientFallback = styled.div<{ $bg: string }>`
@@ -157,12 +159,12 @@ export function InfluencerReviewsSection({
                   {idx === 0 && <NewBadge>{dict.newBadge}</NewBadge>}
                 </Thumb>
                 <Body>
+                  <Name>{i.name[locale as 'ko' | 'en']}</Name>
                   <Handle>@{i.handle}</Handle>
-                  <ProcList>{procsLabel}</ProcList>
-                  <Meta>
+                  <Followers>
                     {formatFollowers(i.followers, locale)} {dict.followersLabel}
-                  </Meta>
-                  <ViewLink>{dict.viewProfile}</ViewLink>
+                  </Followers>
+                  <ProcList>{procsLabel}</ProcList>
                 </Body>
               </CardLink>
             );

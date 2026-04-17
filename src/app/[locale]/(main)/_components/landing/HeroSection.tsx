@@ -134,16 +134,25 @@ const HeroTitle = styled.h1`
 `;
 
 /* The centered face scene — native 800×800 square Unicorn embed.
- * Sits directly below the CTA button (no longer overlaps title/CTA)
- * and scales responsively per breakpoint. */
+ * Sits directly below the CTA button and scales responsively.
+ *
+ * Mobile: the Stage's layout box keeps its original 1:1 footprint so
+ * the Hero's total height doesn't change, but the canvas is visually
+ * doubled and anchored from top-center — the extra half grows
+ * downward past the original bottom edge and gets clipped by
+ * Wrap's overflow: hidden.
+ */
 const Stage = styled.div`
   position: relative;
   z-index: 0;
   width: min(100%, 440px);
   aspect-ratio: 1 / 1;
+  transform: scale(2);
+  transform-origin: top center;
 
   ${mq.md} {
     width: min(72vw, 720px);
+    transform: none;
   }
 
   ${mq.lg} {

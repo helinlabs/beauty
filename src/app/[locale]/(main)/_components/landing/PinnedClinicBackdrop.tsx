@@ -15,6 +15,11 @@ import { mq } from '@/styles/theme';
  * The sticky image paints into its own compositor layer so the rest
  * of the page doesn't re-paint while it's pinned.
  */
+/* Natural section height — its own children's flow bounds define
+ * where position: sticky releases. That happens to land right around
+ * the moment the HowItWorks title reaches the top of the viewport
+ * (near the floating header), which is exactly when the clinic photo
+ * should let go and scroll up with the rest of the page. */
 const Section = styled.section`
   position: relative;
   isolation: isolate;
@@ -24,9 +29,11 @@ const Section = styled.section`
 const StickyImage = styled.div`
   position: sticky;
   top: 0;
-  /* Slightly shorter than the viewport so a sliver of the next
-   * section can preview below while the image is pinned. */
-  height: 88vh;
+  /* Full viewport so there is never a cream strip visible below the
+   * image while it's pinned — the previous 88/95vh left a narrow
+   * band at the bottom of the viewport where the section's bg
+   * showed through the transparent HowItWorks padding. */
+  height: 100vh;
   overflow: hidden;
   z-index: 0;
   background-color: ${({ theme }) => theme.colors.bg};
@@ -34,10 +41,6 @@ const StickyImage = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  ${mq.md} {
-    height: 95vh;
-  }
 
   /* Uniform 20% dim across the entire image so every white text
    * overlay has consistent contrast regardless of vertical position.
@@ -59,11 +62,9 @@ const StickyImage = styled.div`
 const Contents = styled.div`
   position: relative;
   z-index: 1;
-  margin-top: -88vh;
-
-  ${mq.md} {
-    margin-top: -95vh;
-  }
+  /* Matches StickyImage's 100vh so Contents' top lines up with the
+   * top of the section. */
+  margin-top: -100vh;
 `;
 
 export function PinnedClinicBackdrop({ children }: { children: ReactNode }) {

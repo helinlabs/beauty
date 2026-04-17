@@ -39,15 +39,18 @@ const Wrap = styled(SectionWrap)`
   }
 `;
 
+/* Title uses the same editorial treatment as "View Plastic Surgery"
+ * in the Trust pinned panel — italic Instrument Serif at medium
+ * weight, large clamp scale — so the two anchors read as a matching
+ * pair across the pinned scope. */
 const Title = styled.h2`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.08;
-  font-size: clamp(38px, 5.4vw, 64px);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  font-size: clamp(44px, 6.2vw, 84px);
   color: #ffffff;
-  /* Centered header so the section reads symmetric with the steps
-   * below. margin auto + removed max-width cap. */
   text-align: center;
   margin: 0 auto;
   max-width: 22ch;
@@ -126,12 +129,14 @@ const Numeral = styled.span`
   }
 `;
 
+/* Step headings doubled from 22 → 44px so each step reads as a
+ * major sub-heading under the big italic title above. */
 const StepHeading = styled.h3`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 500;
   letter-spacing: -0.015em;
   line-height: 1.15;
-  font-size: 22px;
+  font-size: 44px;
   color: #ffffff;
   margin: 0;
 `;

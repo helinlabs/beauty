@@ -185,10 +185,6 @@ const LoginBtn = styled(Link)`
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.005em;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(27, 26, 23, 0.08),
-    0 1px 2px rgba(27, 26, 23, 0.06);
   transition: transform 0.18s ease, background 0.18s ease;
 
   ${mq.md} {

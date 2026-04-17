@@ -73,27 +73,31 @@ const Pill = styled.div<{ $scrolled: boolean }>`
     padding: 0 10px 0 24px;
   }
 
-  /* Liquid Glass state:
-     - flat low-opacity tint (no vertical split, uniform pane)
-     - strong refraction via saturate + contrast + brightness, with a
-       small blur so the result isn't milky/foggy
-     - crisp 1px inner stroke as the only edge definition (no outer
-       drop shadow). */
+  /* Liquid Glass state.
+     The earlier mix (10% white fill + brightness(1.05)) turned opaque
+     over cream/white sections and hid the content behind it. We now:
+     - drop the white fill to 4% so the pane truly passes light
+     - remove brightness; keep saturate + contrast for the refraction
+       pop without washing light pixels to full white
+     - switch the hairline edge to a dark rgba so it's visible against
+       BOTH light and dark sections (the previous white rim vanished
+       on cream). */
   ${({ $scrolled }) =>
     $scrolled &&
     css`
-      background: rgba(255, 255, 255, 0.10);
-      backdrop-filter: blur(8px) saturate(2) contrast(1.08) brightness(1.05);
-      -webkit-backdrop-filter: blur(8px) saturate(2) contrast(1.08) brightness(1.05);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(6px) saturate(1.9) contrast(1) brightness(1);
+      -webkit-backdrop-filter: blur(6px) saturate(1.9) contrast(1) brightness(1);
+      box-shadow: inset 0 0 0 1px rgba(27, 26, 23, 0.08);
     `}
 `;
 
-/* In the shell's pre-scroll (hidden) state the Brand inherits the
- * default text color (used on the hero itself). Once the pill drops
- * down, we tint it pure white so it reads against the frosted pane
- * regardless of what section is scrolled beneath it. */
-const Brand = styled(Link)<{ $scrolled: boolean }>`
+/* Brand stays in theme text color on ALL header states. Flipping to
+ * pure white made it unreadable the moment the page scrolled onto a
+ * cream / white section (trust stats, how-it-works, FAQ, etc.) — the
+ * glass pill is intentionally near-transparent, so the brand color
+ * has to read on whatever section is passing behind. */
+const Brand = styled(Link)`
   position: relative;
   z-index: 1;
   font-family: ${({ theme }) => theme.fonts.display};
@@ -101,9 +105,7 @@ const Brand = styled(Link)<{ $scrolled: boolean }>`
   font-style: italic;
   font-size: 24px;
   letter-spacing: -0.01em;
-  color: ${({ $scrolled, theme }) =>
-    $scrolled ? '#ffffff' : theme.colors.text};
-  transition: color 260ms ease;
+  color: ${({ theme }) => theme.colors.text};
   outline: none;
 
   ${mq.md} {
@@ -191,7 +193,7 @@ export function Header({ locale, brand }: Props) {
   return (
     <HeaderShell>
       <Pill $scrolled={scrolled}>
-        <Brand href={base} $scrolled={scrolled}>{brand}</Brand>
+        <Brand href={base}>{brand}</Brand>
         <RightNav>
           <ReviewsLink href={`${base}/influencers`}>Reviews</ReviewsLink>
           <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>

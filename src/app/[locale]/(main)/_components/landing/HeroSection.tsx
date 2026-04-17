@@ -137,7 +137,7 @@ const HeroTitle = styled.h1`
      compatibility with the dictionary string). */
   .sans {
     font-family: var(--font-garamond), Georgia, serif;
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     letter-spacing: -0.01em;
   }

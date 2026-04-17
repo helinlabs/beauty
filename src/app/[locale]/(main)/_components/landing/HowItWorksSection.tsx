@@ -27,15 +27,19 @@ interface Props {
  * to read on the image (white / high-contrast). */
 /* Extra 100px added to the top padding so Trust's stats and How It
  * Works's title are clearly separated when both are still inside the
- * pinned-clinic scroll scope. */
+ * pinned-clinic scroll scope. The bottom padding is intentionally
+ * large (200px) — it extends Contents, which extends Section's
+ * natural height, which delays the sticky release. Result: the
+ * clinic image stays pinned until the HowItWorks title has fully
+ * reached the top-of-viewport (header) area. */
 const Wrap = styled(SectionWrap)`
   background: transparent;
   padding-top: 140px;
-  padding-bottom: 96px;
+  padding-bottom: 200px;
 
   ${mq.md} {
     padding-top: 156px;
-    padding-bottom: 128px;
+    padding-bottom: 200px;
   }
 `;
 

@@ -1,5 +1,6 @@
 export { HeroSection } from './HeroSection';
 export { TrustBarSection } from './TrustBarSection';
+export { PinnedClinicBackdrop } from './PinnedClinicBackdrop';
 export { HowItWorksSection } from './HowItWorksSection';
 export { ProceduresSection } from './ProceduresSection';
 export { InfluencerReviewsSection } from './InfluencerReviewsSection';

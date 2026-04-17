@@ -18,6 +18,7 @@ import {
   HeroSection,
   HowItWorksSection,
   InfluencerReviewsSection,
+  PinnedClinicBackdrop,
   ProceduresSection,
   ReviewsSection,
   TrustBarSection,
@@ -130,9 +131,17 @@ export default async function HomePage({ params }: Props) {
         procedureLookup={procedureLookup}
       />
 
-      <TrustBarSection dict={dict.landing.trustBar} />
-
-      <HowItWorksSection dict={dict.landing.how} />
+      {/*
+        Pinned-clinic scroll scope: the clinic interior photo stays
+        sticky at the top of the viewport while Trust and How It Works
+        scroll over it. Pinning releases once BOTH sections have been
+        scrolled past, so the image travels along with the How It
+        Works content at the tail end.
+      */}
+      <PinnedClinicBackdrop>
+        <TrustBarSection dict={dict.landing.trustBar} />
+        <HowItWorksSection dict={dict.landing.how} />
+      </PinnedClinicBackdrop>
 
       <ProceduresSection
         locale={locale}

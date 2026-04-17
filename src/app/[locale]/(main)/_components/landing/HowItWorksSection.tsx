@@ -6,8 +6,6 @@ import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
-  SerifH2,
-  SerifH3,
 } from './_shared';
 
 interface Step {
@@ -21,6 +19,32 @@ interface Props {
     steps: Step[];
   };
 }
+
+/* HowItWorks renders over the last portion of the pinned clinic
+ * photo (via PinnedClinicBackdrop) AND past it — the sticky releases
+ * mid-section. The background is transparent so the photo still
+ * shows through in the overlap range; every text element is tuned
+ * to read on the image (white / high-contrast). */
+const Wrap = styled(SectionWrap)`
+  background: transparent;
+  padding-top: 40px;
+  padding-bottom: 96px;
+
+  ${mq.md} {
+    padding-top: 56px;
+    padding-bottom: 128px;
+  }
+`;
+
+const Title = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(38px, 5.4vw, 64px);
+  color: #ffffff;
+  max-width: 22ch;
+`;
 
 const Steps = styled.ol`
   list-style: none;
@@ -46,8 +70,8 @@ const Steps = styled.ol`
       background: linear-gradient(
         90deg,
         transparent,
-        ${({ theme }) => theme.colors.border} 15%,
-        ${({ theme }) => theme.colors.border} 85%,
+        rgba(255, 255, 255, 0.35) 15%,
+        rgba(255, 255, 255, 0.35) 85%,
         transparent
       );
       pointer-events: none;
@@ -68,13 +92,17 @@ const Numeral = styled.span`
   width: 56px;
   height: 56px;
   border-radius: 999px;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  /* Translucent glass chip so the counter reads on the image without
+   * becoming an opaque disc. */
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px) saturate(1.6);
+  -webkit-backdrop-filter: blur(8px) saturate(1.6);
   font-family: ${({ theme }) => theme.fonts.heading};
   font-style: italic;
   font-weight: 500;
   font-size: 24px;
-  color: ${({ theme }) => theme.colors.accent};
+  color: #ffffff;
   margin-bottom: 20px;
 
   &::before {
@@ -82,8 +110,18 @@ const Numeral = styled.span`
   }
 `;
 
+const StepHeading = styled.h3`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  font-size: 22px;
+  color: #ffffff;
+  margin: 0;
+`;
+
 const StepBody = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
   line-height: 1.65;
   margin-top: 10px;
@@ -92,10 +130,10 @@ const StepBody = styled.p`
 
 export function HowItWorksSection({ dict }: Props) {
   return (
-    <SectionWrap id="how-it-works">
+    <Wrap id="how-it-works">
       <SectionInner>
         <FadeIn>
-          <SerifH2 $large>{dict.title}</SerifH2>
+          <Title>{dict.title}</Title>
         </FadeIn>
 
         <Steps>
@@ -103,13 +141,13 @@ export function HowItWorksSection({ dict }: Props) {
             <FadeIn key={i} delay={i * 100}>
               <StepCard>
                 <Numeral />
-                <SerifH3>{s.title}</SerifH3>
+                <StepHeading>{s.title}</StepHeading>
                 <StepBody>{s.description}</StepBody>
               </StepCard>
             </FadeIn>
           ))}
         </Steps>
       </SectionInner>
-    </SectionWrap>
+    </Wrap>
   );
 }

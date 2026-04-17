@@ -10,9 +10,9 @@ export const GlobalStyles = createGlobalStyle`
   html {
     /* Force the vertical scrollbar to always render, even on pages
        that don't overflow. This is the universally-supported
-       counterpart to `scrollbar-gutter: stable` and keeps
-       centered content (+ the fixed header) from shifting when
-       scrollbar visibility flips between pages / builds. */
+       counterpart to scrollbar-gutter stable, and keeps centered
+       content (+ the fixed header) from shifting when scrollbar
+       visibility flips between pages / builds. */
     overflow-y: scroll;
     scrollbar-gutter: stable;
   }

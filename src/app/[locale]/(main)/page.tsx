@@ -9,10 +9,8 @@ import {
   type LandingGroup,
   type Procedure,
 } from '@/data/procedures';
-import { buildWhatsAppUrl, WHATSAPP_NUMBER } from '@/lib/whatsapp';
 import { formatPriceFromUSD } from '@/lib/format';
 import {
-  ClinicSpotlightSection,
   FAQSection,
   FinalCtaSection,
   HeroSection,
@@ -57,11 +55,6 @@ export default async function HomePage({ params }: Props) {
   if (!isLocale(localeParam)) notFound();
   const locale = localeParam as Locale;
   const dict = getDictionary(locale);
-
-  const whatsappHref = buildWhatsAppUrl({
-    phoneNumber: WHATSAPP_NUMBER,
-    message: dict.landing.hero.waIntro,
-  });
 
   const contactModalLabels = {
     title: dict.book.title,
@@ -147,12 +140,6 @@ export default async function HomePage({ params }: Props) {
         locale={locale}
         dict={dict.landing.procedures}
         featured={featuredProcedures}
-      />
-
-      <ClinicSpotlightSection
-        locale={locale}
-        dict={dict.landing.clinic}
-        whatsappHref={whatsappHref}
       />
 
       <ReviewsSection locale={locale} dict={dict.landing.reviews} />

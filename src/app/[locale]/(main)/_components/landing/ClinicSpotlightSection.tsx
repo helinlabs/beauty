@@ -92,7 +92,6 @@ const Cred = styled.li`
 const DoctorLine = styled.p`
   margin-top: 20px;
   font-size: 13px;
-  letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.textMuted};
 
   strong {

@@ -80,7 +80,6 @@ const TrustRow = styled.ul`
     color: ${({ theme }) => theme.colors.textMuted};
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.02em;
   }
 `;
 

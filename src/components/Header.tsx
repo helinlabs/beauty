@@ -41,7 +41,6 @@ const LoginBtn = styled(Link)`
   color: #fff;
   font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.08em;
   transition: background 0.2s, border-color 0.2s;
   &:hover {
     background: rgba(255, 255, 255, 0.14);

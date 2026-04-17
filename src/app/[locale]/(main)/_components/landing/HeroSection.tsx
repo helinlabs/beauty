@@ -156,7 +156,6 @@ const CtaPill = styled.button`
   color: #fff;
   font-weight: 600;
   font-size: 13px;
-  letter-spacing: 0.12em;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 
   &:hover {

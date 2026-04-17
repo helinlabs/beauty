@@ -106,7 +106,6 @@ const Scrim = styled.div`
 
 const CategoryLabel = styled.p`
   font-size: 11px;
-  letter-spacing: 0.15em;
   text-transform: uppercase;
   opacity: 0.82;
   margin-bottom: 6px;
@@ -121,7 +120,6 @@ const ProcName = styled(SerifH3)`
 const PriceLine = styled.p`
   margin-top: 8px;
   font-size: 13px;
-  letter-spacing: 0.02em;
   opacity: 0.92;
 `;
 
@@ -135,7 +133,6 @@ const PopularChip = styled.span`
   color: ${({ theme }) => theme.colors.text};
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.04em;
 `;
 
 export function ProceduresSection({ locale, dict, featured }: Props) {

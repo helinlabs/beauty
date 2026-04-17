@@ -3,7 +3,7 @@ import type { Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Script from 'next/script';
-import { Poppins, Instrument_Serif } from 'next/font/google';
+import { Inter_Tight, Instrument_Serif } from 'next/font/google';
 import StyledComponentsRegistry from '@/styles/StyledComponentsRegistry';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -16,7 +16,7 @@ import {
 } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 
-const poppins = Poppins({
+const interTight = Inter_Tight({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-sans',
@@ -60,7 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={localeHtmlLang[locale as Locale]}
-      className={`${poppins.variable} ${instrumentSerif.variable}`}
+      className={`${interTight.variable} ${instrumentSerif.variable}`}
     >
       <body>
         {/* GA4 via gtag — only loads if NEXT_PUBLIC_GA_ID is set. */}

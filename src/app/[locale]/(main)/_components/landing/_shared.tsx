@@ -24,7 +24,6 @@ export const Eyebrow = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
   margin-bottom: 14px;
@@ -73,16 +72,14 @@ export const Pill = styled.span`
   color: ${({ theme }) => theme.colors.text};
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.02em;
 `;
 
-/** "View Plastic Surgery" styled wordmark — serif, italic, tracked. */
+/** "View Plastic Surgery" styled wordmark — serif, italic. */
 export const SerifWordmark = styled.span`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-style: italic;
   font-weight: 500;
   font-size: 20px;
-  letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.text};
 `;
 
@@ -98,7 +95,6 @@ export const primaryCtaCss = css`
   color: #fff;
   font-weight: 600;
   font-size: 15px;
-  letter-spacing: 0.01em;
   transition: background 0.2s, transform 0.2s;
   &:hover {
     background: ${({ theme }) => theme.colors.primaryDark};

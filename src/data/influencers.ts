@@ -10,6 +10,12 @@ export type Influencer = {
   procedures: string[];
   /** Editorial portrait used on the landing/influencer cards (Unsplash). */
   thumbnail?: string;
+  /**
+   * Optional short vertical video used as the card's "thumbnail" in the
+   * Influencer Reviews grid — plays muted + looped (shorts preview).
+   * When set, it takes precedence over `thumbnail`.
+   */
+  video?: string;
   /** Short pull quote used on the landing review cards. */
   quote?: { ko: string; en: string };
 };
@@ -27,6 +33,7 @@ export const influencers: Influencer[] = [
     avatar: 'linear-gradient(135deg,#ffb199 0%,#ff5a8a 100%)',
     thumbnail:
       'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&auto=format&fit=crop&q=70',
+    video: 'https://d1aj4dyeuyg3z4.cloudfront.net/common/home_insta_3.mp4',
     procedures: ['aqua-peel', 'rejuran-healer', 'shurink-universe'],
     quote: {
       ko: '자연스러운 결과가 좋아서 서울까지 날아왔어요.',

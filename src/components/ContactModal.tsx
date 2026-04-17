@@ -114,7 +114,6 @@ const Field = styled.label`
   gap: 6px;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
 `;
@@ -157,7 +156,6 @@ const Submit = styled.button<{ $disabled?: boolean }>`
   color: #fff;
   font-weight: 600;
   font-size: 14px;
-  letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: background 0.15s, transform 0.15s;
   opacity: ${({ $disabled }) => ($disabled ? 0.55 : 1)};

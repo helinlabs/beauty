@@ -80,7 +80,6 @@ const BALabel = styled.span`
   color: #fff;
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.12em;
   text-transform: uppercase;
   backdrop-filter: blur(3px);
 `;
@@ -129,7 +128,6 @@ const TextCard = styled.article`
 const Stars = styled.span`
   display: inline-block;
   margin-bottom: 10px;
-  letter-spacing: 0.1em;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
@@ -208,7 +206,6 @@ const CompareTable = styled.table`
     font-weight: 600;
     color: ${({ theme }) => theme.colors.textMuted};
     font-size: 12px;
-    letter-spacing: 0.12em;
     text-transform: uppercase;
     border-bottom: 1px solid ${({ theme }) => theme.colors.text};
   }

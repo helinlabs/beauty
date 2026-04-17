@@ -59,9 +59,22 @@ const CardLink = styled(Link)`
 
 const Thumb = styled.div`
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
 
-  img { object-fit: cover; }
+  img,
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const ThumbVideo = styled.video`
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const NewBadge = styled.span`
@@ -74,7 +87,6 @@ const NewBadge = styled.span`
   color: #fff;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.08em;
 `;
 
 const Body = styled.div`
@@ -100,7 +112,6 @@ const Handle = styled.p`
 const Followers = styled.p`
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.02em;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
@@ -142,7 +153,17 @@ export function InfluencerReviewsSection({
                 data-testid={`influencer-card-${i.slug}`}
               >
                 <Thumb>
-                  {i.thumbnail ? (
+                  {i.video ? (
+                    <ThumbVideo
+                      src={i.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      aria-hidden
+                    />
+                  ) : i.thumbnail ? (
                     <Image
                       src={i.thumbnail}
                       alt={i.name[locale as 'ko' | 'en']}

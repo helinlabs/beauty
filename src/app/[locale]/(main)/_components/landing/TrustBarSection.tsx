@@ -72,7 +72,6 @@ const StatValue = styled.span`
 const StatLabel = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: 13px;
-  letter-spacing: 0.02em;
 `;
 
 const PartnerRow = styled.div`
@@ -97,7 +96,6 @@ const PartnerLeft = styled.div`
 
   small {
     font-size: 11px;
-    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.textMuted};
   }

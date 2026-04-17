@@ -14,7 +14,10 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${({ theme }) => theme.fonts.body};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
+    /* Using auto (not smooth) so that browser scroll restoration on
+       back/forward navigation jumps instantly to the remembered
+       position instead of animating from the top of the page. */
+    scroll-behavior: auto;
   }
   body {
     min-height: 100vh;

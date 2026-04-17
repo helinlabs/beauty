@@ -4,13 +4,12 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
-import { reviews, priceCompareRows, type Review } from '@/data/reviews';
+import { reviews, type Review } from '@/data/reviews';
 import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
   SerifH2,
-  SerifH3,
 } from './_shared';
 
 interface Props {
@@ -20,16 +19,6 @@ interface Props {
     subtitle: string;
     beforeLabel: string;
     afterLabel: string;
-    priceCompareTitle: string;
-    priceCompareSubtitle: string;
-    priceLabels: {
-      rhinoplasty: string;
-      lifting: string;
-      laser: string;
-    };
-    usLabel: string;
-    krLabel: string;
-    savingsLabel: string;
     videoTitle: string;
     readStory: string;
   };
@@ -176,66 +165,8 @@ const VideoFooter = styled.div`
   text-shadow: 0 2px 10px rgba(0,0,0,0.35);
 `;
 
-const CompareWrap = styled.section`
-  margin-top: 64px;
-  padding: 36px 28px;
-  border-radius: ${({ theme }) => theme.radius.lg};
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-
-  ${mq.md} {
-    padding: 48px 56px;
-  }
-`;
-
-const CompareTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-
-  th, td {
-    padding: 14px 10px;
-    text-align: right;
-    font-size: 15px;
-    font-variant-numeric: tabular-nums;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  }
-  th:first-child, td:first-child {
-    text-align: left;
-  }
-  thead th {
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.textMuted};
-    font-size: 15px;
-    text-transform: uppercase;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.text};
-  }
-  tbody td:first-child {
-    font-family: ${({ theme }) => theme.fonts.heading};
-    font-weight: 500;
-    font-size: 17px;
-  }
-  tbody td.us {
-    color: ${({ theme }) => theme.colors.textMuted};
-    text-decoration: line-through;
-    text-decoration-thickness: 1px;
-  }
-  tbody td.kr {
-    color: ${({ theme }) => theme.colors.text};
-    font-weight: 600;
-  }
-  tbody td.save {
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: 700;
-  }
-`;
-
 function isBeforeAfter(r: Review): r is Review & { beforeImage: string; afterImage: string } {
   return r.kind === 'beforeAfter' && !!r.beforeImage && !!r.afterImage;
-}
-
-function priceUSD(n: number) {
-  return `$${n.toLocaleString('en-US')}`;
 }
 
 export function ReviewsSection({ locale, dict }: Props) {
@@ -311,38 +242,6 @@ export function ReviewsSection({ locale, dict }: Props) {
           )}
         </Grid>
 
-        <FadeIn>
-        <CompareWrap>
-          <SerifH3>{dict.priceCompareTitle}</SerifH3>
-
-          <CompareTable>
-            <thead>
-              <tr>
-                <th />
-                <th>{dict.usLabel}</th>
-                <th>{dict.krLabel}</th>
-                <th>{dict.savingsLabel}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {priceCompareRows.map((row) => {
-                const savings = row.usPrice - row.krPrice;
-                const pct = Math.round((savings / row.usPrice) * 100);
-                return (
-                  <tr key={row.procedureLabelKey}>
-                    <td>{dict.priceLabels[row.procedureLabelKey]}</td>
-                    <td className="us">{priceUSD(row.usPrice)}</td>
-                    <td className="kr">{priceUSD(row.krPrice)}</td>
-                    <td className="save">
-                      −{pct}%
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </CompareTable>
-        </CompareWrap>
-        </FadeIn>
       </SectionInner>
     </SectionWrap>
   );

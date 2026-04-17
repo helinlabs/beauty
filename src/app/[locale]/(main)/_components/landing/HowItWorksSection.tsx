@@ -43,13 +43,17 @@ const Title = styled.h2`
   line-height: 1.08;
   font-size: clamp(38px, 5.4vw, 64px);
   color: #ffffff;
+  /* Centered header so the section reads symmetric with the steps
+   * below. margin auto + removed max-width cap. */
+  text-align: center;
+  margin: 0 auto;
   max-width: 22ch;
 `;
 
 const Steps = styled.ol`
   list-style: none;
   padding: 0;
-  margin: 48px 0 0;
+  margin: 56px 0 0;
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
@@ -63,7 +67,9 @@ const Steps = styled.ol`
     &::before {
       content: '';
       position: absolute;
-      top: 34px;
+      /* Line sits at the vertical center of the 56px Numeral, which
+       * is now the top-most item in each centered card column. */
+      top: 28px;
       left: 12%;
       right: 12%;
       height: 1px;
@@ -82,9 +88,17 @@ const Steps = styled.ol`
 const StepCard = styled.li`
   position: relative;
   counter-increment: step;
-  padding: 24px 0 0;
+  padding: 0;
+  /* Center the numeral, heading, and body within the column. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 
+/* Solid white chip with dark numerals — reads clearly against the
+ * pinned clinic photo and mirrors the Log-in button style from the
+ * header pill. */
 const Numeral = styled.span`
   display: inline-flex;
   align-items: center;
@@ -92,18 +106,17 @@ const Numeral = styled.span`
   width: 56px;
   height: 56px;
   border-radius: 999px;
-  /* Translucent glass chip so the counter reads on the image without
-   * becoming an opaque disc. */
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px) saturate(1.6);
-  -webkit-backdrop-filter: blur(8px) saturate(1.6);
+  background: #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(27, 26, 23, 0.08),
+    0 2px 8px rgba(27, 26, 23, 0.15);
   font-family: ${({ theme }) => theme.fonts.heading};
   font-style: italic;
   font-weight: 500;
   font-size: 24px;
-  color: #ffffff;
-  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 24px;
 
   &::before {
     content: counter(step, decimal-leading-zero);
@@ -124,7 +137,7 @@ const StepBody = styled.p`
   color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
   line-height: 1.65;
-  margin-top: 10px;
+  margin-top: 12px;
   max-width: 32ch;
 `;
 

@@ -78,11 +78,12 @@ const StatBlock = styled.div`
   text-align: center;
 `;
 
-/* Stat numbers: bigger editorial serif, pure white. */
+/* Stat numbers: bigger editorial serif, pure white — 1.5x bump from
+ * the prior clamp so the figures dominate the pinned panel. */
 const StatValue = styled.span`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 400;
-  font-size: clamp(40px, 4.4vw, 60px);
+  font-size: clamp(60px, 6.6vw, 90px);
   letter-spacing: -0.015em;
   line-height: 1.05;
   color: #ffffff;

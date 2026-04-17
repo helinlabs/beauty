@@ -7,7 +7,6 @@ import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import type { Influencer } from '@/data/influencers';
 import type { Procedure } from '@/data/procedures';
-import { formatFollowers } from '@/lib/format';
 import {
   SectionInner,
   SectionWrap,
@@ -96,20 +95,10 @@ const Body = styled.div`
   gap: 6px;
 `;
 
-const Name = styled.p`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 500;
-  font-size: 17px;
-  letter-spacing: -0.01em;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
+/* Handle now takes over the slot that used to show the serif name
+   and follower count — same visual treatment as the old Followers
+   line (primary color, bold, 15px). */
 const Handle = styled.p`
-  font-size: 15px;
-  color: ${({ theme }) => theme.colors.textMuted};
-`;
-
-const Followers = styled.p`
   font-size: 15px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.primary};
@@ -176,11 +165,7 @@ export function InfluencerReviewsSection({
                   {idx === 0 && <NewBadge>{dict.newBadge}</NewBadge>}
                 </Thumb>
                 <Body>
-                  <Name>{i.name[locale as 'ko' | 'en']}</Name>
                   <Handle>@{i.handle}</Handle>
-                  <Followers>
-                    {formatFollowers(i.followers, locale)} {dict.followersLabel}
-                  </Followers>
                   <ProcList>{procsLabel}</ProcList>
                 </Body>
               </CardLink>

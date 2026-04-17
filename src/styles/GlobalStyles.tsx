@@ -8,10 +8,12 @@ export const GlobalStyles = createGlobalStyle`
   *::after { box-sizing: border-box; }
 
   html {
-    /* Reserve room for the vertical scrollbar even on pages that
-       don't scroll. Without this, content jumps left/right by the
-       scrollbar width between pages (or between dev and prod where
-       content length differs). */
+    /* Force the vertical scrollbar to always render, even on pages
+       that don't overflow. This is the universally-supported
+       counterpart to `scrollbar-gutter: stable` and keeps
+       centered content (+ the fixed header) from shifting when
+       scrollbar visibility flips between pages / builds. */
+    overflow-y: scroll;
     scrollbar-gutter: stable;
   }
 

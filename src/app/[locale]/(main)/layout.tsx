@@ -3,7 +3,7 @@ import type { Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Script from 'next/script';
-import { Fraunces, Inter, Instrument_Serif } from 'next/font/google';
+import { Poppins, Instrument_Serif } from 'next/font/google';
 import StyledComponentsRegistry from '@/styles/StyledComponentsRegistry';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -16,15 +16,7 @@ import {
 } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  weight: ['300', '500', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const inter = Inter({
+const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-sans',
@@ -35,7 +27,7 @@ const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
   weight: ['400'],
   style: ['normal', 'italic'],
-  variable: '--font-display',
+  variable: '--font-serif',
   display: 'swap',
 });
 
@@ -68,7 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={localeHtmlLang[locale as Locale]}
-      className={`${fraunces.variable} ${inter.variable} ${instrumentSerif.variable}`}
+      className={`${poppins.variable} ${instrumentSerif.variable}`}
     >
       <body>
         {/* GA4 via gtag — only loads if NEXT_PUBLIC_GA_ID is set. */}

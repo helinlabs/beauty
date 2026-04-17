@@ -33,9 +33,12 @@ export const theme = {
     glow: '0 0 0 1px rgba(194,65,12,0.20), 0 20px 60px rgba(194,65,12,0.12)',
   },
   fonts: {
+    // Poppins (via --font-sans) for body text, Instrument Serif (via
+    // --font-serif) for both section headings and display titles —
+    // Fraunces and Inter have been retired.
     body: `var(--font-sans), -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', 'Segoe UI', Roboto, sans-serif`,
     heading: `var(--font-serif), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
-    display: `var(--font-display), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
+    display: `var(--font-serif), 'Pretendard', 'Noto Serif KR', Georgia, serif`,
   },
 } as const;
 

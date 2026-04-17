@@ -12,7 +12,6 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.colors.bg};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};
-    font-feature-settings: 'cv02','cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -26,7 +25,6 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${({ theme }) => theme.fonts.heading};
     font-weight: 500;
     letter-spacing: -0.02em;
-    font-feature-settings: 'ss01','ss02';
     margin: 0;
     line-height: 1.15;
   }

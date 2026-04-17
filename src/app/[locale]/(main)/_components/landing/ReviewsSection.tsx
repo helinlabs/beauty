@@ -19,7 +19,6 @@ interface Props {
     subtitle: string;
     beforeLabel: string;
     afterLabel: string;
-    videoTitle: string;
     readStory: string;
   };
 }
@@ -121,50 +120,6 @@ const Stars = styled.span`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-const VideoCard = styled.article`
-  position: relative;
-  border-radius: ${({ theme }) => theme.radius.lg};
-  overflow: hidden;
-  aspect-ratio: 16 / 11;
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-
-  img { object-fit: cover; }
-`;
-
-const PlayOverlay = styled.div`
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(27,26,23,0) 40%, rgba(27,26,23,0.6) 100%);
-
-  span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.92);
-    color: ${({ theme }) => theme.colors.text};
-    box-shadow: ${({ theme }) => theme.shadow.md};
-  }
-`;
-
-const VideoFooter = styled.div`
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  color: #fff;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.25;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
-`;
-
 function isBeforeAfter(r: Review): r is Review & { beforeImage: string; afterImage: string } {
   return r.kind === 'beforeAfter' && !!r.beforeImage && !!r.afterImage;
 }
@@ -172,7 +127,6 @@ function isBeforeAfter(r: Review): r is Review & { beforeImage: string; afterIma
 export function ReviewsSection({ locale, dict }: Props) {
   const bas = reviews.filter(isBeforeAfter).slice(0, 2);
   const texts = reviews.filter((r) => r.kind === 'text').slice(0, 2);
-  const video = reviews.find((r) => r.kind === 'video');
 
   return (
     <SectionWrap id="reviews">
@@ -220,26 +174,6 @@ export function ReviewsSection({ locale, dict }: Props) {
             </FadeIn>
           ))}
 
-          {video && video.videoPoster && (
-            <FadeIn delay={300}>
-            <VideoCard>
-              <Image
-                src={video.videoPoster}
-                alt=""
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-              />
-              <PlayOverlay>
-                <span>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M8 5v14l11-7L8 5Z" />
-                  </svg>
-                </span>
-              </PlayOverlay>
-              <VideoFooter>{dict.videoTitle}</VideoFooter>
-            </VideoCard>
-            </FadeIn>
-          )}
         </Grid>
 
       </SectionInner>

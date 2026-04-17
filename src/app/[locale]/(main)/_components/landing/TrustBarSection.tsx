@@ -24,10 +24,11 @@ interface Props {
   };
 }
 
-/* Clinic interior background: sits full-bleed behind the content. The
- * section height grows so the entire image is visible, and a soft
- * bottom→top scrim keeps the stats + partner row readable without
- * hiding the photo. */
+/* Clinic interior background: renders the full image (1048×544, ratio
+ * 1.926) full-bleed at the TOP of the section, with content flowing
+ * below it. The section top padding mirrors the image's displayed
+ * height (viewport width ÷ aspect ratio) so the photo is never cropped
+ * or stretched — the entire frame is always visible. */
 const Band = styled.section`
   position: relative;
   isolation: isolate;
@@ -36,7 +37,10 @@ const Band = styled.section`
 
 const Backdrop = styled.div`
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 1048 / 544;
   z-index: 0;
   overflow: hidden;
 
@@ -50,17 +54,17 @@ const Backdrop = styled.div`
     background-repeat: no-repeat;
   }
 
-  /* Readability scrim — darker near the content area, transparent at the
-   * top so the ceiling reads clearly. */
+  /* Soft fade-out at the bottom of the photo → cream so the transition
+   * into the stats row feels continuous rather than a hard edge. */
   &::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(251, 247, 241, 0) 0%,
-      rgba(251, 247, 241, 0.15) 55%,
-      rgba(251, 247, 241, 0.85) 100%
+      rgba(251, 247, 241, 0) 70%,
+      rgba(251, 247, 241, 0.85) 92%,
+      ${({ theme }) => theme.colors.bg} 100%
     );
   }
 `;
@@ -70,14 +74,16 @@ const Inner = styled.div`
   z-index: 1;
   max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  padding: 420px 20px 64px;
+  /* padding-top = image's natural height at current viewport width
+   * (100vw × 544/1048 = ~51.9vw) + breathing room. */
+  padding: calc(100vw * 544 / 1048 + 40px) 20px 64px;
 
   ${mq.md} {
-    padding: 620px 32px 96px;
+    padding: calc(100vw * 544 / 1048 + 56px) 32px 96px;
   }
 
   ${mq.lg} {
-    padding: 760px 32px 112px;
+    padding: calc(100vw * 544 / 1048 + 72px) 32px 112px;
   }
 `;
 

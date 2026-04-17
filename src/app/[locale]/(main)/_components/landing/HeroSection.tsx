@@ -110,7 +110,7 @@ const HeroTitle = styled.h1`
   white-space: pre-line;
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
-  font-size: clamp(36px, 6vw, 92px);
+  font-size: clamp(36px, 5.2vw, 72px);
   max-width: 20ch;
 
   ${mq.md} {
@@ -124,28 +124,20 @@ const HeroTitle = styled.h1`
 `;
 
 /* The centered face scene — native 800×800 square Unicorn embed.
- * Caps at reasonable widths per breakpoint so the face stays roomy and
- * generously scaled on large viewports without pushing the CTA off-screen
- * on small ones. Aspect ratio matches the embed so the canvas never
- * squashes or clips. */
+ * Sits directly below the CTA button (no longer overlaps title/CTA)
+ * and scales responsively per breakpoint. */
 const Stage = styled.div`
   position: relative;
-  /* Sits BEHIND the title and CTA so it can overlap them — the face image
-     becomes the visual backdrop while text stays legible on top. */
   z-index: 0;
   width: min(100%, 440px);
   aspect-ratio: 1 / 1;
-  /* Pull the stage upward to overlap the title/CTA above it. */
-  margin-top: -120px;
 
   ${mq.md} {
     width: min(72vw, 720px);
-    margin-top: -140px;
   }
 
   ${mq.lg} {
     width: min(60vw, 820px);
-    margin-top: -160px;
   }
 `;
 

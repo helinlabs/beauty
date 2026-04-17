@@ -42,13 +42,43 @@ const Container = styled.div<{ $mode: Mode }>`
   ${({ $mode }) =>
     $mode === 'face' &&
     css`
+      /* Show the face down past the chin to the collarbone, but keep a
+         hard transparent bottom strip so the unicorn watermark stays
+         hidden.
+         - Linear: opaque to 70 %, soft blur zone 70-82 %, then hard
+           transparent from 86 % onward (bottom ~14 % erased — safely
+           larger than the watermark band).
+         - Radial: tall ellipse that only feathers side edges; vertical
+           masking is fully driven by the linear gradient. */
       -webkit-mask-image:
-        linear-gradient(to bottom, #000 0, #000 82%, transparent 90%),
-        radial-gradient(ellipse 85% 85% at 50% 48%, #000 60%, transparent 100%);
+        linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 70%,
+          rgba(0, 0, 0, 0.75) 78%,
+          rgba(0, 0, 0, 0.25) 84%,
+          transparent 86%
+        ),
+        radial-gradient(
+          ellipse 95% 140% at 50% 50%,
+          #000 82%,
+          transparent 100%
+        );
       -webkit-mask-composite: source-in;
       mask-image:
-        linear-gradient(to bottom, #000 0, #000 82%, transparent 90%),
-        radial-gradient(ellipse 85% 85% at 50% 48%, #000 60%, transparent 100%);
+        linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 70%,
+          rgba(0, 0, 0, 0.75) 78%,
+          rgba(0, 0, 0, 0.25) 84%,
+          transparent 86%
+        ),
+        radial-gradient(
+          ellipse 95% 140% at 50% 50%,
+          #000 82%,
+          transparent 100%
+        );
       mask-composite: intersect;
     `}
 

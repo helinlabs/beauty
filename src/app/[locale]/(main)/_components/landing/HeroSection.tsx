@@ -121,6 +121,15 @@ const HeroTitle = styled.h1`
     font-style: italic;
     font-weight: 400;
   }
+
+  /* Specific words that should render in the sans (Inter Tight) face
+     rather than Instrument Serif italic — dict ships the markup. */
+  .sans {
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
 `;
 
 /* The centered face scene — native 800×800 square Unicorn embed.
@@ -191,7 +200,9 @@ export function HeroSection({ dict, locale, modalLabels }: Props) {
         <UnicornBg projectId={UNICORN_BG_ID} mode="cover" />
       </BgLayer>
 
-      <HeroTitle>{dict.title}</HeroTitle>
+      <HeroTitle
+        dangerouslySetInnerHTML={{ __html: dict.title }}
+      />
 
       <CtaPill
         type="button"

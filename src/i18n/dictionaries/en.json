@@ -27,7 +27,7 @@
     "seeAll": "See all →",
     "hero": {
       "eyebrow": "Seoul beauty, for Americans",
-      "title": "Premium K-Beauty\nSeoul's Finest Clinics",
+      "title": "<span class=\"sans\">Premium</span> K-Beauty\nSeoul's <span class=\"sans\">Finest Clinics</span>",
       "subtitle": "See where and what your favorite creators had done. Book the same clinic over WhatsApp.",
       "subcopy": "English-speaking coordinator · Free consultation · Transparent pricing",
       "ctaPrimary": "GET IN TOUCH",

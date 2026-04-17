@@ -147,7 +147,7 @@ const Stage = styled.div`
   z-index: 0;
   width: min(100%, 440px);
   aspect-ratio: 1 / 1;
-  transform: scale(2);
+  transform: scale(1.4);
   transform-origin: top center;
 
   ${mq.md} {

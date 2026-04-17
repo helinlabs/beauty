@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import type { LandingGroup, Procedure } from '@/data/procedures';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -139,17 +140,19 @@ export function ProceduresSection({ locale, dict, featured }: Props) {
   return (
     <SectionWrap id="procedures">
       <SectionInner>
+        <FadeIn>
         <Header>
           <div>
             <SerifH2 $large>{dict.title}</SerifH2>
           </div>
           <SeeAll href={`/${locale}/procedures`}>{dict.seeAllLabel}</SeeAll>
         </Header>
+        </FadeIn>
 
         <Grid>
           {featured.map((f, idx) => (
+            <FadeIn key={f.group} delay={idx * 90}>
             <CardLink
-              key={f.group}
               href={`/${locale}/procedures/${f.procedure.slug}`}
               data-testid={`procedure-card-${f.group}`}
             >
@@ -169,6 +172,7 @@ export function ProceduresSection({ locale, dict, featured }: Props) {
                 <PriceLine>{f.priceLabel}</PriceLine>
               </Scrim>
             </CardLink>
+            </FadeIn>
           ))}
         </Grid>
       </SectionInner>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import { CLINIC } from '@/data/clinic';
 import type { Locale } from '@/i18n/config';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -150,6 +151,7 @@ export function ClinicSpotlightSection({ locale, whatsappHref, dict }: Props) {
     <Band id="clinic">
       <Inner>
         <Columns>
+          <FadeIn>
           <div>
             <SerifH2 $large>{dict.title}</SerifH2>
 
@@ -181,7 +183,9 @@ export function ClinicSpotlightSection({ locale, whatsappHref, dict }: Props) {
               {dict.ctaLabel}
             </CtaA>
           </div>
+          </FadeIn>
 
+          <FadeIn delay={120}>
           <Portrait>
             <Image
               src={CLINIC.doctorImage}
@@ -190,18 +194,21 @@ export function ClinicSpotlightSection({ locale, whatsappHref, dict }: Props) {
               sizes="(min-width: 768px) 40vw, 100vw"
             />
           </Portrait>
+          </FadeIn>
         </Columns>
 
         <InteriorStrip>
           {CLINIC.interiorImages.map((url, i) => (
-            <InteriorTile key={i}>
-              <Image
-                src={url}
-                alt=""
-                fill
-                sizes="(min-width: 768px) 30vw, 33vw"
-              />
-            </InteriorTile>
+            <FadeIn key={i} delay={i * 90}>
+              <InteriorTile>
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 30vw, 33vw"
+                />
+              </InteriorTile>
+            </FadeIn>
           ))}
         </InteriorStrip>
       </Inner>

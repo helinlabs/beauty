@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -82,14 +83,18 @@ export function FAQSection({ dict }: Props) {
   return (
     <SectionWrap id="faq">
       <SectionInner>
-        <SerifH2 $large>{dict.title}</SerifH2>
+        <FadeIn>
+          <SerifH2 $large>{dict.title}</SerifH2>
+        </FadeIn>
 
         <List>
           {dict.items.map((item, i) => (
-            <Item key={i}>
-              <Summary>{item.q}</Summary>
-              <Answer>{item.a}</Answer>
-            </Item>
+            <FadeIn key={i} delay={i * 60}>
+              <Item>
+                <Summary>{item.q}</Summary>
+                <Answer>{item.a}</Answer>
+              </Item>
+            </FadeIn>
           ))}
         </List>
       </SectionInner>

@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
+import { FadeIn } from './FadeIn';
 import { SerifWordmark } from './_shared';
 
 interface Stat {
@@ -156,13 +157,16 @@ export function TrustBarSection({ dict }: Props) {
       <Inner>
         <StatsGrid>
           {entries.map((s, i) => (
-            <StatBlock key={i}>
-              <StatValue>{s.value}</StatValue>
-              <StatLabel>{s.label}</StatLabel>
-            </StatBlock>
+            <FadeIn key={i} delay={i * 80}>
+              <StatBlock>
+                <StatValue>{s.value}</StatValue>
+                <StatLabel>{s.label}</StatLabel>
+              </StatBlock>
+            </FadeIn>
           ))}
         </StatsGrid>
 
+        <FadeIn>
         <PartnerRow>
           <PartnerLeft>
             <small>{dict.partnerLabel}</small>
@@ -177,6 +181,7 @@ export function TrustBarSection({ dict }: Props) {
             ))}
           </CertRow>
         </PartnerRow>
+        </FadeIn>
       </Inner>
     </Band>
   );

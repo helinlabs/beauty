@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import { reviews, priceCompareRows, type Review } from '@/data/reviews';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -245,11 +246,14 @@ export function ReviewsSection({ locale, dict }: Props) {
   return (
     <SectionWrap id="reviews">
       <SectionInner>
-        <SerifH2 $large>{dict.title}</SerifH2>
+        <FadeIn>
+          <SerifH2 $large>{dict.title}</SerifH2>
+        </FadeIn>
 
         <Grid>
-          {bas.map((r) => (
-            <BACard key={r.id}>
+          {bas.map((r, idx) => (
+            <FadeIn key={r.id} delay={idx * 90}>
+            <BACard>
               <BAPair>
                 <div>
                   <Image src={r.beforeImage} alt="Before" fill sizes="(min-width: 768px) 25vw, 50vw" />
@@ -269,10 +273,12 @@ export function ReviewsSection({ locale, dict }: Props) {
                 </Attribution>
               </CardBody>
             </BACard>
+            </FadeIn>
           ))}
 
-          {texts.map((r) => (
-            <TextCard key={r.id}>
+          {texts.map((r, idx) => (
+            <FadeIn key={r.id} delay={(idx + bas.length) * 80}>
+            <TextCard>
               <Stars>{'★'.repeat(r.rating)}</Stars>
               <Quote>{r.quote[locale as 'ko' | 'en']}</Quote>
               <Attribution>
@@ -280,9 +286,11 @@ export function ReviewsSection({ locale, dict }: Props) {
                 {r.reviewerLocation}
               </Attribution>
             </TextCard>
+            </FadeIn>
           ))}
 
           {video && video.videoPoster && (
+            <FadeIn delay={300}>
             <VideoCard>
               <Image
                 src={video.videoPoster}
@@ -299,9 +307,11 @@ export function ReviewsSection({ locale, dict }: Props) {
               </PlayOverlay>
               <VideoFooter>{dict.videoTitle}</VideoFooter>
             </VideoCard>
+            </FadeIn>
           )}
         </Grid>
 
+        <FadeIn>
         <CompareWrap>
           <SerifH3>{dict.priceCompareTitle}</SerifH3>
 
@@ -332,6 +342,7 @@ export function ReviewsSection({ locale, dict }: Props) {
             </tbody>
           </CompareTable>
         </CompareWrap>
+        </FadeIn>
       </SectionInner>
     </SectionWrap>
   );

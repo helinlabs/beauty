@@ -7,6 +7,7 @@ import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
 import type { Influencer } from '@/data/influencers';
 import type { Procedure } from '@/data/procedures';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -76,18 +77,6 @@ const ThumbVideo = styled.video`
   object-fit: cover;
 `;
 
-const NewBadge = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-`;
-
 const Body = styled.div`
   padding: 14px 14px 16px;
   display: flex;
@@ -126,7 +115,9 @@ export function InfluencerReviewsSection({
   return (
     <SectionWrap id="influencer-reviews">
       <SectionInner>
-        <SerifH2 $large>{dict.title}</SerifH2>
+        <FadeIn>
+          <SerifH2 $large>{dict.title}</SerifH2>
+        </FadeIn>
 
         <Grid>
           {items.slice(0, 4).map((i, idx) => {
@@ -136,8 +127,8 @@ export function InfluencerReviewsSection({
               .slice(0, 2)
               .join(' · ');
             return (
+              <FadeIn key={i.slug} delay={idx * 90}>
               <CardLink
-                key={i.slug}
                 href={`/${locale}/influencers/${i.slug}`}
                 data-testid={`influencer-card-${i.slug}`}
               >
@@ -162,13 +153,13 @@ export function InfluencerReviewsSection({
                   ) : (
                     <GradientFallback $bg={i.avatar} />
                   )}
-                  {idx === 0 && <NewBadge>{dict.newBadge}</NewBadge>}
                 </Thumb>
                 <Body>
                   <Handle>@{i.handle}</Handle>
                   <ProcList>{procsLabel}</ProcList>
                 </Body>
               </CardLink>
+              </FadeIn>
             );
           })}
         </Grid>

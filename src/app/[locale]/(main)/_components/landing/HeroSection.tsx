@@ -67,17 +67,22 @@ const Wrap = styled.section`
   }
 
   /* Fade the hero's colorful bottom into the next section's cream page bg
-     so the boundary reads as a continuous gradient, not a hard edge. */
+     so the boundary reads as a continuous gradient, not a hard edge.
+     On mobile the face is transform-scaled 1.4×; the scaled canvas is
+     clipped by Wrap's overflow:hidden and would show a hard edge at its
+     opaque body/torso. The tall mobile fade extends far enough up to
+     erase that edge before it hits the section below. */
   &::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 140px;
+    height: 280px;
     background: linear-gradient(
       to bottom,
       transparent 0%,
+      ${({ theme }) => theme.colors.bg} 60%,
       ${({ theme }) => theme.colors.bg} 100%
     );
     pointer-events: none;
@@ -85,6 +90,11 @@ const Wrap = styled.section`
 
     ${mq.md} {
       height: 200px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        ${({ theme }) => theme.colors.bg} 100%
+      );
     }
   }
 `;

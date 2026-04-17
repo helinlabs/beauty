@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BookingForm } from '@/components/BookingForm';
 import type { Locale } from '@/i18n/config';
 import { mq } from '@/styles/theme';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SerifH2,
@@ -87,18 +88,22 @@ export function FinalCtaSection({ locale, dict, formLabels }: Props) {
   return (
     <Band id="final-cta">
       <Centered>
-        <TitleWrap>
-          <SerifH2 $large>{dict.title}</SerifH2>
-          <TrustRow>
-            {dict.trustRow.map((t, i) => (
-              <li key={i}>{t}</li>
-            ))}
-          </TrustRow>
-        </TitleWrap>
+        <FadeIn>
+          <TitleWrap>
+            <SerifH2 $large>{dict.title}</SerifH2>
+            <TrustRow>
+              {dict.trustRow.map((t, i) => (
+                <li key={i}>{t}</li>
+              ))}
+            </TrustRow>
+          </TitleWrap>
+        </FadeIn>
 
-        <Suspense fallback={null}>
-          <BookingForm locale={locale} labels={formLabels} />
-        </Suspense>
+        <FadeIn delay={120}>
+          <Suspense fallback={null}>
+            <BookingForm locale={locale} labels={formLabels} />
+          </Suspense>
+        </FadeIn>
       </Centered>
     </Band>
   );

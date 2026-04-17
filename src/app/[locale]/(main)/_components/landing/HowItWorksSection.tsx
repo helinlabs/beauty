@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
+import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
@@ -93,15 +94,19 @@ export function HowItWorksSection({ dict }: Props) {
   return (
     <SectionWrap id="how-it-works">
       <SectionInner>
-        <SerifH2 $large>{dict.title}</SerifH2>
+        <FadeIn>
+          <SerifH2 $large>{dict.title}</SerifH2>
+        </FadeIn>
 
         <Steps>
           {dict.steps.slice(0, 3).map((s, i) => (
-            <StepCard key={i}>
-              <Numeral />
-              <SerifH3>{s.title}</SerifH3>
-              <StepBody>{s.description}</StepBody>
-            </StepCard>
+            <FadeIn key={i} delay={i * 100}>
+              <StepCard>
+                <Numeral />
+                <SerifH3>{s.title}</SerifH3>
+                <StepBody>{s.description}</StepBody>
+              </StepCard>
+            </FadeIn>
           ))}
         </Steps>
       </SectionInner>

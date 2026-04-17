@@ -11,7 +11,7 @@ import { UnicornBg } from './UnicornBg';
 const UNICORN_BG_ID = 'gEOLxmzC950bLoYV0flc';
 /* Foreground subject (the face) — transparent-background scene that sits
    on top of the cover gradient. */
-const UNICORN_FACE_ID = 'z8g4W1a8yiVOPmpROlJc';
+const UNICORN_FACE_ID = 'yKxO5mjxGCimnL4Ie399';
 
 interface Feature {
   label: string;

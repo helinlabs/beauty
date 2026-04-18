@@ -3,7 +3,11 @@ import type { Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Script from 'next/script';
-import { Inter_Tight, Instrument_Serif, EB_Garamond } from 'next/font/google';
+import {
+  Inter_Tight,
+  Instrument_Serif,
+  EB_Garamond,
+} from 'next/font/google';
 import StyledComponentsRegistry from '@/styles/StyledComponentsRegistry';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -33,11 +37,12 @@ const instrumentSerif = Instrument_Serif({
 });
 
 /* EB Garamond — used for the words formerly set in Inter Tight inside
- * the hero title ("Premium", "Finest Clinics"). Pairs with Instrument
- * Serif for a richer editorial feel. */
+ * the hero title ("Premium", "Finest Clinics") AND as the brand
+ * wordmark in the header. 700/800 weights give the Seoul Glow logo a
+ * dense, "hims"-style bold serif feel. */
 const ebGaramond = EB_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '500', '700', '800'],
   style: ['normal', 'italic'],
   variable: '--font-garamond',
   display: 'swap',

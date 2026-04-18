@@ -32,11 +32,11 @@ const Wrap = styled(SectionWrap)`
   }
 `;
 
-/* Left-aligned block per the reference layout — title over subtitle,
- * hugging the content column instead of centered. */
+/* Centered block per the latest design pass — title stacks over the
+ * subtitle, both centered in the content column. */
 const Header = styled.div`
-  text-align: left;
-  margin: 0 0 48px;
+  text-align: center;
+  margin: 0 auto 48px;
   max-width: 860px;
 
   ${mq.md} {
@@ -72,22 +72,22 @@ const Subtitle = styled.p`
   font-size: clamp(16px, 1.4vw, 18px);
   line-height: 1.6;
   max-width: 58ch;
-  margin: 20px 0 0;
+  margin: 20px auto 0;
 `;
 
-/* Horizontal swipeable rail matching the reference: 4 cards per row
- * on desktop, 2 on tablet, 1 with a tiny peek on mobile. Native CSS
- * scroll-snap for the swipe feel, wheel/trackpad friendly on
- * desktop. Sizing styles apply to the FadeIn wrapper (> *), which is
- * the actual flex child. */
+/* Horizontal swipeable rail — stays WITHIN SectionInner's bounds so
+ * the left edge of the first card aligns with the left edge of the
+ * header above (same gutter as the rest of the page content). No
+ * negative margin, no extra scroll-padding — snapping a card to
+ * "start" lands its left edge flush with the container, so it never
+ * looks partially clipped. */
 const ScrollRow = styled.div`
   display: flex;
   gap: 16px;
   overflow-x: auto;
   overflow-y: visible;
   scroll-snap-type: x mandatory;
-  padding: 4px 20px 20px;
-  margin: 0 -20px;
+  padding-bottom: 20px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 
@@ -98,18 +98,16 @@ const ScrollRow = styled.div`
   > * {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 78%;
+    width: 70%;
     max-width: 360px;
   }
 
   ${mq.md} {
     gap: 20px;
-    padding: 4px 32px 24px;
-    margin: 0 -32px;
 
     > * {
-      width: calc((100% - 20px) / 2);
-      max-width: none;
+      width: 46%;
+      max-width: 420px;
     }
   }
 
@@ -118,6 +116,7 @@ const ScrollRow = styled.div`
 
     > * {
       width: calc((100% - 24px * 3) / 4);
+      max-width: 420px;
     }
   }
 `;
@@ -128,13 +127,13 @@ const Card = styled.article`
   gap: 20px;
 `;
 
-/* Square portrait per the reference layout, on a light neutral fill
+/* 4:5 portrait (slightly taller than wide) on a light neutral fill,
  * so the clinic's cut-out photos sit on their own background. Radius
- * 24px as requested. */
+ * 24px. */
 const Portrait = styled.div`
   position: relative;
   border-radius: 24px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.surfaceAlt};
 
@@ -156,11 +155,11 @@ const Role = styled.p`
   margin: 0;
 `;
 
-/* Name in sans (Inter Tight) bold, like the reference, rather than
- * the serif face we used before. */
+/* Name in Inter Tight Regular (body sans, weight 400). Kept on body
+ * sans to match the role caption above, but at a larger size. */
 const Name = styled.h3`
   font-family: ${({ theme }) => theme.fonts.body};
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.015em;
   font-size: 22px;
   line-height: 1.15;

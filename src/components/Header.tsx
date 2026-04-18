@@ -117,24 +117,23 @@ const FilterHost = styled.svg`
   pointer-events: none;
 `;
 
-/* Brand stays in theme text color on ALL header states. Flipping to
- * pure white made it unreadable the moment the page scrolled onto a
- * cream / white section (trust stats, how-it-works, FAQ, etc.) — the
- * glass pill is intentionally near-transparent, so the brand color
- * has to read on whatever section is passing behind. */
+/* Brand stays in theme text color on ALL header states. The wordmark
+ * is set in EB Garamond at weight 800 — dense serifs with the heavy
+ * strokes of the "hims" reference, tight tracking. */
 const Brand = styled(Link)`
   position: relative;
   z-index: 1;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: 400;
-  font-style: italic;
-  font-size: 24px;
-  letter-spacing: -0.01em;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  line-height: 1;
   color: ${({ theme }) => theme.colors.text};
   outline: none;
 
   ${mq.md} {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   &:focus,

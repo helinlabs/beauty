@@ -72,15 +72,11 @@ const Subtitle = styled.p`
   margin: 20px auto 0;
 `;
 
-/* Horizontal swipeable rail — works as a touch-swipe carousel on
- * mobile and as a trackpad/wheel-scroll row on desktop. Native CSS
- * scroll-snap keeps each card aligned to the left edge when the user
- * releases. Side padding on the container leaves room for the first
- * and last cards to breathe against the viewport edges.
- *
- * The sizing + snap styles are applied to ">*" (the FadeIn wrapper
- * around each Card) rather than Card itself, because FadeIn is the
- * actual flex child of ScrollRow. */
+/* Horizontal swipeable rail — bigger cards this pass so the portraits
+ * dominate. Each card is now sized to show a large 3:4 portrait, with
+ * a small peek of the next card on mobile. Wheel/trackpad scroll on
+ * desktop + touch-swipe on mobile; scroll-snap aligns each card to
+ * the left edge when the user releases. */
 const ScrollRow = styled.div`
   display: flex;
   gap: 20px;
@@ -96,11 +92,13 @@ const ScrollRow = styled.div`
     display: none;
   }
 
+  /* Sizing styles apply to the FadeIn wrapper (> *), which is the
+     direct flex child of ScrollRow. */
   > * {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 78%;
-    max-width: 320px;
+    width: 82%;
+    max-width: 420px;
   }
 
   ${mq.md} {
@@ -108,15 +106,20 @@ const ScrollRow = styled.div`
     padding: 4px 32px 24px;
     margin: 0 -32px;
 
+    /* Two cards per viewport on tablet — portraits get much larger
+       than the old 3-per-row layout. */
     > * {
-      width: calc((100% - 28px * 2) / 3);
-      max-width: 380px;
+      width: calc((100% - 28px) / 2);
+      max-width: 480px;
     }
   }
 
   ${mq.lg} {
+    /* Three per row on desktop — still larger than the previous
+       four-per-row sizing, 3:4 portraits read as real portraits. */
     > * {
-      width: calc((100% - 28px * 3) / 4);
+      width: calc((100% - 28px * 2) / 3);
+      max-width: 480px;
     }
   }
 `;
@@ -148,10 +151,12 @@ const Card = styled.article`
   }
 `;
 
+/* 3:4 portrait ratio — taller than wide, so the doctor's face and
+ * shoulders read at a real scale. */
 const Portrait = styled.div`
   position: relative;
   border-radius: 20px;
-  aspect-ratio: 4 / 3.2;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.surfaceAlt};
 
@@ -206,7 +211,7 @@ export function MedicalTeamSection({ dict }: Props) {
                     src={d.image}
                     alt={d.name}
                     fill
-                    sizes="(min-width: 768px) 33vw, 80vw"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 82vw"
                   />
                 </Portrait>
                 <div>

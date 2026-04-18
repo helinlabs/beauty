@@ -36,13 +36,12 @@ const instrumentSerif = Instrument_Serif({
   display: 'swap',
 });
 
-/* EB Garamond — used for the words formerly set in Inter Tight inside
- * the hero title ("Premium", "Finest Clinics") AND as the brand
- * wordmark in the header. 700/800 weights give the Seoul Glow logo a
- * dense, "hims"-style bold serif feel. */
+/* EB Garamond — used for the words formerly set in Inter Tight
+ * inside the hero title ("Premium", "Finest Clinics") AND as the
+ * Seoul Glow brand mark in the header (weight 500). */
 const ebGaramond = EB_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500', '700', '800'],
+  weight: ['400', '500'],
   style: ['normal', 'italic'],
   variable: '--font-garamond',
   display: 'swap',

@@ -117,17 +117,16 @@ const FilterHost = styled.svg`
   pointer-events: none;
 `;
 
-/* Brand stays in theme text color on ALL header states. The wordmark
- * is set in EB Garamond at weight 800 — dense serifs with the heavy
- * strokes of the "hims" reference, tight tracking. */
+/* Brand stays in theme text color on ALL header states. EB Garamond
+ * Medium (weight 500) — classic serif wordmark. */
 const Brand = styled(Link)`
   position: relative;
   z-index: 1;
   font-family: var(--font-garamond), Georgia, serif;
-  font-weight: 800;
+  font-weight: 500;
   font-style: normal;
   font-size: 22px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   line-height: 1;
   color: ${({ theme }) => theme.colors.text};
   outline: none;

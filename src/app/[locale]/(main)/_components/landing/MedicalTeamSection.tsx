@@ -75,12 +75,16 @@ const Subtitle = styled.p`
   margin: 20px auto 0;
 `;
 
-/* Horizontal swipeable rail — stays WITHIN SectionInner's bounds so
- * the left edge of the first card aligns with the left edge of the
- * header above (same gutter as the rest of the page content). No
- * negative margin, no extra scroll-padding — snapping a card to
- * "start" lands its left edge flush with the container, so it never
- * looks partially clipped. */
+/* Horizontal swipeable rail — every snap point shows ONLY full
+ * cards; nothing is ever cut on the left or the right edge. To make
+ * that true, card widths at every breakpoint are computed so N
+ * cards + (N-1) gaps exactly equal the rail width, AND
+ * scroll-snap-stop: always forces the browser to stop at the next
+ * snap point instead of overshooting. Page layout:
+ *   mobile  → 1 card / view
+ *   tablet  → 2 cards / view
+ *   desktop → 4 cards / view
+ */
 const ScrollRow = styled.div`
   display: flex;
   gap: 16px;
@@ -98,16 +102,15 @@ const ScrollRow = styled.div`
   > * {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 70%;
-    max-width: 360px;
+    scroll-snap-stop: always;
+    width: 100%;
   }
 
   ${mq.md} {
     gap: 20px;
 
     > * {
-      width: 46%;
-      max-width: 420px;
+      width: calc((100% - 20px) / 2);
     }
   }
 
@@ -116,7 +119,6 @@ const ScrollRow = styled.div`
 
     > * {
       width: calc((100% - 24px * 3) / 4);
-      max-width: 420px;
     }
   }
 `;

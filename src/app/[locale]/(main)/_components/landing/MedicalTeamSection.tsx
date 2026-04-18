@@ -26,9 +26,20 @@ const Wrap = styled(SectionWrap)`
   padding-top: 96px;
   padding-bottom: 128px;
 
+  /* Gutter used by the full-bleed ScrollRow — equals SectionWrap's
+   * horizontal padding on narrow viewports, and expands to include
+   * SectionInner's auto side margin on viewports wider than 1200px
+   * so the first card stays aligned with the page content column. */
+  --rail-gutter: 20px;
+
   ${mq.md} {
     padding-top: 128px;
     padding-bottom: 160px;
+    --rail-gutter: 32px;
+  }
+
+  @media (min-width: 1264px) {
+    --rail-gutter: calc((100vw - 1200px) / 2);
   }
 `;
 
@@ -75,23 +86,38 @@ const Subtitle = styled.p`
   margin: 20px auto 0;
 `;
 
-/* Horizontal swipeable rail — every snap point shows ONLY full
- * cards; nothing is ever cut on the left or the right edge. To make
- * that true, card widths at every breakpoint are computed so N
- * cards + (N-1) gaps exactly equal the rail width, AND
- * scroll-snap-stop: always forces the browser to stop at the next
- * snap point instead of overshooting. Page layout:
- *   mobile  → 1 card / view
- *   tablet  → 2 cards / view
- *   desktop → 4 cards / view
- */
+/* Horizontal swipeable rail.
+ *
+ * Root problem the earlier versions had: the rail lived inside
+ * SectionInner, so any card that scrolled past SectionInner's left
+ * or right edge got visually clipped by the section gutter BEFORE
+ * it reached the viewport edge. Looked like "cut in half".
+ *
+ * Fix: make the rail a full-viewport-bleed element via the classic
+ * `width: 100vw; margin-left: calc(50% - 50vw);` trick, then use
+ * scroll-container padding-left/right to position the first card
+ * flush with the content gutter and leave equivalent space on the
+ * right. Cards in the padding zone are NOT clipped — overflow on a
+ * scroll container hides content outside the PADDING box, so
+ * content inside padding is fully visible, and cards scrolling out
+ * slide all the way to the real viewport edges.
+ *
+ * Visible card counts (user request): 2 / 3 / 4 per view. Card
+ * widths are computed from 100vw minus the symmetric gutter and the
+ * N-1 inter-card gaps, so exactly N cards fit with no peek.
+ *
+ * A CSS variable `--rail-gutter` is set on the Wrap and drives both
+ * the rail's side padding AND the card-width formula so the two
+ * always stay in sync. */
 const ScrollRow = styled.div`
   display: flex;
   gap: 16px;
   overflow-x: auto;
   overflow-y: visible;
   scroll-snap-type: x mandatory;
-  padding-bottom: 20px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 4px var(--rail-gutter) 20px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 
@@ -103,14 +129,16 @@ const ScrollRow = styled.div`
     flex-shrink: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    width: 100%;
+    /* Mobile: 2 cards per view — (viewport − 2 gutters − 1 gap) / 2. */
+    width: calc((100vw - var(--rail-gutter) * 2 - 16px) / 2);
   }
 
   ${mq.md} {
     gap: 20px;
 
     > * {
-      width: calc((100% - 20px) / 2);
+      /* Tablet: 3 cards per view. */
+      width: calc((100vw - var(--rail-gutter) * 2 - 20px * 2) / 3);
     }
   }
 
@@ -118,7 +146,8 @@ const ScrollRow = styled.div`
     gap: 24px;
 
     > * {
-      width: calc((100% - 24px * 3) / 4);
+      /* Desktop: 4 cards per view. */
+      width: calc((100vw - var(--rail-gutter) * 2 - 24px * 3) / 4);
     }
   }
 `;

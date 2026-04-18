@@ -55,15 +55,15 @@ const Header = styled.div`
   }
 `;
 
-/* Two-tone title stays in the same content shape (accent + main spans
- * from the dict), left-aligned. Kept the existing serif italic accent
- * + dark serif main styling — content doesn't change. */
+/* Title matches the unified section-title style — EB Garamond
+ * Regular at clamp(40px, 5.2vw, 64px). Two-tone preserved: accent
+ * line in primary colour, main line in body text colour. */
 const Title = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.heading};
+  font-family: var(--font-garamond), Georgia, serif;
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   line-height: 1.08;
-  font-size: clamp(38px, 5.2vw, 64px);
+  font-size: clamp(40px, 5.2vw, 64px);
   margin: 0;
 
   span {
@@ -71,7 +71,6 @@ const Title = styled.h2`
   }
   .accent {
     color: ${({ theme }) => theme.colors.primary};
-    font-style: italic;
   }
   .main {
     color: ${({ theme }) => theme.colors.text};

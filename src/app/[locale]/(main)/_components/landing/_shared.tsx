@@ -29,14 +29,19 @@ export const Eyebrow = styled.p`
   margin-bottom: 14px;
 `;
 
-/** Editorial serif heading for section titles. */
+/** Editorial serif heading for section titles.
+ *
+ * Unified across the whole landing: EB Garamond Regular (weight 400)
+ * at a single clamp(40px, 5.2vw, 64px). The ``$large`` flag is kept
+ * for backwards compatibility with existing callers but is now a
+ * no-op — every section title uses the same scale. */
 export const SerifH2 = styled.h2<{ $large?: boolean }>`
-  font-family: ${({ theme }) => theme.fonts.heading};
+  font-family: var(--font-garamond), Georgia, serif;
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   line-height: 1.08;
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ $large }) => ($large ? 'clamp(34px, 5vw, 56px)' : 'clamp(28px, 4vw, 44px)')};
+  font-size: clamp(40px, 5.2vw, 64px);
   max-width: 22ch;
 
   em {

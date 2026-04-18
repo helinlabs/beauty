@@ -53,17 +53,16 @@ const Inner = styled.div`
   margin: 0 auto;
 `;
 
-/* Title uses the same editorial treatment as "View Plastic Surgery"
- * in the Trust pinned panel — italic Instrument Serif at medium
- * weight, large clamp scale — so the two anchors read as a matching
- * pair across the pinned scope. */
+/* Title matches the unified section-title treatment — EB Garamond
+ * Regular at clamp(40px, 5.2vw, 64px). White, centered, because it
+ * renders over the pinned clinic photo. */
 const Title = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-style: italic;
-  font-weight: 500;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-style: normal;
+  font-weight: 400;
   letter-spacing: -0.015em;
-  line-height: 1.05;
-  font-size: clamp(44px, 6.2vw, 84px);
+  line-height: 1.08;
+  font-size: clamp(40px, 5.2vw, 64px);
   color: #ffffff;
   text-align: center;
   margin: 0 auto;

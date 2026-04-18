@@ -215,7 +215,10 @@
     "procedureCount": "받은 시술",
     "procedureList": "받은 시술",
     "bookCTA": "같은 시술 예약 상담",
-    "bookThis": "이 시술 예약"
+    "bookThis": "이 시술 예약",
+    "beforeLabel": "Before",
+    "afterLabel": "After",
+    "getTheBeauty": "동일 시술 문의"
   },
   "procedure": {
     "duration": "소요 시간",

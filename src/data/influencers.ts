@@ -25,27 +25,41 @@ export type Influencer = {
   videoMobile?: string;
   /** Short pull quote used on the landing review cards. */
   quote?: { ko: string; en: string };
+  /** Phrases inside `quote` that receive emphasized color on the
+   *  influencer detail page. Plain-string match, ordered. */
+  quoteHighlight?: { ko: string[]; en: string[] };
+  /** Show the Instagram-style blue verified checkmark next to the name. */
+  verified?: boolean;
+  /** Before / after still images shown on the influencer detail page. */
+  beforeImage?: string;
+  afterImage?: string;
 };
 
 export const influencers: Influencer[] = [
   {
     slug: 'jiyeon',
-    name: { ko: '지연', en: 'Jiyeon' },
-    handle: 'jiyeon.glow',
-    followers: 248_000,
+    name: { ko: 'Kylie Jenner', en: 'Kylie Jenner' },
+    handle: 'kyliejenner',
+    followers: 123_000,
     bio: {
-      ko: '서울 기반 뷰티 크리에이터. 피부과 다이어리 공유 중.',
-      en: 'Seoul-based beauty creator, sharing her clinic diary.',
+      ko: 'Founder of Kylie Cosmetics. Sharing her Seoul beauty trip.',
+      en: 'Founder of Kylie Cosmetics. Sharing her Seoul beauty trip.',
     },
     avatar: 'linear-gradient(135deg,#ffb199 0%,#ff5a8a 100%)',
-    thumbnail:
-      'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&auto=format&fit=crop&q=70',
-    video: 'https://d1aj4dyeuyg3z4.cloudfront.net/common/home_insta_3.mp4',
+    thumbnail: '/images/influencers/kylie/profile.png',
+    video: '/images/influencers/kylie/video.mp4',
     procedures: ['aqua-peel', 'rejuran-healer', 'shurink-universe'],
     quote: {
-      ko: '자연스러운 결과가 좋아서 서울까지 날아왔어요.',
-      en: 'Flew to Seoul because the results look so natural.',
+      ko: "Breast augmentation with a touch of lip filler — natural shape, subtle volume, and finally the version of me I'd been picturing.",
+      en: "Breast augmentation with a touch of lip filler — natural shape, subtle volume, and finally the version of me I'd been picturing.",
     },
+    quoteHighlight: {
+      ko: ['Breast augmentation', 'lip filler', 'natural shape', 'subtle volume'],
+      en: ['Breast augmentation', 'lip filler', 'natural shape', 'subtle volume'],
+    },
+    verified: true,
+    beforeImage: '/images/influencers/kylie/before.png',
+    afterImage: '/images/influencers/kylie/after.png',
   },
   {
     slug: 'minha',

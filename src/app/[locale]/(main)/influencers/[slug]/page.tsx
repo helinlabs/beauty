@@ -48,13 +48,15 @@ export default async function InfluencerPage({ params }: Props) {
       locale={locale}
       procedures={received}
       dict={{
-        back: dict.common.back,
         procedureList: dict.influencer.procedureList,
         bookCTA: dict.influencer.bookCTA,
         followers: dict.influencer.followers,
         procedureCountLabel: dict.influencer.procedureCount,
         categories: dict.categories,
         minutes: dict.common.minutes,
+        beforeLabel: dict.influencer.beforeLabel,
+        afterLabel: dict.influencer.afterLabel,
+        getTheBeauty: dict.influencer.getTheBeauty,
       }}
     />
   );

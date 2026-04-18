@@ -215,7 +215,10 @@
     "procedureCount": "procedures",
     "procedureList": "Procedures received",
     "bookCTA": "Book the same procedure",
-    "bookThis": "Book this procedure"
+    "bookThis": "Book this procedure",
+    "beforeLabel": "Before",
+    "afterLabel": "After",
+    "getTheBeauty": "Get the Beauty"
   },
   "procedure": {
     "duration": "Duration",

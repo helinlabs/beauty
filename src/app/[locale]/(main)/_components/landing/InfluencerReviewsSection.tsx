@@ -120,6 +120,15 @@ const GradientFallback = styled.div<{ $bg: string }>`
   background: ${({ $bg }) => $bg};
 `;
 
+/* Centered "They've already made the trip" title — overrides the
+ * SerifH2 default max-width + left-align so the heading sits in
+ * the middle of the section. */
+const CenteredTitle = styled(SerifH2)`
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 export function InfluencerReviewsSection({
   locale,
   dict,
@@ -130,7 +139,7 @@ export function InfluencerReviewsSection({
     <SectionWrap id="influencer-reviews">
       <SectionInner>
         <FadeIn>
-          <SerifH2 $large>{dict.title}</SerifH2>
+          <CenteredTitle $large>{dict.title}</CenteredTitle>
         </FadeIn>
 
         <Grid>

@@ -49,12 +49,13 @@ const Wrap = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background:
-    radial-gradient(ellipse 80% 60% at 18% 30%, rgba(229, 200, 230, 0.85), transparent 65%),
-    radial-gradient(ellipse 70% 60% at 82% 28%, rgba(195, 195, 240, 0.8), transparent 62%),
-    radial-gradient(ellipse 85% 70% at 80% 90%, rgba(245, 215, 200, 0.9), transparent 65%),
-    radial-gradient(ellipse 90% 70% at 18% 92%, rgba(250, 230, 210, 0.85), transparent 65%),
-    linear-gradient(180deg, #f4ecf4 0%, #f7eee6 100%);
+  /* Quiet single-tone fallback. The colorful multi-radial palette we used
+     before was visually loud during the first ~500ms before the Unicorn
+     canvas painted its first frame, and it bled through the canvas's
+     feathered edges as a different color than the scene itself. A plain
+     warm cream that matches the scene's average tone hides the load flash
+     entirely and disappears under the canvas once it's running. */
+  background: ${({ theme }) => theme.colors.bg};
 
   margin-top: -60px;
   padding: 84px 20px 60px;

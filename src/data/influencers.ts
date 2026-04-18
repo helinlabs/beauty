@@ -16,6 +16,13 @@ export type Influencer = {
    * When set, it takes precedence over `thumbnail`.
    */
   video?: string;
+  /**
+   * Optional smaller-resolution variant of `video` used on phones. The
+   * landing card displays at ~288 × 511 CSS px, so a 540 × 960 file is
+   * plenty of detail and roughly a quarter of the bandwidth + decode cost
+   * of the 1080 × 1920 master. When omitted, `video` is used everywhere.
+   */
+  videoMobile?: string;
   /** Short pull quote used on the landing review cards. */
   quote?: { ko: string; en: string };
 };

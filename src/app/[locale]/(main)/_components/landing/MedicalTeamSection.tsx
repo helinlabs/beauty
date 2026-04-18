@@ -223,7 +223,17 @@ export function MedicalTeamSection({ dict }: Props) {
                     src={d.image}
                     alt={d.name}
                     fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 78vw"
+                    quality={70}
+                    /* The first two cards are visible as soon as the rail
+                       enters view (mobile shows 2 per page). Eager-load
+                       them so the WordPress origin fetch + Next image
+                       optimization start during the initial document
+                       parse instead of waiting for the IntersectionObserver
+                       to trip on scroll — keeps cold-cache visits from
+                       showing empty cream tiles when this section comes
+                       up. The rest stay lazy. */
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                   />
                 </Portrait>
                 <div>

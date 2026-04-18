@@ -78,41 +78,81 @@ const ThumbVideo = styled.video`
 
 /* Bottom caption area overlaid on the video. A tall gradient fades
  * from transparent at the top to near-black at the bottom so the
- * white handle + procedure list always read, regardless of what's
- * in the frame at the bottom of the clip. */
+ * white handle / follower / procedure lines always read, regardless
+ * of what's in the frame at the bottom of the clip. */
 const Caption = styled.div`
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 40px 14px 14px;
+  padding: 48px 14px 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.45) 40%,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.5) 35%,
     rgba(0, 0, 0, 0) 100%
   );
   pointer-events: none;
 `;
 
-const Handle = styled.p`
+/* Handle line renders the @name alongside a blue Instagram-style
+ * verified badge. Flex row so the badge sits just to the right of
+ * the name baseline. */
+const HandleRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const Handle = styled.span`
   font-size: 15px;
   font-weight: 600;
   color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+`;
+
+/* Instagram-style 12-sided verified badge. Blue scalloped shape with
+ * a white tick inside — rendered inline via SVG so it inherits font
+ * sizing and needs no extra asset. */
+const VerifiedBadge = styled.svg`
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+`;
+
+/* Follower count — smaller white-dimmed line just below the handle
+ * row. */
+const Followers = styled.p`
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  line-height: 1.35;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   margin: 0;
 `;
 
 const ProcList = styled.p`
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
   line-height: 1.45;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  margin: 0;
+  margin: 4px 0 0;
 `;
+
+/* 248_000 → "248k", 1_200_000 → "1.2m", 800 → "800". */
+function formatFollowers(n: number): string {
+  if (n >= 1_000_000) {
+    const m = n / 1_000_000;
+    return `${m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)}m`;
+  }
+  if (n >= 1_000) {
+    return `${Math.round(n / 1_000)}k`;
+  }
+  return String(n);
+}
 
 const GradientFallback = styled.div<{ $bg: string }>`
   position: absolute;
@@ -177,8 +217,26 @@ export function InfluencerReviewsSection({
                     <GradientFallback $bg={i.avatar} />
                   )}
                   <Caption>
-                    <Handle>@{i.handle}</Handle>
-                    <ProcList>{procsLabel}</ProcList>
+                    <HandleRow>
+                      <Handle>@{i.handle}</Handle>
+                      <VerifiedBadge
+                        viewBox="0 0 24 24"
+                        aria-label="Verified"
+                      >
+                        <path
+                          d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12Z"
+                          fill="#3B82F6"
+                        />
+                        <path
+                          d="M9.95 15.55 6.4 12l1.41-1.41 2.14 2.13 5.24-5.24 1.41 1.42-6.65 6.65Z"
+                          fill="#ffffff"
+                        />
+                      </VerifiedBadge>
+                    </HandleRow>
+                    <Followers>
+                      {formatFollowers(i.followers)} {dict.followersLabel}
+                    </Followers>
+                    {procsLabel && <ProcList>{procsLabel}</ProcList>}
                   </Caption>
                 </Thumb>
               </CardLink>

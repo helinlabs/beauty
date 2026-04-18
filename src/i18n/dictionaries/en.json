@@ -170,25 +170,29 @@
       "subtitle": "Meet the team of leading specialists with decades of combined experience across key specialties.",
       "doctors": [
         {
-          "name": "Dr. Minjae Park, MD",
-          "role": "Head of Facial Surgery, View Plastic Surgery",
-          "specialty": "Facial Contouring",
-          "bio": "Board-certified plastic surgeon with 15+ years in nose and facial bone contouring. Former clinical fellow at Asan Medical Center.",
-          "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&auto=format&fit=crop&q=80"
+          "name": "Dr. Choi Soon Woo",
+          "role": "Board Certified Plastic Surgeon",
+          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_01.jpg"
         },
         {
-          "name": "Dr. Soojin Lee, MD",
-          "role": "Director of Dermatology, View Plastic Surgery",
-          "specialty": "Skin & Laser",
-          "bio": "Dermatologist specializing in energy-based skin treatments and non-surgical rejuvenation for patients with sensitive and pigmentation-prone skin.",
-          "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=900&auto=format&fit=crop&q=80"
+          "name": "Dr. Yun Chang Woon",
+          "role": "Board Certified Plastic Surgeon",
+          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_02.jpg"
         },
         {
-          "name": "Dr. Jihoon Kim, MD",
-          "role": "Reconstructive Lead, View Plastic Surgery",
-          "specialty": "Body & Breast",
-          "bio": "Plastic surgeon focused on body contouring and post-weight-loss reconstruction. Trained across Seoul National University Hospital and Mayo Clinic.",
-          "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=900&auto=format&fit=crop&q=80"
+          "name": "Dr. Kim Jeong Min",
+          "role": "Board Certified Plastic Surgeon",
+          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_03.jpg"
+        },
+        {
+          "name": "Dr. Kim Do Hyung",
+          "role": "Board Certified Plastic Surgeon",
+          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_04.jpg"
+        },
+        {
+          "name": "Dr. Chung Jae Hyeon",
+          "role": "Board Certified Plastic Surgeon",
+          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2025/06/cjh-342-400.jpg"
         }
       ]
     },

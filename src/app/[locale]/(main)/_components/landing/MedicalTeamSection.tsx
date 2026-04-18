@@ -9,8 +9,6 @@ import { SectionInner, SectionWrap } from './_shared';
 interface Doctor {
   name: string;
   role: string;
-  specialty: string;
-  bio: string;
   image: string;
 }
 
@@ -74,24 +72,80 @@ const Subtitle = styled.p`
   margin: 20px auto 0;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
+/* Horizontal swipeable rail — works as a touch-swipe carousel on
+ * mobile and as a trackpad/wheel-scroll row on desktop. Native CSS
+ * scroll-snap keeps each card aligned to the left edge when the user
+ * releases. Side padding on the container leaves room for the first
+ * and last cards to breathe against the viewport edges.
+ *
+ * The sizing + snap styles are applied to ">*" (the FadeIn wrapper
+ * around each Card) rather than Card itself, because FadeIn is the
+ * actual flex child of ScrollRow. */
+const ScrollRow = styled.div`
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  padding: 4px 20px 20px;
+  margin: 0 -20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 78%;
+    max-width: 320px;
+  }
 
   ${mq.md} {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 28px;
+    padding: 4px 32px 24px;
+    margin: 0 -32px;
+
+    > * {
+      width: calc((100% - 28px * 2) / 3);
+      max-width: 380px;
+    }
+  }
+
+  ${mq.lg} {
+    > * {
+      width: calc((100% - 28px * 3) / 4);
+    }
   }
 `;
 
-/* Each card is a two-part stack: a cream-filled portrait panel on top
- * (with a credential badge pinned in its corner) and the doctor's
- * name + bio sitting below on the section's own background. */
+/* Each card sits inside the ScrollRow. Fixed width + flex-shrink: 0
+ * so cards keep their size regardless of how many fit, and
+ * scroll-snap-align: start pins each card to the left edge when
+ * swiping so the transition feels precise.
+ *
+ * Portrait panel on top + doctor name + bio below on the section's
+ * own background (no credential overlay inside the image anymore —
+ * the image is now uninterrupted). */
 const Card = styled.article`
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 78%;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+
+  ${mq.md} {
+    width: calc((100% - 28px * 2) / 3);
+    max-width: 380px;
+  }
+
+  ${mq.lg} {
+    width: calc((100% - 28px * 3) / 4);
+  }
 `;
 
 const Portrait = styled.div`
@@ -107,58 +161,17 @@ const Portrait = styled.div`
   }
 `;
 
-/* Credential block pinned inside the portrait panel — top-right on
- * desktop, bottom on the narrow mobile card so it never overlaps the
- * face region too aggressively. */
-const CredentialBlock = styled.div`
-  position: absolute;
-  right: 16px;
-  bottom: 18px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px) saturate(1.4);
-  -webkit-backdrop-filter: blur(8px) saturate(1.4);
-  max-width: 200px;
-
-  ${mq.md} {
-    right: 20px;
-    bottom: auto;
-    top: 20px;
-    max-width: 220px;
-  }
-`;
-
+/* Role caption sits ABOVE the doctor's name — muted sans label that
+ * reads like a credential line (e.g. "Board Certified Plastic
+ * Surgeon") under the portrait. */
 const Role = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 1.3;
   letter-spacing: -0.005em;
-  color: ${({ theme }) => theme.colors.text};
-  margin: 0;
-`;
-
-/* Specialty line with a short vertical accent bar mirroring the
- * reference design — sans, muted, sits just under the role. */
-const Specialty = styled.p`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 8px 0 0;
-  padding: 0;
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-size: 13px;
   color: ${({ theme }) => theme.colors.textMuted};
-
-  &::before {
-    content: '';
-    display: inline-block;
-    width: 2px;
-    height: 14px;
-    background: ${({ theme }) => theme.colors.primary};
-    border-radius: 1px;
-  }
+  margin: 0;
 `;
 
 const Name = styled.h3`
@@ -167,14 +180,7 @@ const Name = styled.h3`
   letter-spacing: -0.015em;
   font-size: 22px;
   color: ${({ theme }) => theme.colors.text};
-  margin: 0;
-`;
-
-const Bio = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 15px;
-  line-height: 1.65;
-  margin: 0;
+  margin: 12px 0 0;
 `;
 
 export function MedicalTeamSection({ dict }: Props) {
@@ -191,30 +197,26 @@ export function MedicalTeamSection({ dict }: Props) {
           </Header>
         </FadeIn>
 
-        <Grid>
+        <ScrollRow>
           {dict.doctors.map((d, i) => (
-            <FadeIn key={i} delay={i * 100}>
+            <FadeIn key={i} delay={i * 80}>
               <Card>
                 <Portrait>
                   <Image
                     src={d.image}
                     alt={d.name}
                     fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
+                    sizes="(min-width: 768px) 33vw, 80vw"
                   />
-                  <CredentialBlock>
-                    <Role>{d.role}</Role>
-                    <Specialty>{d.specialty}</Specialty>
-                  </CredentialBlock>
                 </Portrait>
                 <div>
+                  <Role>{d.role}</Role>
                   <Name>{d.name}</Name>
-                  <Bio>{d.bio}</Bio>
                 </div>
               </Card>
             </FadeIn>
           ))}
-        </Grid>
+        </ScrollRow>
       </SectionInner>
     </Wrap>
   );

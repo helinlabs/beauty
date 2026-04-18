@@ -17,6 +17,15 @@ export type Review = {
   beforeImage?: string;
   afterImage?: string;
   videoPoster?: string;
+  /** Short outcome label rendered as a green pill at the top of the
+   *  landing review card (e.g. "Natural lift"). */
+  outcomeLabel?: { ko: string; en: string };
+  /** Month numbers shown under the before / after image pair. */
+  timeMonths?: { before: number; after: number };
+  /** Substrings inside `quote` that get emphasis in the landing card. */
+  highlight?: { ko: string[]; en: string[] };
+  /** Show the "Verified review" badge with a shield icon. */
+  verified?: boolean;
 };
 
 export const reviews: Review[] = [
@@ -29,12 +38,19 @@ export const reviews: Review[] = [
     kind: 'beforeAfter',
     quote: {
       ko: '한 달 만에 피부결이 완전히 달라졌어요. 비행기 값을 아낀 기분이에요.',
-      en: 'My skin texture shifted completely in one month — even factoring in the flight, I saved money.',
+      en: 'My skin texture shifted completely in one month — it still feels like I pocketed the flight cost.',
     },
     beforeImage:
       'https://images.unsplash.com/photo-1507101105822-7472b28e22ac?w=800&auto=format&fit=crop&q=70',
     afterImage:
       'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&auto=format&fit=crop&q=70',
+    outcomeLabel: { ko: '결 정돈, 광채', en: 'Smoother & brighter' },
+    timeMonths: { before: 0, after: 1 },
+    highlight: {
+      ko: ['피부결이 완전히 달라졌어요'],
+      en: ['skin texture shifted completely'],
+    },
+    verified: true,
   },
   {
     id: 'rev-maya-k',
@@ -51,6 +67,36 @@ export const reviews: Review[] = [
       'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=70',
     afterImage:
       'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&auto=format&fit=crop&q=70',
+    outcomeLabel: { ko: '자연스러운 리프팅', en: 'Natural lift' },
+    timeMonths: { before: 0, after: 2 },
+    highlight: {
+      ko: ['리프팅 효과는 말할 것도 없고'],
+      en: ['lifting results speak for themselves'],
+    },
+    verified: true,
+  },
+  {
+    id: 'rev-amelia-t-ba',
+    reviewerName: 'Amelia T.',
+    reviewerLocation: 'Chicago, IL',
+    procedureSlug: 'botox-masseter',
+    rating: 5,
+    kind: 'beforeAfter',
+    quote: {
+      ko: '턱라인이 자연스럽게 들어가면서도 표정은 그대로예요.',
+      en: 'My jawline softened naturally — and I can still make every facial expression.',
+    },
+    beforeImage:
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&auto=format&fit=crop&q=70',
+    afterImage:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&auto=format&fit=crop&q=70',
+    outcomeLabel: { ko: '부드러운 턱라인', en: 'Softer jawline' },
+    timeMonths: { before: 0, after: 3 },
+    highlight: {
+      ko: ['자연스럽게 들어가면서도'],
+      en: ['softened naturally'],
+    },
+    verified: true,
   },
   {
     id: 'rev-sophia-r',

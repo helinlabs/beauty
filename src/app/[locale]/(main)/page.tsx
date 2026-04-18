@@ -4,12 +4,7 @@ import { isLocale, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/dictionaries';
 import { buildMetadata, SITE_URL } from '@/lib/seo';
 import { influencers } from '@/data/influencers';
-import {
-  procedures,
-  type LandingGroup,
-  type Procedure,
-} from '@/data/procedures';
-import { formatPriceFromUSD } from '@/lib/format';
+import { procedures } from '@/data/procedures';
 import {
   FAQSection,
   FinalCtaSection,
@@ -39,20 +34,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-const LANDING_GROUPS: LandingGroup[] = [
-  'face',
-  'skinLaser',
-  'body',
-  'nonSurgical',
-];
-
-function pickFeaturedProcedure(
-  group: LandingGroup,
-  fallback: Procedure,
-): Procedure {
-  return procedures.find((p) => p.landingGroup === group) ?? fallback;
-}
-
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) notFound();
@@ -80,24 +61,6 @@ export default async function HomePage({ params }: Props) {
     },
     {},
   );
-
-  const featuredProcedures = LANDING_GROUPS.map((group, idx) => {
-    const proc = pickFeaturedProcedure(group, procedures[idx % procedures.length]);
-    const categoryLabel =
-      dict.landing.procedures.categories[
-        group as keyof typeof dict.landing.procedures.categories
-      ];
-    return {
-      group,
-      procedure: proc,
-      categoryLabel,
-      priceLabel: dict.landing.procedures.fromPrice.replace(
-        '{price}',
-        formatPriceFromUSD(proc.priceFromUSD, locale),
-      ),
-      popular: idx === 0,
-    };
-  });
 
   const ld = {
     '@context': 'https://schema.org',
@@ -154,11 +117,7 @@ export default async function HomePage({ params }: Props) {
         />
       </PinnedClinicBackdrop>
 
-      <ProceduresSection
-        locale={locale}
-        dict={dict.landing.procedures}
-        featured={featuredProcedures}
-      />
+      <ProceduresSection dict={dict.landing.procedures} />
 
       <MedicalTeamSection dict={dict.landing.medicalTeam} />
 

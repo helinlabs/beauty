@@ -96,7 +96,6 @@
     "procedures": {
       "title": "Our Most Popular Treatments",
       "subtitle": "From face sculpting to non-surgical — browse the headline treatments.",
-      "seeAllLabel": "See all procedures →",
       "popularBadge": "★ Popular",
       "fromPrice": "From {price}",
       "categories": {
@@ -125,6 +124,8 @@
       "subtitle": "Before · after photos alongside the full story — flight, clinic, recovery.",
       "beforeLabel": "Before",
       "afterLabel": "After",
+      "monthLabel": "Month {n}",
+      "verifiedLabel": "Verified review",
       "priceCompareTitle": "US vs Korea pricing",
       "priceCompareSubtitle": "Starting prices for representative procedures.",
       "priceLabels": {

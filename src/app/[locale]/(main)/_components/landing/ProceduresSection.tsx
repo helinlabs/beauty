@@ -1,180 +1,337 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
-import type { Locale } from '@/i18n/config';
-import type { LandingGroup, Procedure } from '@/data/procedures';
 import { FadeIn } from './FadeIn';
 import {
   SectionInner,
   SectionWrap,
   SerifH2,
-  SerifH3,
 } from './_shared';
 
 interface Props {
-  locale: Locale;
   dict: {
     title: string;
-    subtitle: string;
-    seeAllLabel: string;
-    popularBadge: string;
-    fromPrice: string;
-    categories: {
-      face: string;
-      skinLaser: string;
-      body: string;
-      nonSurgical: string;
-    };
   };
-  /** One representative procedure per landing group, already resolved by the page. */
-  featured: Array<{
-    group: LandingGroup;
-    procedure: Procedure;
-    /** Localized category label pulled from dict.landing.procedures.categories. */
-    categoryLabel: string;
-    /** Pre-formatted "From $XXX" string. */
-    priceLabel: string;
-    /** Popularity flag — use dict.popularBadge if true. */
-    popular?: boolean;
-  }>;
 }
+
+/* Partner-site category pages — category keys map directly to slugs on
+ * viewplasticsurgery.com. `big` promotes a tile to the hero row (two
+ * full-height cards with imagery); the rest render as the 4-up small
+ * tile grid below. */
+const CATEGORIES_BASE = 'https://www.viewplasticsurgery.com';
+
+type Category = {
+  key: string;
+  label: string;
+  blurb?: string;
+  href: string;
+  image?: string;
+  big?: boolean;
+};
+
+const CATEGORIES: Category[] = [
+  {
+    key: 'breast',
+    label: 'Breast',
+    blurb: 'Natural shape, confident silhouette',
+    href: `${CATEGORIES_BASE}/breast/`,
+    image: '/images/treatments/breast.jpg',
+    big: true,
+  },
+  {
+    key: 'contouring',
+    label: 'Facial Contouring',
+    blurb: 'Refined jaw, balanced profile',
+    href: `${CATEGORIES_BASE}/facial-contour/`,
+    image: '/images/intro/01.webp',
+    big: true,
+  },
+  { key: 'doubleJaw', label: 'Double Jaw', href: `${CATEGORIES_BASE}/jaw/` },
+  { key: 'eye', label: 'Eye', href: `${CATEGORIES_BASE}/eye/` },
+  { key: 'rhinoplasty', label: 'Rhinoplasty', href: `${CATEGORIES_BASE}/nose/` },
+  { key: 'liposuction', label: 'Liposuction', href: `${CATEGORIES_BASE}/lipo/` },
+  { key: 'antiAging', label: 'Anti-aging', href: `${CATEGORIES_BASE}/lifting/` },
+  { key: 'male', label: 'Male', href: `${CATEGORIES_BASE}/view-male/` },
+  { key: 'dermatology', label: 'Dermatology', href: `${CATEGORIES_BASE}/skin/` },
+  {
+    key: 'beforeAfter',
+    label: 'Before & After',
+    href: `${CATEGORIES_BASE}/review/before-after/`,
+  },
+];
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: end;
   gap: 24px;
   flex-wrap: wrap;
+  text-align: center;
 `;
 
-const SeeAll = styled(Link)`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 15px;
-  font-weight: 500;
-  transition: color 0.2s;
-  &:hover { color: ${({ theme }) => theme.colors.text}; }
+const CenteredTitle = styled(SerifH2)`
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
-const Grid = styled.div`
+const BigGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 14px;
   margin-top: 48px;
 
   ${mq.md} {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
   }
 `;
 
-const CardLink = styled(Link)`
+const SmallGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+
+  ${mq.md} {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+`;
+
+const BigCard = styled.a`
   position: relative;
-  display: block;
-  aspect-ratio: 4 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  padding: 26px 22px 22px;
   border-radius: ${({ theme }) => theme.radius.lg};
+  background: ${({ theme }) => theme.colors.surfaceAlt};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadow.sm};
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadow.md};
+  }
+
+  ${mq.md} {
+    min-height: 260px;
+    padding: 30px 26px 26px;
+  }
+`;
+
+/* Image sits on the RIGHT half of the card, fading left into the card
+ * background so the title text on the left stays legible even on narrow
+ * phones where the image edge approaches the text. */
+const BigImage = styled.div`
+  position: absolute;
+  inset: 0 0 0 25%;
+  z-index: 0;
 
   img {
     object-fit: cover;
-    transition: transform 0.5s ease;
+    object-position: right center;
   }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      ${({ theme }) => theme.colors.surfaceAlt} 0%,
+      rgba(243, 236, 225, 0.4) 40%,
+      rgba(243, 236, 225, 0) 100%
+    );
+    pointer-events: none;
+  }
+`;
+
+const BigTitle = styled.h3`
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-garamond), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: ${({ theme }) => theme.colors.text};
+  max-width: 60%;
+`;
+
+const BigBlurb = styled.p`
+  position: relative;
+  z-index: 1;
+  margin: 10px 0 0;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 14px;
+  line-height: 1.4;
+  color: ${({ theme }) => theme.colors.textMuted};
+  max-width: 55%;
+`;
+
+const Arrow = styled.span`
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.text};
+  transition: background 0.2s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  ${BigCard}:hover & {
+    background: ${({ theme }) => theme.colors.primary};
+    color: #fff;
+  }
+`;
+
+const SmallCard = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 18px;
+  border-radius: ${({ theme }) => theme.radius.md};
+  background: ${({ theme }) => theme.colors.surfaceAlt};
+  min-height: 78px;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: ${({ theme }) => theme.shadow.md};
-    img { transform: scale(1.04); }
+    background: ${({ theme }) => theme.colors.surface};
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadow.sm};
+  }
+
+  ${mq.md} {
+    padding: 22px 20px;
+    min-height: 88px;
   }
 `;
 
-const Scrim = styled.div`
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: 20px 16px 14px;
-  background: linear-gradient(
-    180deg,
-    rgba(27, 26, 23, 0) 0%,
-    rgba(27, 26, 23, 0.55) 50%,
-    rgba(27, 26, 23, 0.85) 100%
-  );
-  color: #fff;
-`;
-
-const CategoryLabel = styled.p`
+const SmallTitle = styled.span`
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 15px;
-  text-transform: uppercase;
-  opacity: 0.82;
-  margin-bottom: 6px;
-`;
-
-const ProcName = styled(SerifH3)`
-  color: #fff;
-  font-size: 18px;
-  letter-spacing: -0.01em;
-`;
-
-const PriceLine = styled.p`
-  margin-top: 8px;
-  font-size: 15px;
-  opacity: 0.92;
-`;
-
-const PopularChip = styled.span`
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 10px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  background: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+  line-height: 1.25;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 15px;
-  font-weight: 600;
+
+  ${mq.md} {
+    font-size: 16px;
+  }
 `;
 
-export function ProceduresSection({ locale, dict, featured }: Props) {
+const SmallArrow = styled.span`
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.textMuted};
+  transition: color 0.2s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  ${SmallCard}:hover & {
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+function ChevronIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="m9 6 6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function ProceduresSection({ dict }: Props) {
+  const big = CATEGORIES.filter((c) => c.big);
+  const small = CATEGORIES.filter((c) => !c.big);
+
   return (
     <SectionWrap id="procedures">
       <SectionInner>
         <FadeIn>
-        <Header>
-          <div>
-            <SerifH2 $large>{dict.title}</SerifH2>
-          </div>
-          <SeeAll href={`/${locale}/procedures`}>{dict.seeAllLabel}</SeeAll>
-        </Header>
+          <Header>
+            <CenteredTitle $large>{dict.title}</CenteredTitle>
+          </Header>
         </FadeIn>
 
-        <Grid>
-          {featured.map((f, idx) => (
-            <FadeIn key={f.group} delay={idx * 90}>
-            <CardLink
-              href={`/${locale}/procedures/${f.procedure.slug}`}
-              data-testid={`procedure-card-${f.group}`}
-            >
-              <Image
-                src={f.procedure.image}
-                alt={f.procedure.name[locale as 'ko' | 'en']}
-                fill
-                sizes="(min-width: 768px) 25vw, 50vw"
-                priority={idx === 0}
-              />
-              {f.popular && <PopularChip>{dict.popularBadge}</PopularChip>}
-              <Scrim>
-                <CategoryLabel>{f.categoryLabel}</CategoryLabel>
-                <ProcName as="h3">
-                  {f.procedure.name[locale as 'ko' | 'en']}
-                </ProcName>
-                <PriceLine>{f.priceLabel}</PriceLine>
-              </Scrim>
-            </CardLink>
+        <BigGrid>
+          {big.map((c, idx) => (
+            <FadeIn key={c.key} delay={idx * 80}>
+              <BigCard
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid={`treatment-big-${c.key}`}
+              >
+                {c.image && (
+                  <BigImage>
+                    <Image
+                      src={c.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 768px) 30vw, 55vw"
+                      aria-hidden
+                    />
+                  </BigImage>
+                )}
+                <div>
+                  <BigTitle>{c.label}</BigTitle>
+                  {c.blurb && <BigBlurb>{c.blurb}</BigBlurb>}
+                </div>
+                <Arrow>
+                  <ChevronIcon />
+                </Arrow>
+              </BigCard>
             </FadeIn>
           ))}
-        </Grid>
+        </BigGrid>
+
+        <SmallGrid>
+          {small.map((c, idx) => (
+            <FadeIn key={c.key} delay={(big.length + idx) * 60}>
+              <SmallCard
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid={`treatment-small-${c.key}`}
+              >
+                <SmallTitle>{c.label}</SmallTitle>
+                <SmallArrow>
+                  <ChevronIcon />
+                </SmallArrow>
+              </SmallCard>
+            </FadeIn>
+          ))}
+        </SmallGrid>
       </SectionInner>
     </SectionWrap>
   );

@@ -96,7 +96,6 @@
     "procedures": {
       "title": "인기 시술",
       "subtitle": "얼굴부터 비수술까지 — 대표 시술을 살펴보세요.",
-      "seeAllLabel": "전체 시술 보기 →",
       "popularBadge": "★ 인기",
       "fromPrice": "From {price}",
       "categories": {
@@ -125,6 +124,8 @@
       "subtitle": "Before · After 사진과 함께, 실제로 서울까지 다녀온 이야기들.",
       "beforeLabel": "Before",
       "afterLabel": "After",
+      "monthLabel": "{n}개월 차",
+      "verifiedLabel": "인증된 후기",
       "priceCompareTitle": "미국 vs 한국 가격 비교",
       "priceCompareSubtitle": "대표 시술 기준, 표시 가격은 시작가입니다.",
       "priceLabels": {

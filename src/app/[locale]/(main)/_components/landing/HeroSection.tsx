@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import { ContactModal, type ContactModalLabels } from '@/components/ContactModal';
@@ -57,14 +57,20 @@ const Wrap = styled.section`
      entirely and disappears under the canvas once it's running. */
   background: ${({ theme }) => theme.colors.bg};
 
+  /* Hero is exactly one viewport tall — the title + CTA stack at the
+     top, the face Stage gets pushed to the bottom by margin-top: auto
+     in Stage. Using svh (small-viewport-height) on mobile prevents the
+     URL bar collapse from clipping the bottom of the face. */
   margin-top: -60px;
-  padding: 84px 20px 60px;
-  gap: 20px;
+  height: 100vh;
+  height: 100svh;
+  padding: 84px 20px 0;
+  gap: 16px;
 
   ${mq.md} {
     margin-top: -68px;
     padding: 96px 32px 0;
-    gap: 28px;
+    gap: 24px;
   }
 
   /* Fade the hero's colorful bottom into the next section's cream page bg
@@ -100,12 +106,20 @@ const Wrap = styled.section`
 `;
 
 /* Hero-wide ambient background. Holds the cover-mode UnicornBg so the
-   gradient stretches edge-to-edge regardless of breakpoint. */
-const BgLayer = styled.div`
+   gradient stretches edge-to-edge regardless of breakpoint. Opacity is
+   gated on the FACE scene's readiness — the cover scene loads slightly
+   faster than the face, and showing the bare cover gradient (which looks
+   like a multi-color blob field) without the face on top reads as a
+   "weird gradient flash" during cold loads. By holding the cover until
+   the face is ready, both layers reveal together over the solid cream
+   fallback for a single clean transition. */
+const BgLayer = styled.div<{ $ready: boolean }>`
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  opacity: ${({ $ready }) => ($ready ? 1 : 0)};
+  transition: opacity 320ms ease-out;
 `;
 
 const HeroTitle = styled.h1`
@@ -144,30 +158,37 @@ const HeroTitle = styled.h1`
   }
 `;
 
-/* The centered face scene — native 800×800 square Unicorn embed.
- * Sits directly below the CTA button and scales responsively.
+/* The centered face scene — native 800 × 800 square Unicorn embed.
  *
- * Mobile: the Stage's layout box keeps its original 1:1 footprint so
- * the Hero's total height doesn't change, but the canvas is visually
- * doubled and anchored from top-center — the extra half grows
- * downward past the original bottom edge and gets clipped by
- * Wrap's overflow: hidden.
- */
+ * `margin-top: auto` pushes the Stage to the BOTTOM of the hero (which
+ * is exactly 100svh tall), so the face anchors at the floor of the
+ * viewport with the title + CTA at the top.
+ *
+ * Size scales fluidly with the viewport: it picks the larger of a
+ * width-based vs height-based budget (vmin trick) so portrait phones
+ * and landscape laptops both end up with a sensible square that
+ * occupies most of the available space without overflowing or shrinking
+ * to nothing. The `min(...)` cap stops the face from growing absurdly
+ * large on ultra-wide monitors. */
 const Stage = styled.div`
   position: relative;
   z-index: 0;
-  width: min(100%, 440px);
+  margin-top: auto;
+  /* Mobile: ~1.5× the previous footprint. The vh stop lets the face
+     stay big without exceeding what fits between CTA + hero bottom;
+     extra horizontal width past the viewport (vw > 100) is fine — the
+     Wrap's overflow:hidden crops the side edges so the face still
+     reads as centered. */
+  width: min(140vw, 64vh, 720px);
   aspect-ratio: 1 / 1;
-  transform: scale(1.4);
-  transform-origin: top center;
 
   ${mq.md} {
-    width: min(72vw, 720px);
-    transform: none;
+    /* Tablet: also 1.5× the previous tablet size. Same overflow trick. */
+    width: min(105vw, 79vh, 1080px);
   }
 
   ${mq.lg} {
-    width: min(60vw, 820px);
+    width: min(60vw, 82vh, 880px);
   }
 `;
 
@@ -214,11 +235,23 @@ const CtaPill = styled.button`
 
 export function HeroSection({ dict, locale, modalLabels }: Props) {
   const [contactOpen, setContactOpen] = useState(false);
+  /* Both Unicorn scenes load asynchronously; the cover gradient
+     usually finishes ~200-500ms before the face. We hold the cover layer
+     hidden until the FACE has actually mounted a canvas, then reveal both
+     in the same frame so users never see the bare cover gradient on its
+     own. (Without this, that brief intermediate state shows a multi-color
+     blob field that reads as a "weird gradient" flash.) */
+  const [faceReady, setFaceReady] = useState(false);
+  const handleFaceReady = useCallback(() => setFaceReady(true), []);
 
   return (
     <Wrap id="hero">
-      <BgLayer>
-        <UnicornBg projectId={UNICORN_BG_ID} mode="cover" />
+      <BgLayer $ready={faceReady}>
+        <UnicornBg
+          projectId={UNICORN_BG_ID}
+          mode="cover"
+          externallyGated
+        />
       </BgLayer>
 
       <HeroTitle
@@ -245,7 +278,11 @@ export function HeroSection({ dict, locale, modalLabels }: Props) {
       </CtaPill>
 
       <Stage>
-        <UnicornBg projectId={UNICORN_FACE_ID} mode="face" />
+        <UnicornBg
+          projectId={UNICORN_FACE_ID}
+          mode="face"
+          onReady={handleFaceReady}
+        />
       </Stage>
 
       <ContactModal

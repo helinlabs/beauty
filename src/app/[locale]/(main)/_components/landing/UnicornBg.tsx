@@ -19,12 +19,15 @@ declare global {
 
 type Mode = 'face' | 'cover';
 
-const Outer = styled.div<{ $ready: boolean }>`
+const Outer = styled.div<{ $ready: boolean; $externallyGated: boolean }>`
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: transparent;
-  opacity: ${({ $ready }) => ($ready ? 1 : 0)};
+  /* When the parent is gating reveal across multiple layers, skip our own
+     opacity transition — otherwise this layer would briefly fade in alone
+     before the parent's coordinator unhides it. */
+  opacity: ${({ $ready, $externallyGated }) => ($externallyGated || $ready ? 1 : 0)};
   transition: opacity 320ms ease-out;
 
   /* Let the browser skip paint + compositing for the canvas when it's
@@ -62,10 +65,10 @@ const Container = styled.div<{ $mode: Mode }>`
         linear-gradient(
           to bottom,
           #000 0%,
-          #000 70%,
-          rgba(0, 0, 0, 0.75) 78%,
-          rgba(0, 0, 0, 0.25) 84%,
-          transparent 86%
+          #000 62%,
+          rgba(0, 0, 0, 0.75) 70%,
+          rgba(0, 0, 0, 0.2) 76%,
+          transparent 80%
         ),
         radial-gradient(
           ellipse 95% 140% at 50% 50%,
@@ -77,10 +80,10 @@ const Container = styled.div<{ $mode: Mode }>`
         linear-gradient(
           to bottom,
           #000 0%,
-          #000 70%,
-          rgba(0, 0, 0, 0.75) 78%,
-          rgba(0, 0, 0, 0.25) 84%,
-          transparent 86%
+          #000 62%,
+          rgba(0, 0, 0, 0.75) 70%,
+          rgba(0, 0, 0, 0.2) 76%,
+          transparent 80%
         ),
         radial-gradient(
           ellipse 95% 140% at 50% 50%,
@@ -141,6 +144,16 @@ type Props = {
    *  centered Stage). 'cover': canvas fills the parent without feathering —
    *  use this for an atmospheric background scene that has no subject. */
   mode?: Mode;
+  /** Fired once the UnicornStudio embed has actually mounted a <canvas>
+   *  into the host div. Used by the parent (HeroSection) to coordinate
+   *  multiple layers so a slower-loading face never lags behind a faster
+   *  cover gradient. */
+  onReady?: () => void;
+  /** When true, suppresses the per-instance opacity fade on the wrapper —
+   *  the parent is already gating visibility with its own ready logic, so
+   *  letting this fade independently would briefly reveal the layer alone
+   *  before the parent uncovers it. */
+  externallyGated?: boolean;
 };
 
 /**
@@ -148,7 +161,7 @@ type Props = {
  * its parent. Render two instances with different project IDs to layer a
  * background gradient + a foreground subject.
  */
-export function UnicornBg({ projectId, mode = 'face' }: Props) {
+export function UnicornBg({ projectId, mode = 'face', onReady, externallyGated = false }: Props) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
 
@@ -169,9 +182,25 @@ export function UnicornBg({ projectId, mode = 'face' }: Props) {
     const host = hostRef.current;
     if (!host) return;
 
+    const reveal = () => {
+      setReady(true);
+      onReady?.();
+    };
+
     const check = () => {
       if (host.querySelector('canvas')) {
-        setReady(true);
+        /* Canvas existing in the DOM doesn't mean the WebGL scene has
+         * drawn its first real frame — the face scene shows a brief
+         * "vertical color band" intro state (the scene's empty backdrop)
+         * before the portrait paints. For face mode we add a small grace
+         * window so that intro doesn't flash on cold loads. Cover mode
+         * paints its gradient immediately so it can reveal as soon as
+         * the canvas exists. */
+        if (mode === 'face') {
+          window.setTimeout(reveal, 600);
+        } else {
+          reveal();
+        }
         return true;
       }
       return false;
@@ -185,7 +214,10 @@ export function UnicornBg({ projectId, mode = 'face' }: Props) {
     observer.observe(host, { childList: true, subtree: true });
 
     // Hard cap: always reveal after 1200ms even if detection fails.
-    const fallback = window.setTimeout(() => setReady(true), 1200);
+    const fallback = window.setTimeout(() => {
+      setReady(true);
+      onReady?.();
+    }, 1200);
 
     return () => {
       observer.disconnect();
@@ -194,7 +226,7 @@ export function UnicornBg({ projectId, mode = 'face' }: Props) {
   }, [ready]);
 
   return (
-    <Outer aria-hidden $ready={ready}>
+    <Outer aria-hidden $ready={ready} $externallyGated={externallyGated}>
       <Container $mode={mode}>
         <div ref={hostRef} data-us-project={projectId} />
       </Container>

@@ -53,6 +53,10 @@
         }
       ]
     },
+    "serviceIntro": {
+      "accent": "As Seoul's leading medical tourism agency, we connect international patients with the best plastic surgery Korea provides.",
+      "body": "Our comprehensive services combine access to world-class Korean surgeons, professional medical coordination, and authentic Seoul cultural experiences for the complete medical tourism journey."
+    },
     "influencerReviews": {
       "title": "Get Real Result",
       "subtitle": "미국에서 활동하는 K-뷰티 인플루언서들이 서울에서 받은 시술과 병원을 공개합니다.",

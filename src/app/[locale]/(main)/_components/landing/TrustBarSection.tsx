@@ -62,7 +62,6 @@ const StatsGrid = styled.div`
   gap: 32px 16px;
   margin-top: 56px;
   padding-top: 40px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.25);
 
   ${mq.md} {
     grid-template-columns: repeat(4, 1fr);
@@ -193,7 +192,7 @@ const CertPill = styled.li`
 
 function ShieldIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M12 2.5l8 3v6.3c0 4.4-3 8-8 9.7-5-1.7-8-5.3-8-9.7V5.5l8-3Z"
         stroke="currentColor"
@@ -214,7 +213,7 @@ function ShieldIcon() {
 /* Location pin — used on the "Gangnam premium location" cert. */
 function PinIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"
         stroke="currentColor"
@@ -236,7 +235,7 @@ function PinIcon() {
  * cert. Two overlapping letterform marks suggest a language swap. */
 function TranslateIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path
         d="M3 5h10M8 3v2M5 5c1.5 5 3 7 6.5 9"
         stroke="currentColor"

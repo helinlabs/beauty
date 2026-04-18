@@ -18,8 +18,10 @@ import {
   InfluencerReviewsSection,
   MedicalTeamSection,
   PinnedClinicBackdrop,
+  PinnedHeroBackdrop,
   ProceduresSection,
   ReviewsSection,
+  ServiceIntroSection,
   TrustBarSection,
 } from './_components/landing';
 
@@ -112,11 +114,22 @@ export default async function HomePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
 
-      <HeroSection
-        locale={locale}
-        dict={dict.landing.hero}
-        modalLabels={contactModalLabels}
-      />
+      {/*
+        Hero stays pinned at the top of the viewport while the service
+        intro slides up over it. Pinning releases automatically once the
+        intro section has been fully scrolled past.
+      */}
+      <PinnedHeroBackdrop
+        hero={
+          <HeroSection
+            locale={locale}
+            dict={dict.landing.hero}
+            modalLabels={contactModalLabels}
+          />
+        }
+      >
+        <ServiceIntroSection dict={dict.landing.serviceIntro} />
+      </PinnedHeroBackdrop>
 
       <InfluencerReviewsSection
         locale={locale}

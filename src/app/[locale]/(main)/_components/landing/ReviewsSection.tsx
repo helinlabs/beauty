@@ -48,6 +48,11 @@ const Grid = styled.div`
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
+
+  /* Stretch FadeIn wrapper to the tallest row cell so Cards can share height. */
+  & > * {
+    height: 100%;
+  }
 `;
 
 /* The card: soft rounded panel using the site's alt surface tone so
@@ -61,6 +66,7 @@ const Card = styled.article`
   flex-direction: column;
   align-items: stretch;
   gap: 18px;
+  height: 100%;
 `;
 
 const OutcomePill = styled.span`
@@ -139,7 +145,8 @@ const Reviewer = styled.p`
 `;
 
 const VerifiedRow = styled.p`
-  margin: 6px 0 0;
+  /* Negative margin offsets Card's 18px flex gap so name→verified reads as 4px. */
+  margin: -14px 0 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -133,6 +133,7 @@ const BigImage = styled.div`
   position: absolute;
   inset: 0 0 0 25%;
   z-index: 0;
+  transform: translateX(40px);
 
   img {
     object-fit: cover;

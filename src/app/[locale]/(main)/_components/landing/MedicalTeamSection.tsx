@@ -32,18 +32,21 @@ const Wrap = styled(SectionWrap)`
   }
 `;
 
+/* Left-aligned block per the reference layout — title over subtitle,
+ * hugging the content column instead of centered. */
 const Header = styled.div`
-  text-align: center;
+  text-align: left;
+  margin: 0 0 48px;
   max-width: 860px;
-  margin: 0 auto 64px;
 
   ${mq.md} {
-    margin-bottom: 80px;
+    margin-bottom: 64px;
   }
 `;
 
-/* Two-tone editorial title: accent line (primary/terracotta) stacked
- * over the dark main line. Both use the serif heading face. */
+/* Two-tone title stays in the same content shape (accent + main spans
+ * from the dict), left-aligned. Kept the existing serif italic accent
+ * + dark serif main styling — content doesn't change. */
 const Title = styled.h2`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 400;
@@ -69,17 +72,17 @@ const Subtitle = styled.p`
   font-size: clamp(16px, 1.4vw, 18px);
   line-height: 1.6;
   max-width: 58ch;
-  margin: 20px auto 0;
+  margin: 20px 0 0;
 `;
 
-/* Horizontal swipeable rail — bigger cards this pass so the portraits
- * dominate. Each card is now sized to show a large 3:4 portrait, with
- * a small peek of the next card on mobile. Wheel/trackpad scroll on
- * desktop + touch-swipe on mobile; scroll-snap aligns each card to
- * the left edge when the user releases. */
+/* Horizontal swipeable rail matching the reference: 4 cards per row
+ * on desktop, 2 on tablet, 1 with a tiny peek on mobile. Native CSS
+ * scroll-snap for the swipe feel, wheel/trackpad friendly on
+ * desktop. Sizing styles apply to the FadeIn wrapper (> *), which is
+ * the actual flex child. */
 const ScrollRow = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 16px;
   overflow-x: auto;
   overflow-y: visible;
   scroll-snap-type: x mandatory;
@@ -92,71 +95,46 @@ const ScrollRow = styled.div`
     display: none;
   }
 
-  /* Sizing styles apply to the FadeIn wrapper (> *), which is the
-     direct flex child of ScrollRow. */
   > * {
     flex-shrink: 0;
     scroll-snap-align: start;
-    width: 82%;
-    max-width: 420px;
+    width: 78%;
+    max-width: 360px;
   }
 
   ${mq.md} {
-    gap: 28px;
+    gap: 20px;
     padding: 4px 32px 24px;
     margin: 0 -32px;
 
-    /* Two cards per viewport on tablet — portraits get much larger
-       than the old 3-per-row layout. */
     > * {
-      width: calc((100% - 28px) / 2);
-      max-width: 480px;
+      width: calc((100% - 20px) / 2);
+      max-width: none;
     }
   }
 
   ${mq.lg} {
-    /* Three per row on desktop — still larger than the previous
-       four-per-row sizing, 3:4 portraits read as real portraits. */
+    gap: 24px;
+
     > * {
-      width: calc((100% - 28px * 2) / 3);
-      max-width: 480px;
+      width: calc((100% - 24px * 3) / 4);
     }
   }
 `;
 
-/* Each card sits inside the ScrollRow. Fixed width + flex-shrink: 0
- * so cards keep their size regardless of how many fit, and
- * scroll-snap-align: start pins each card to the left edge when
- * swiping so the transition feels precise.
- *
- * Portrait panel on top + doctor name + bio below on the section's
- * own background (no credential overlay inside the image anymore —
- * the image is now uninterrupted). */
 const Card = styled.article`
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  width: 78%;
-  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  ${mq.md} {
-    width: calc((100% - 28px * 2) / 3);
-    max-width: 380px;
-  }
-
-  ${mq.lg} {
-    width: calc((100% - 28px * 3) / 4);
-  }
 `;
 
-/* 3:4 portrait ratio — taller than wide, so the doctor's face and
- * shoulders read at a real scale. */
+/* Square portrait per the reference layout, on a light neutral fill
+ * so the clinic's cut-out photos sit on their own background. Radius
+ * 24px as requested. */
 const Portrait = styled.div`
   position: relative;
-  border-radius: 20px;
-  aspect-ratio: 3 / 4;
+  border-radius: 24px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.surfaceAlt};
 
@@ -166,9 +144,8 @@ const Portrait = styled.div`
   }
 `;
 
-/* Role caption sits ABOVE the doctor's name — muted sans label that
- * reads like a credential line (e.g. "Board Certified Plastic
- * Surgeon") under the portrait. */
+/* Small muted caption above the doctor's name — matches the
+ * "Board Certified Plastic Surgeon" treatment in the reference. */
 const Role = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
   font-weight: 500;
@@ -179,13 +156,16 @@ const Role = styled.p`
   margin: 0;
 `;
 
+/* Name in sans (Inter Tight) bold, like the reference, rather than
+ * the serif face we used before. */
 const Name = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: 700;
   letter-spacing: -0.015em;
   font-size: 22px;
+  line-height: 1.15;
   color: ${({ theme }) => theme.colors.text};
-  margin: 12px 0 0;
+  margin: 14px 0 0;
 `;
 
 export function MedicalTeamSection({ dict }: Props) {
@@ -211,7 +191,7 @@ export function MedicalTeamSection({ dict }: Props) {
                     src={d.image}
                     alt={d.name}
                     fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 82vw"
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 78vw"
                   />
                 </Portrait>
                 <div>

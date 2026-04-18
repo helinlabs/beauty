@@ -114,6 +114,13 @@ const ScrollRow = styled.div`
   overflow-x: auto;
   overflow-y: visible;
   scroll-snap-type: x mandatory;
+  /* scroll-padding-inline MUST match padding-inline below.
+   * Without this, scroll-snap-align: start on the first card makes
+   * the browser auto-scroll by padding-left so the card's start
+   * aligns with the content-box start (inset by padding). Result:
+   * the initial scrollLeft is non-zero and the first card ends up
+   * flush with the viewport edge — the exact misalignment bug. */
+  scroll-padding-inline: var(--rail-gutter);
   width: 100vw;
   margin-left: calc(50% - 50vw);
   padding: 4px var(--rail-gutter) 20px;

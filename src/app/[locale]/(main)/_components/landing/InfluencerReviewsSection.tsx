@@ -40,19 +40,18 @@ const Grid = styled.div`
   }
 `;
 
+/* Card is now just the video/thumbnail frame — the handle + procedure
+ * list sit INSIDE that frame as an overlay along the bottom edge, so
+ * there's no separate white body block below the media. */
 const CardLink = styled(Link)`
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: block;
   border-radius: ${({ theme }) => theme.radius.lg};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  transition: transform 0.25s ease, border-color 0.2s, box-shadow 0.25s;
+  transition: transform 0.25s ease, box-shadow 0.25s;
 
   &:hover {
     transform: translateY(-3px);
-    border-color: rgba(194, 65, 12, 0.25);
     box-shadow: ${({ theme }) => theme.shadow.md};
   }
 `;
@@ -77,27 +76,42 @@ const ThumbVideo = styled.video`
   object-fit: cover;
 `;
 
-const Body = styled.div`
-  padding: 14px 14px 16px;
+/* Bottom caption area overlaid on the video. A tall gradient fades
+ * from transparent at the top to near-black at the bottom so the
+ * white handle + procedure list always read, regardless of what's
+ * in the frame at the bottom of the clip. */
+const Caption = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px 14px 14px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.45) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
 `;
 
-/* Handle now takes over the slot that used to show the serif name
-   and follower count — same visual treatment as the old Followers
-   line (primary color, bold, 15px). */
 const Handle = styled.p`
   font-size: 15px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.primary};
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  margin: 0;
 `;
 
 const ProcList = styled.p`
-  margin-top: 2px;
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
   line-height: 1.45;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  margin: 0;
 `;
 
 const GradientFallback = styled.div<{ $bg: string }>`
@@ -153,11 +167,11 @@ export function InfluencerReviewsSection({
                   ) : (
                     <GradientFallback $bg={i.avatar} />
                   )}
+                  <Caption>
+                    <Handle>@{i.handle}</Handle>
+                    <ProcList>{procsLabel}</ProcList>
+                  </Caption>
                 </Thumb>
-                <Body>
-                  <Handle>@{i.handle}</Handle>
-                  <ProcList>{procsLabel}</ProcList>
-                </Body>
               </CardLink>
               </FadeIn>
             );

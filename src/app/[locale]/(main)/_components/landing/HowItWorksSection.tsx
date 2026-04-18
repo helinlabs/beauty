@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
+import { ContactModal, type ContactModalLabels } from '@/components/ContactModal';
+import type { Locale } from '@/i18n/config';
 import { FadeIn } from './FadeIn';
 import {
   SectionWrap,
@@ -13,10 +16,13 @@ interface Step {
 }
 
 interface Props {
+  locale: Locale;
   dict: {
     title: string;
     steps: Step[];
+    cta: string;
   };
+  modalLabels: ContactModalLabels;
 }
 
 /* HowItWorks renders over the last portion of the pinned clinic
@@ -162,7 +168,49 @@ const StepBody = styled.p`
   max-width: 32ch;
 `;
 
-export function HowItWorksSection({ dict }: Props) {
+/* Section CTA — solid white pill that triggers the shared
+ * ContactModal (same modal the hero "GET IN TOUCH" button opens).
+ * Centered below the 3 step cards. */
+const CtaWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 64px;
+
+  ${mq.md} {
+    margin-top: 88px;
+  }
+`;
+
+const CtaButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 999px;
+  background: #ffffff;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(27, 26, 23, 0.18);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(27, 26, 23, 0.24);
+  }
+
+  .arrow svg {
+    display: block;
+  }
+`;
+
+export function HowItWorksSection({ locale, dict, modalLabels }: Props) {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <Wrap id="how-it-works">
       <Inner>
@@ -181,7 +229,37 @@ export function HowItWorksSection({ dict }: Props) {
             </FadeIn>
           ))}
         </Steps>
+
+        <FadeIn delay={320}>
+          <CtaWrap>
+            <CtaButton
+              type="button"
+              onClick={() => setContactOpen(true)}
+              data-testid="how-cta"
+            >
+              {dict.cta}
+              <span className="arrow" aria-hidden>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M5 12h14M13 5l7 7-7 7"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </CtaButton>
+          </CtaWrap>
+        </FadeIn>
       </Inner>
+
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        labels={modalLabels}
+        locale={locale}
+      />
     </Wrap>
   );
 }

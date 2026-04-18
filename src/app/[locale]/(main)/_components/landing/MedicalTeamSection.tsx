@@ -26,20 +26,16 @@ const Wrap = styled(SectionWrap)`
   padding-top: 96px;
   padding-bottom: 128px;
 
-  /* Gutter used by the full-bleed ScrollRow — equals SectionWrap's
-   * horizontal padding on narrow viewports, and expands to include
-   * SectionInner's auto side margin on viewports wider than 1200px
-   * so the first card stays aligned with the page content column. */
+  /* Gutter used by the full-bleed ScrollRow. Fixed 20 on mobile and
+   * 32 on tablet+ / desktop — per design the rail starts at a 32px
+   * inset on desktop regardless of viewport width, rather than
+   * auto-centering with the rest of the 1200px content column. */
   --rail-gutter: 20px;
 
   ${mq.md} {
     padding-top: 128px;
     padding-bottom: 160px;
     --rail-gutter: 32px;
-  }
-
-  @media (min-width: 1264px) {
-    --rail-gutter: calc((100vw - 1200px) / 2);
   }
 `;
 

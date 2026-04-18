@@ -134,7 +134,11 @@ export default async function HomePage({ params }: Props) {
       */}
       <PinnedClinicBackdrop>
         <TrustBarSection dict={dict.landing.trustBar} />
-        <HowItWorksSection dict={dict.landing.how} />
+        <HowItWorksSection
+          locale={locale}
+          dict={dict.landing.how}
+          modalLabels={contactModalLabels}
+        />
       </PinnedClinicBackdrop>
 
       <ProceduresSection

@@ -124,6 +124,15 @@ function isBeforeAfter(r: Review): r is Review & { beforeImage: string; afterIma
   return r.kind === 'beforeAfter' && !!r.beforeImage && !!r.afterImage;
 }
 
+/* Centered "Real US patients, real Seoul trips" title — overrides
+ * SerifH2's default left alignment so the heading sits in the middle
+ * of the section. */
+const CenteredTitle = styled(SerifH2)`
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 export function ReviewsSection({ locale, dict }: Props) {
   const bas = reviews.filter(isBeforeAfter).slice(0, 2);
   const texts = reviews.filter((r) => r.kind === 'text').slice(0, 2);
@@ -132,7 +141,7 @@ export function ReviewsSection({ locale, dict }: Props) {
     <SectionWrap id="reviews">
       <SectionInner>
         <FadeIn>
-          <SerifH2 $large>{dict.title}</SerifH2>
+          <CenteredTitle $large>{dict.title}</CenteredTitle>
         </FadeIn>
 
         <Grid>

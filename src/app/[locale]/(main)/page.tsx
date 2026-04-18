@@ -16,6 +16,7 @@ import {
   HeroSection,
   HowItWorksSection,
   InfluencerReviewsSection,
+  MedicalTeamSection,
   PinnedClinicBackdrop,
   ProceduresSection,
   ReviewsSection,
@@ -141,6 +142,8 @@ export default async function HomePage({ params }: Props) {
         dict={dict.landing.procedures}
         featured={featuredProcedures}
       />
+
+      <MedicalTeamSection dict={dict.landing.medicalTeam} />
 
       <ReviewsSection locale={locale} dict={dict.landing.reviews} />
 

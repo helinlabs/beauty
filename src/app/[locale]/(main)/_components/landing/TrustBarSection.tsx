@@ -135,14 +135,17 @@ const PartnerLeft = styled.div`
   }
 `;
 
-/* Cert pills keep their own pill background so they read regardless
- * of the photo behind. Tint bumped to a softer cream so they feel
- * like they belong on the darker-scrimmed image. */
+/* Cert row — inline editorial info, not buttons.
+ * The previous version used opaque white pills with a hard border
+ * that read as actionable buttons over the clinic photo. Replaced
+ * with a plain white icon + label row: items sit in a horizontal
+ * line on desktop with a thin vertical divider between them, and
+ * stack on mobile with a hairline rule between rows. No fill, no
+ * border radius, nothing click-like. */
 const CertRow = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  align-items: stretch;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -157,14 +160,35 @@ const CertRow = styled.ul`
 const CertPill = styled.li`
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: ${({ theme }) => theme.colors.text};
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+  color: rgba(255, 255, 255, 0.95);
   font-size: 15px;
   font-weight: 500;
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+
+  /* Mobile: hairline horizontal divider between stacked items. */
+  & + & {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  ${mq.md} {
+    padding: 6px 24px;
+
+    /* Desktop: thin vertical divider between inline items. The
+       first item has no leading divider. */
+    & + & {
+      border-top: 0;
+      border-left: 1px solid rgba(255, 255, 255, 0.28);
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
 `;
 
 function ShieldIcon() {

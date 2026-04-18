@@ -164,6 +164,34 @@
         }
       ]
     },
+    "medicalTeam": {
+      "titleAccent": "신뢰할 수 있는",
+      "titleMain": "전문의가 직접 집도합니다",
+      "subtitle": "한국 미용 의료 분야에서 수십 년의 경험을 쌓은 보드 인증 전문의 팀. 모든 상담은 이 팀이 직접 검토합니다.",
+      "doctors": [
+        {
+          "name": "박민재 원장",
+          "role": "뷰 성형외과 대표원장 · 안면 파트",
+          "specialty": "안면 윤곽",
+          "bio": "코 · 안면 윤곽 분야 15년 경력의 성형외과 전문의. 서울아산병원 임상강사 출신.",
+          "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&auto=format&fit=crop&q=80"
+        },
+        {
+          "name": "이수진 원장",
+          "role": "뷰 성형외과 피부과 부문장",
+          "specialty": "피부 · 레이저",
+          "bio": "민감성 · 색소 트러블 피부를 위한 에너지 기반 시술과 비수술 리쥬비네이션 전문.",
+          "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=900&auto=format&fit=crop&q=80"
+        },
+        {
+          "name": "김지훈 원장",
+          "role": "뷰 성형외과 재건 · 체형 부문장",
+          "specialty": "바디 · 가슴",
+          "bio": "체형 교정과 체중 감량 후 재건 수술에 중점. 서울대병원 · 메이오 클리닉 연수.",
+          "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=900&auto=format&fit=crop&q=80"
+        }
+      ]
+    },
     "finalCta": {
       "eyebrow": "지금 시작하세요",
       "title": "문의하기",

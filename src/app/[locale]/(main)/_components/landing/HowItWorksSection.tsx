@@ -143,14 +143,14 @@ const Numeral = styled.span`
   }
 `;
 
-/* Step headings doubled from 22 → 44px so each step reads as a
- * major sub-heading under the big italic title above. */
+/* Step headings in Inter Tight (body sans) for a cleaner, more neutral
+ * feel — sized a notch smaller than the previous 44px serif version. */
 const StepHeading = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.heading};
+  font-family: ${({ theme }) => theme.fonts.body};
   font-weight: 500;
   letter-spacing: -0.015em;
   line-height: 1.15;
-  font-size: 44px;
+  font-size: 32px;
   color: #ffffff;
   margin: 0;
 `;

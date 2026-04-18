@@ -2,6 +2,7 @@ export { HeroSection } from './HeroSection';
 export { TrustBarSection } from './TrustBarSection';
 export { PinnedClinicBackdrop } from './PinnedClinicBackdrop';
 export { HowItWorksSection } from './HowItWorksSection';
+export { MedicalTeamSection } from './MedicalTeamSection';
 export { ProceduresSection } from './ProceduresSection';
 export { InfluencerReviewsSection } from './InfluencerReviewsSection';
 export { ClinicSpotlightSection } from './ClinicSpotlightSection';

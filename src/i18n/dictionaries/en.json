@@ -173,27 +173,27 @@
         {
           "name": "Dr. Choi Soon Woo",
           "role": "Board Certified Plastic Surgeon",
-          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_01.jpg"
+          "image": "/images/doctors/choi-soon-woo.jpg"
         },
         {
           "name": "Dr. Yun Chang Woon",
           "role": "Board Certified Plastic Surgeon",
-          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_02.jpg"
+          "image": "/images/doctors/yun-chang-woon.jpg"
         },
         {
           "name": "Dr. Kim Jeong Min",
           "role": "Board Certified Plastic Surgeon",
-          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_03.jpg"
+          "image": "/images/doctors/kim-jeong-min.jpg"
         },
         {
           "name": "Dr. Kim Do Hyung",
           "role": "Board Certified Plastic Surgeon",
-          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2023/10/medical_staff_04.jpg"
+          "image": "/images/doctors/kim-do-hyung.jpg"
         },
         {
           "name": "Dr. Chung Jae Hyeon",
           "role": "Board Certified Plastic Surgeon",
-          "image": "https://www.viewplasticsurgery.com/wp-content/uploads/2025/06/cjh-342-400.jpg"
+          "image": "/images/doctors/chung-jae-hyeon.jpg"
         }
       ]
     },

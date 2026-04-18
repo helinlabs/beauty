@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { mq } from '@/styles/theme';
 import type { Locale } from '@/i18n/config';
@@ -154,6 +155,47 @@ function formatFollowers(n: number): string {
   return String(n);
 }
 
+/**
+ * Plays the looped thumbnail video only while it's in viewport, and
+ * only loads metadata (not the full file) until it's actually near the
+ * fold. Significantly cheaper than the old autoPlay which would kick
+ * off 4 concurrent HTTP streams + decode loops on page load.
+ */
+function LazyThumbVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Only set src when first visible — avoids 4 concurrent
+          // network fetches on initial page load.
+          if (!el.src) el.src = src;
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { rootMargin: '200px 0px', threshold: 0.1 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [src]);
+
+  return (
+    <ThumbVideo
+      ref={ref}
+      loop
+      muted
+      playsInline
+      preload="none"
+      aria-hidden
+    />
+  );
+}
+
 const GradientFallback = styled.div<{ $bg: string }>`
   position: absolute;
   inset: 0;
@@ -197,15 +239,7 @@ export function InfluencerReviewsSection({
               >
                 <Thumb>
                   {i.video ? (
-                    <ThumbVideo
-                      src={i.video}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="metadata"
-                      aria-hidden
-                    />
+                    <LazyThumbVideo src={i.video} />
                   ) : i.thumbnail ? (
                     <Image
                       src={i.thumbnail}

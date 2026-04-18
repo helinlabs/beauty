@@ -26,6 +26,14 @@ const Outer = styled.div<{ $ready: boolean }>`
   background: transparent;
   opacity: ${({ $ready }) => ($ready ? 1 : 0)};
   transition: opacity 320ms ease-out;
+
+  /* Let the browser skip paint + compositing for the canvas when it's
+   * fully scrolled out of view. The JS (UnicornStudio's rAF loop) is
+   * still technically running, but the expensive composite and layer
+   * work on the WebGL surface is skipped — measurable savings once
+   * the user scrolls past the hero. */
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
 `;
 
 const Container = styled.div<{ $mode: Mode }>`

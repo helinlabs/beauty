@@ -33,6 +33,9 @@ export type Influencer = {
   /** Before / after still images shown on the influencer detail page. */
   beforeImage?: string;
   afterImage?: string;
+  /** Short treatment labels rendered as non-interactive #hashtags under
+   *  the quote on the detail page (e.g. ['Breast', 'Lip Filler']). */
+  treatmentTags?: string[];
 };
 
 export const influencers: Influencer[] = [
@@ -60,6 +63,7 @@ export const influencers: Influencer[] = [
     verified: true,
     beforeImage: '/images/influencers/kylie/before.png',
     afterImage: '/images/influencers/kylie/after.png',
+    treatmentTags: ['Breast', 'Lip Filler'],
   },
   {
     slug: 'minha',

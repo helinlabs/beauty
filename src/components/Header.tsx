@@ -134,20 +134,6 @@ const RightNav = styled.div`
   }
 `;
 
-const ReviewsLink = styled(Link)`
-  font-weight: 500;
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.text};
-  transition: opacity 0.2s ease;
-  padding: 4px 6px;
-
-  ${mq.md} {
-    font-size: 15px;
-  }
-
-  &:hover { opacity: 0.75; }
-`;
-
 /* Log in pill — near-opaque white surface, flat. */
 const LoginBtn = styled(Link)`
   display: inline-flex;
@@ -185,12 +171,28 @@ export function Header({ locale, brand }: Props) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  /* Global media governor — when the user switches tabs/windows, pause
+   * every <video> on the page so the browser isn't decoding autoplay
+   * loops while the user isn't looking. On return to the tab, videos
+   * that are in viewport resume automatically via their own per-video
+   * IntersectionObservers; the rest stay paused until scrolled into
+   * view. Cheap insurance against background CPU drain. */
+  useEffect(() => {
+    const onVis = () => {
+      if (!document.hidden) return;
+      document.querySelectorAll('video').forEach((v) => {
+        if (!v.paused) v.pause();
+      });
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
+
   return (
     <HeaderShell>
       <Pill $scrolled={scrolled}>
         <Brand href={base}>{brand}</Brand>
         <RightNav>
-          <ReviewsLink href={`${base}/influencers`}>Reviews</ReviewsLink>
           <LoginBtn href={`${base}/admin-login`}>Log in</LoginBtn>
         </RightNav>
       </Pill>

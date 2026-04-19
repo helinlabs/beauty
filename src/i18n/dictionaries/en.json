@@ -218,7 +218,40 @@
     "bookThis": "Book this procedure",
     "beforeLabel": "Before",
     "afterLabel": "After",
-    "getTheBeauty": "Get the Beauty"
+    "getTheBeauty": "Get your glow up",
+    "ctaSub": "Free WhatsApp · Reply within 24hrs",
+    "serviceTagline": "connects you with Korea's top clinics — all in English",
+    "trust": {
+      "eyebrow": "Official Partner Clinic",
+      "clinicName": "View Plastic Surgery",
+      "address": "Gangnam-gu, Seoul",
+      "kmaLabel": "KMA board-certified",
+      "coordinatorLabel": "On-site English coordinator",
+      "doctorRole": "Board Certified Plastic Surgeon",
+      "doctorName": "Dr. Choi Soon Woo",
+      "stats": [
+        { "value": "500+", "label": "US patients helped" },
+        { "value": "120+", "label": "★ 5.0 reviews" },
+        { "value": "100%", "label": "English support" },
+        { "value": "KMA", "label": "Board-certified partner" }
+      ]
+    },
+    "howTitle": "Here's how I did it",
+    "howSteps": [
+      {
+        "title": "I slid into their DMs",
+        "description": "One WhatsApp — my name, my number. An English coordinator replied the same day."
+      },
+      {
+        "title": "They mapped out my trip",
+        "description": "Flights, stay, procedure timing — all built around my schedule. Aftercare carried on once I flew home."
+      },
+      {
+        "title": "I just had to show up",
+        "description": "Airport pickup, clinic escort, on-site translation. Zero Google-Translate fumbling, start to finish."
+      }
+    ],
+    "howCta": "Book your free consultation"
   },
   "procedure": {
     "duration": "Duration",

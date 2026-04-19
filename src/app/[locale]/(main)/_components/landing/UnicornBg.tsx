@@ -163,6 +163,7 @@ type Props = {
  */
 export function UnicornBg({ projectId, mode = 'face', onReady, externallyGated = false }: Props) {
   const hostRef = useRef<HTMLDivElement | null>(null);
+  const outerRef = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -170,6 +171,42 @@ export function UnicornBg({ projectId, mode = 'face', onReady, externallyGated =
       window.UnicornStudio.init();
     }
   }, []);
+
+  /* Hide the canvas itself (display:none) whenever the Outer container
+   * scrolls entirely off-screen or the tab is backgrounded. This lets
+   * the browser skip compositing the WebGL surface — a measurable CPU/
+   * GPU save on the landing page, which runs two Unicorn scenes at
+   * once. The library's rAF loop keeps running, but without a painted
+   * canvas the per-frame GPU work drops substantially. */
+  useEffect(() => {
+    const outer = outerRef.current;
+    if (!outer) return;
+
+    let inView = true;
+    const applyVisibility = () => {
+      const canvas = outer.querySelector('canvas');
+      if (!canvas) return;
+      const shouldHide = !inView || document.hidden;
+      canvas.style.display = shouldHide ? 'none' : '';
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        applyVisibility();
+      },
+      { threshold: 0 },
+    );
+    io.observe(outer);
+
+    const onVis = () => applyVisibility();
+    document.addEventListener('visibilitychange', onVis);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, [ready]);
 
   /**
    * Only reveal the canvas once the UnicornStudio embed has actually
@@ -226,7 +263,7 @@ export function UnicornBg({ projectId, mode = 'face', onReady, externallyGated =
   }, [ready]);
 
   return (
-    <Outer aria-hidden $ready={ready} $externallyGated={externallyGated}>
+    <Outer ref={outerRef} aria-hidden $ready={ready} $externallyGated={externallyGated}>
       <Container $mode={mode}>
         <div ref={hostRef} data-us-project={projectId} />
       </Container>

@@ -57,6 +57,30 @@ export default async function InfluencerPage({ params }: Props) {
         beforeLabel: dict.influencer.beforeLabel,
         afterLabel: dict.influencer.afterLabel,
         getTheBeauty: dict.influencer.getTheBeauty,
+        ctaSub: dict.influencer.ctaSub,
+        serviceTagline: dict.influencer.serviceTagline,
+        trust: dict.influencer.trust,
+        howTitle: dict.influencer.howTitle,
+        howSteps: dict.influencer.howSteps,
+        howCta: dict.influencer.howCta,
+        faq: {
+          title: dict.landing.faq.title,
+          items: dict.landing.faq.items,
+        },
+      }}
+      modalLabels={{
+        title: dict.book.title,
+        subtitle: dict.book.subtitle,
+        nameLabel: dict.book.nameLabel,
+        namePlaceholder: dict.book.namePlaceholder,
+        phoneLabel: dict.book.phoneLabel,
+        phonePlaceholder: dict.book.phonePlaceholder,
+        submit: dict.book.submit,
+        errorName: dict.book.errorName,
+        errorPhone: dict.book.errorPhone,
+        agreement: dict.book.agreement,
+        waIntro: dict.book.waIntro,
+        referredByLabel: dict.book.selectedInfluencer,
       }}
     />
   );

@@ -20,7 +20,7 @@ const Section = styled.section`
   position: relative;
   z-index: 1;
   min-height: 110vh;
-  padding: 40vh 24px 22vh;
+  padding: 20vh 24px 22vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,11 +31,18 @@ const Section = styled.section`
   background: linear-gradient(
     to bottom,
     rgba(251, 247, 241, 0) 0px,
-    rgba(251, 247, 241, 1) 200px
+    rgba(251, 247, 241, 1) 150px
   );
 
   ${mq.md} {
     padding: 40vh 32px 26vh;
+    /* Keep the longer 200px fade on tablet/desktop; only mobile was
+       asked to tighten the transition. */
+    background: linear-gradient(
+      to bottom,
+      rgba(251, 247, 241, 0) 0px,
+      rgba(251, 247, 241, 1) 200px
+    );
   }
 `;
 
@@ -264,7 +271,7 @@ export function ServiceIntroSection({ dict }: Props) {
       return;
     }
 
-    const SPEED_PX_PER_SEC = 120;
+    const SPEED_PX_PER_SEC = 180;
     let raf = 0;
     let inView = false;
     let progress = 0;

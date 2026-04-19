@@ -18,6 +18,9 @@ const Inner = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: var(--font-garamond), Georgia, serif;
+  font-style: normal;
+  font-weight: 400;
   font-size: clamp(28px, 5vw, 40px);
   margin-bottom: 10px;
   text-align: center;

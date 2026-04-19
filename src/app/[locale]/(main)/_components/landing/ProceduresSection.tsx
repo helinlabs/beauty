@@ -37,7 +37,7 @@ const CATEGORIES: Category[] = [
     label: 'Breast',
     blurb: 'Natural shape, confident silhouette',
     href: `${CATEGORIES_BASE}/breast/`,
-    image: '/images/treatments/breast.jpg',
+    image: '/images/treatments/breast.png',
     big: true,
   },
   {
@@ -45,7 +45,7 @@ const CATEGORIES: Category[] = [
     label: 'Facial Contouring',
     blurb: 'Refined jaw, balanced profile',
     href: `${CATEGORIES_BASE}/facial-contour/`,
-    image: '/images/intro/01.webp',
+    image: '/images/treatments/facial.png',
     big: true,
   },
   { key: 'doubleJaw', label: 'Double Jaw', href: `${CATEGORIES_BASE}/jaw/` },
@@ -128,8 +128,12 @@ const BigCard = styled.a`
 
 /* Image sits on the RIGHT half of the card, fading left into the card
  * background so the title text on the left stays legible even on narrow
- * phones where the image edge approaches the text. */
-const BigImage = styled.div`
+ * phones where the image edge approaches the text.
+ *
+ * `$variant` lets a tile fine-tune its mobile framing without changing
+ * desktop — facial-contour pulls its crop toward center so the jaw
+ * isn't clipped at the frame edge. */
+const BigImage = styled.div<{ $variant?: 'contouring' }>`
   position: absolute;
   inset: 0 0 0 25%;
   z-index: 0;
@@ -140,17 +144,48 @@ const BigImage = styled.div`
     object-position: right center;
   }
 
+  /* Mobile-only per-tile tweaks. Desktop (mq.md) overrides them back
+     to the shared framing so the rail still reads as a unit. */
+  ${({ $variant }) =>
+    $variant === 'contouring' &&
+    `
+      inset: 0 0 0 35%;
+      transform: none;
+    `}
+
+  ${mq.md} {
+    transform: translateX(40px);
+    inset: 0 0 0 25%;
+    img {
+      object-fit: cover;
+      object-position: right center;
+    }
+  }
+
   &::after {
     content: '';
     position: absolute;
     inset: 0;
+    /* Mobile: becomes semi-transparent at 30% and fully clear by 80% —
+       keeps the text column fully covered a bit longer before fading. */
     background: linear-gradient(
       to right,
       ${({ theme }) => theme.colors.surfaceAlt} 0%,
-      rgba(243, 236, 225, 0.4) 40%,
-      rgba(243, 236, 225, 0) 100%
+      rgba(243, 236, 225, 0.4) 30%,
+      rgba(243, 236, 225, 0) 80%
     );
     pointer-events: none;
+  }
+
+  ${mq.md} {
+    &::after {
+      background: linear-gradient(
+        to right,
+        ${({ theme }) => theme.colors.surfaceAlt} 0%,
+        rgba(243, 236, 225, 0.4) 40%,
+        rgba(243, 236, 225, 0) 100%
+      );
+    }
   }
 `;
 
@@ -294,7 +329,9 @@ export function ProceduresSection({ dict }: Props) {
                 data-testid={`treatment-big-${c.key}`}
               >
                 {c.image && (
-                  <BigImage>
+                  <BigImage
+                    $variant={c.key === 'contouring' ? 'contouring' : undefined}
+                  >
                     <Image
                       src={c.image}
                       alt=""

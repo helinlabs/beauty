@@ -121,7 +121,6 @@ const Quote = styled.blockquote`
   font-size: 17px;
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.text};
-  font-style: italic;
 
   ${mq.md} {
     font-size: 18px;
@@ -132,7 +131,6 @@ const Highlighted = styled.strong`
   font-family: var(--font-garamond), Georgia, serif;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.primary};
-  font-style: italic;
 `;
 
 const Reviewer = styled.p`
